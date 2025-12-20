@@ -1,0 +1,16 @@
+BPMT		#BPM
+BPMQ		#BPM quality
+HBPM		#BPM "transientcoherence"
+PKDB		#peak DB
+PCDB		#percieved DB
+FLGS		#flags? haven't seen anything else than '2'
+TLEN		#track length
+TIT1		#key
+TIT2		#track title
+TALB		#album title
+TCON		#genre
+COMM		#comment
+LABL		#label
+RLDT		#release date
+TKEY		#key
+USLT		#key_lyrics

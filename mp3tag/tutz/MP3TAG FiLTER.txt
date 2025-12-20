@@ -1,0 +1,48 @@
+(NOT %year% MATCHES ^\d\d\d\d$) AND (NOT %year% MATCHES ^\d\d\d$)
+
+%bpm% MATCHES ^\d\d\d$
+
+%energylevel% IS ""
+
+NOT %replaygain_track_gain% MATCHES ^.*LU$
+
+%acoustid_fingerprint% IS ""
+
+%replaygain_track_gain% MISSING
+
+%initialkey% MATCHES ^.* \(.*\)$
+
+
+
+
+
+("%album%" MATCHES ^.*:.*$) AND (NOT %isrc% MATCHES ............)
+
+"%album%" MATCHES ".*:.*$"
+
+Alle Dateinamen, die mit vier Ziffern enden:
+"%_filename%" MATCHES ".*:.*$"
+
+Alle Dateinamen mit einer Sequenz von ' - ':
+("$div($sub($len(%_filename%),$len($replace(%_filename%,' - ',))),$len(' - '))" IS 1)
+
+Alle Dateinamen mit zwei Sequenzen von ' - ':
+("$div($sub($len(%_filename%),$len($replace(%_filename%,' - ',))),$len(' - '))" IS 2)
+
+Alle Dateinamen mit drei Sequenzen von ' - ':
+("$div($sub($len(%_filename%),$len($replace(%_filename%,' - ',))),$len(' - '))" IS 3)
+
+Alle Dateinamen mit vier Sequenzen von ' - ':
+("$div($sub($len(%_filename%),$len($replace(%_filename%,' - ',))),$len(' - '))" IS 4)
+
+Alle Dateinamen mit einer Sequenz von ' - ' und die mit vier Ziffern enden:
+("$div($sub($len(%_filename%),$len($replace(%_filename%,' - ',))),$len(' - '))" IS 1) AND ("%_filename%" MATCHES "\d\d\d\d$")
+
+Alle Dateinamen mit zwei Sequenzen von ' - ' und die mit vier Ziffern enden:
+("$div($sub($len(%_filename%),$len($replace(%_filename%,' - ',))),$len(' - '))" IS 2) AND ("%_filename%" MATCHES "\d\d\d\d$")
+
+Alle Dateinamen mit drei Sequenzen von ' - ' und die mit vier Ziffern enden:
+("$div($sub($len(%_filename%),$len($replace(%_filename%,' - ',))),$len(' - '))" IS 3) AND ("%_filename%" MATCHES "\d\d\d\d$")
+
+Alle Dateinamen mit vier Sequenzen von ' - ' und die mit vier Ziffern enden:
+("$div($sub($len(%_filename%),$len($replace(%_filename%,' - ',))),$len(' - '))" IS 4) AND ("%_filename%" MATCHES "\d\d\d\d$")

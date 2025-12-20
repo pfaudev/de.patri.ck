@@ -1,0 +1,47 @@
+Name			          |  ID3v2
+==========================+================================
+Track Title		          |  TIT2
+Artist			          |  TPE1
+Album			          |  TALB
+Album Artist	          |  TPE2
+Publisher		          |  TPUB
+Year			          |  TYER/TDAT (2.3) | TDRC (2.4)
+Track Number	          |  TRCK
+Total Tracks	          |  TRCK
+Disc #			          |  TPOS
+Total Discs		          |  TPOS
+Composer		          |  TCOM
+Conductor		          |  TPE3
+Genre			          |  TCON
+Comment			          |  COMM
+Grouping		          |  TIT1
+Track Rating	          |  POPM
+Album Rating	          |  POPM
+==========================+================================
+Album Sort-Order		  |  TSOA
+Album Artist Sort-Order	  |  TSO2
+Artist Sort-Order		  |  TSOP
+Composer Sort-Order		  |  TSOC
+Copyright				  |  TCOP
+Encoding Time			  |  TXXX/ENCODINGTIME
+Encoder Settings		  |  TSSE
+File Owner				  |  TOWN
+File Type				  |  TFLT
+Initial Key				  |  TKEY
+Involved People List	  |  IPLS
+ISRC					  |  TSRC
+iTunes Compilation		  |  TCMP
+Language				  |  TLAN
+Location				  |  TXXX/LOCATION
+Media Type				  |  TMED
+Musician Credits List	  |  IPLS
+Net Radio Owner			  |  TRSO
+Net Radio Station		  |  TRSN
+Original Album			  |  TOAL
+Original Artist			  |  TOPE
+Original Lyricst		  |  TOLY
+Original Year			  |  TORY
+Set Subtitle			  |  TXXX/SET SUBTITLE
+Subtitle				  |  TIT3
+Title Sort-Order		  |  TSOT
+==========================+================================

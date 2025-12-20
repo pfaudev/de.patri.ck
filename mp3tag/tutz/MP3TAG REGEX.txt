@@ -1,0 +1,298 @@
+  REGEX..: ^\s*[0-9]+\s*-\s*
+  REPLACE:
+  EXAMPLE: 01 - Come Together => Come Together
+==================================================================================
+  REGEX..: ^\s*[0-9]+\s+
+  REPLACE:
+  EXAMPLE: 01 Come Together => Come Together
+==================================================================================
+  REGEX..: ^(\d+)/\d+
+  REPLACE: $1
+  EXAMPLE: 3/12 => 3
+==================================================================================
+  TAGFELD: _FILENAME
+  REGEX..: ([0-9]+)\s
+  REPLACE: $1 - $2
+  EXAMPLE: 01 Trackname => 01 - Trackname
+==================================================================================
+  ACTION.: Replace with regular expression
+  TAGFELD: TITLE
+  REGEX..: ^(.*?)((|$)
+  REPLACE: $caps3($1)$2
+  [ ] case-sensitive comparison
+  EXAMPLE: Röyksopp - Beautiful DAY withOUT yoU (Rex The Dog Remix)  => Röyksopp - Beautiful day without you (Rex The Dog Remix)
+==================================================================================
+  ACTION.: regular expression (trim white spaces)
+  TAGFELD: ARTIST
+  REGEX..: ^\s+|\s+$
+  REPLACE:
+==================================================================================
+  ACTION.: regular expression (multiple white spaces replace to 1)
+  TAGFELD: ARTIST
+  REGEX..: \s{2,}
+  REPLACE: " " (whitout quotation marks)
+==================================================================================
+  ACTION.: replace (delete white space after opening bracket)
+  TAGFELD: ARTIST
+  REGEX..: "[ " (whitout quotation marks)
+  REPLACE: [
+==================================================================================
+  ACTION.: replace (delete white space before closing bracket)
+  TAGFELD: ARTIST
+  REGEX..: " ]" (whitout quotation marks)
+  REPLACE: ]
+==================================================================================
+  NAME...: To remove any website in the filename
+  REGEX..: [.{3}.\w*..{3}]
+  EXAMPLE: artist - title [www.whateverwebsite.com] => artist - title
+==================================================================================
+
+June/10/2011 - zoofield
+
+Remove All Other Tag Type Exept:
+ID3v2.3 UTF-16
+APEv2
+File Name for Cover art: folder
+Working Directory is ARTIST Tag - Filename:$if($and($grtr(%track%,0),%year%),'['%year%']' _ $left(%album%,60)\(%track%) _ $left(%title%,60),Singles\%artist% - $left(%title%,60))
+Working Directory is AUDIO Tag - Filename:$if($and($grtr(%track%,0),%year%),%_parent_directory%\'['%year%']' _ $left(%album%,60)\(%track%) _ $left(%title%,60),%_parent_directory%\Singles\%artist% - $left(%title%,60))
+
+Action Group:Aa
+
+Export cover to file:
+folder
+
+Remove fields except:
+album;artist;title;track;year
+
+RE: Remove track number from title, ex."1 - Title" < "Title".
+Field:TITLE
+re:^\s*\d+\s*-\s*
+Nothing:
+
+RE: Remove "The" from artist, ex."The Artist" < "Artist".
+Field:ARTIST
+re:^The\s+
+Nothing:
+
+Case conversion:
+Field:_TAG
+Case conversion:Mixed Case
+/[({"-_
+
+RE: Capitalize Roman Numerals up to 399. (trimmed down from 3999 to reduce false positives) - http://bit.ly/lZdZsj
+Field:_Tag
+re:(?<!')\b(?=[CLXVI])((C{0,3})?((X[LC])|(L?X{0,3})|L)?((I[VX])|(V?(I{0,3}))|V)?)\b
+$upper($0)
+
+RE: Capitalize Zero stop Acronyms and Initialisms. - http://bit.ly/jADbI6
+Field:_Tag
+re:(?:(?<=[^\w\']|\_)|(?<=^))(ac|ad|afi|aol|asap|atm|bbc|bc|bce|blt|btw|cc|cia|crc|cst|csv|dc|dfa|dj|dmv|doa|dst|eod|ep|est|et|faq|fbi|fm|gi|glc|gmo|imo|imho|iq|ira|jc|irs|krs|la|lp|mc|mst|mtd|nasa|oj|pc|pi|pj|pm|ps|qed|rv|sos|ssr|usa|ussr|tba|tbd|teotwawki|tlc|tv|ufo)(?=[^\w\']|\_|$)(\.*)
+$upper($1)
+
+RE: Capitalize the Letter Infront of a period. A.B.C.
+Field:_Tag
+re:(?<=\.)([^\W\d\_])
+$upper($1)
+
+RE: Capitalize the Letter Infront of a Space and Apostrophe.
+Field:_Tag
+re:(?<=\s')([^\W\d\_])
+$upper($1)
+
+RE: Lower Case Prepositions, Articles and, Coordinating Conjunctions.
+Field:_Tag
+re:(?<=\w\s)(a|as|at|an|about|above|across|after|against|along|alongside|although|among|and|around|as|at|because|before|behind|below|beneath|beside|between|beyond|but|by|de|despite|down|during|even|except|excepting|for|from|if|in|inside|into|like|near|next|nor|of|off|on|onto|or|out|outside|over|past|regarding|round|since|so|than|the|through|throughout|till|to|toward|under|underneath|unlike|until|up|upon|von|when|while|with|within|without|yet)(?=\s\w)
+$lower($0)
+
+RE: Lower Case Abbreviations, Add Stop.
+Field:_Tag
+re:(?<=[^\w\']|\_)(alt|ave|capt|cent|corp|div|ed|eg|etc|fag|feat|gen|hr|ie|inc|inst|lb|ltd|min|mt|op|pl|pop|pseud|pt|pub|rev|sec|ser|sgt|st|univ|vs|vol)(?=[^\w\']|\_)(\.*)
+$lower($1).
+
+RE: Add Space Before, & ( { [ + =
+Field:_Tag
+re:([^\W\_])([&\(\{\[\+\=])
+$1 $2
+
+RE:Add Space After, & ) } ] ; : , ! + =
+Field:_Tag
+re:([&\)\}\]\;\:\,\!\+\=])([^\W\_])
+$1 $2
+
+RE: Add Space After, .  http://bit.ly/jADbI6
+Field:_Tag
+re:(?<!^)(?<!\d|\s|\.)(\.)([^\W\d\_])(?!\.|\s|$)
+$1 $upper($2)
+
+RE: Add Space After, " "
+Field:_Tag
+re:(".*?")([^\W\_])(?!$)
+$1 $2
+
+RE: Add Space Before, " "
+Field:_Tag
+re:([^\W\_])(".*?")
+$1 $2
+
+RE: Remove Spaces After, ( [ { Before, ] } ) ? : ; , ! .
+Field:_Tag
+re:([\(\[\{])\s+|\s+([\]\}\)\?\:\;\,\!\.])
+$1$2
+
+RE: Remove Spaces Before / After.
+Field:_Tag
+re:\s+(\/)\s+
+$1
+
+RE: Remove Spaces inside, " "
+Field:_Tag
+re:"\s*(.*?)\s*"
+"$1"
+
+RE: Remove Spaces Before and After String.
+Field:_Tag
+re:^\s+|\s+$
+Nothing:
+
+RE: Remove all Double+ Spacing.
+Field:_Tag
+re:\s{2,}
+One Space:
+
+RE: Add Apostrophe to Are Contractions.
+Field:_Tag
+re:\b(how|they|what|when|where|why|you)re(?=[^\w\']|\_|\$)
+$1're
+
+RE: Add Apostrophe to Had/Would Contractions.
+Field:_Tag
+re:\b(he|how|i|it|she|they|we|what|where|who|why|you)d(?=[^\w\']|\_|\$)
+$1'd
+
+RE: Add Apostrophe to Have Contractions.
+Field:_Tag
+re:\b(could|how|i|might|must|should|we|what|when|where|would|you)ve(?=[^\w\']|\_|\$)
+$1've
+
+RE: Add Apostrophe to Is Contractions.
+Field:_Tag
+re:\b(he|here|how|it|let|she|that|there|two|what|when|where|who|why)s(?=[^\w\']|\_|\$)
+$1's
+
+RE: Add Apostrophe to Not Contractions.
+Field:_Tag
+re:\b(ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mightn|mustn|shouldn|wasn|weren|won|wouldn)t(?=[^\w\']|\_|\$)
+$1't
+
+RE: Add Apostrophe to Will Contractions.
+Field:_Tag
+re:\b(how|i|it|she|that|there|they|what|when|where|who|why|you)ll(?=[^\w\']|\_|\$)
+$1'll
+
+RE: Add Apostrophe to Am Contractions.
+Field:_Tag
+re:\b(i)m(?=[^\w\']|\_|\$)
+$1'm
+
+RE: Add Apostrophe to Do Ya Contraction.
+Field:_Tag
+re:\b(D)ya(?=[^\w\']|\_|\$)
+$1'ya
+
+RE: Add Apostrophe to Do You Contraction.
+Field:_Tag
+re:\b(D)you(?=[^\w\']|\_|\$)
+$1'you
+
+RE: CamelCase Mc Words.
+Field:_Tag
+re:\bMc(?=.)
+Mc$upper($1)
+
+RE:CamelCase O' Words.
+Field:_Tag
+re:\bO'([^\W\d\_e])
+O'$upper($1)
+
+
+Action Group:Bb
+
+Format Value:
+Field:TRACK
+Format String:$if($eql(%_directory%,Singles),,%track%)
+
+Format Value:
+Field:_DIRECTORY
+Format String:$if($and($grtr(%track%,0),%year%),'['%year%']' _ $left(%album%,60),%_directory%)
+
+
+Action Group:$num(%track%,2)
+
+Format Value:
+Field:TRACK
+Format String:$if($and($neql(%_directory%,Singles),$grtr(%track%,0)),$num(%track%,2),)
+
+
+Action Group:$num(%track%,3)
+
+Format Value:
+Field:TRACK
+Format string:$if($and($neql(%_directory%,Singles),$grtr(%track%,0)),$num(%track%,3),)
+
+
+RE:
+Field:
+re:
+
+RE:
+Field:_Tag
+re:
+
+RE:
+Field:_Tag
+re:
+
+
+ODDS AND/AT ENDS:_-+=)(*&^%$#@!~`|}{\][":';?></.,_-+=)(*&^%$#@!~`|}{\][":';?></.,_-+=)(*&^%$#@!~`|}{\][":';?></.,_-+=)(*&^%$#@!~`|}{\][":';?></.,_-+=)
+
+Quick reference:   All punctuation accept comas ([^\w\']|\_)     Only Letters  ([^\W\d\_])
+
+tag
+re:(.)_(.)
+replace with: $1 $2
+
+
+title
+re:^(\d+\s)
+replace with: nothing:
+
+
+RE:Adds a space between, Capital and lowercase letter or digit behind it, Digit and lower case letter behind it.
+Field:_Tag
+re:([^A-Z\W\_])([A-Z])(?=[^A-Z])|([^\W\d\_])(\d)
+$1$3 $2$4
+
+
+RE:Adds a space between Capital and lowercase letter or digit behind it.
+Field:_Tag
+re:([^A-Z\W\_])([A-Z])(?=[^A-Z])
+($1) ($2)
+
+
+RE:Adds a space between Digit and lower case letter behind it
+Field:_Tag
+re:([^\W\d\_])(\d)
+($1) ($2)
+
+
+    * I = 1
+    * V = 5
+    * X = 10
+    * L = 50
+    * C = 100
+    * D = 500
+    * M = 1000
+
+
+foobar file convert/copy:
+$if($and($greater(%tracknumber% ,0),%date%),%artist%\'['%date%']' _ $left(%album%,60)\'('%track%')' _ $left(%title%,60),%artist%\Singles\%artist% - $left(%title%,60))
