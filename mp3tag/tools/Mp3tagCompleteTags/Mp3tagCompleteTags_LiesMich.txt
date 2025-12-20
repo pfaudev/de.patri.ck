@@ -1,0 +1,89 @@
+﻿
+ .:: Mp3tagCompleteTags v2.3 ::..................................
+ ----------------------------------------------------------------
+ Dieses Program ist als Zusatz für Mp3tag gedacht und ermöglicht
+ das einfache Exportieren aller von Mp3tag unterstützen Tagfelder 
+ in verschiedene Ausgabeformate (csv, html).
+ 
+ Außerdem kann es alle Tags als Backup in Textdateien sichern
+ aus denen Mp3tag die Tags wiederherstellen kann.
+ 
+ 
+ .:: Hinweis ::..................................................
+ ----------------------------------------------------------------
+ Das Program nimmt autoamtisch an, dass es mit einer normal
+ installierten Mp3tag Version arbeiten soll.
+ 
+ Falls aber Mp3tag im portablen Modus verwendet wird muss
+ die Datei 'Settings.ini' angepasst werden. 
+ Weitere Informationen dazu am Ende dieser Textdatei.
+
+
+ .:: Installation ::.............................................
+ ----------------------------------------------------------------
+   01. Entpacken Sie das Archiv in einen Ordner.
+
+   02. Starten Sie die Datei Mp3tagCompleteTags.exe einmal und
+       folgen Sie den Anweisungen.
+	   
+      >>> Schritt 3 kann auch automatisch erfolgen. <<<
+      
+   03. Gehen Sie in Mp3tag zu "Extras > Optionen > Tools"
+       und fügen sie Mp3tagCompleteTags.exe als neues Tool hinzu.
+      Als Parameter geben Sie "%_workingpath%" ein.
+      "[ ] für alle ausgewählten Dateien" muss deaktiviert sein.
+      
+   04. Unter "Extras > Optionen > Meldungsfenster" die Option
+       "[ ] nach Änderungsvorgang" deaktivieren.
+ 
+ 
+ .:: Bedienung ::................................................
+ ----------------------------------------------------------------
+ Für Mp3tag v2.47 und neuer:
+ 
+   01. Markieren sie in Mp3tag alle Dateien deren Tags exportiert
+       werden sollen.
+   02. Rechtsklick und wähle "Tools > Mp3tagCompleteTags"
+   
+       *TiPP*****************************************************
+       Ein Tool kann auch über die Tastatur gestartet werden wenn
+	   es zu den ersten zehn gehört: STRG + Positionsnummer
+       Ist z.B. Mp3tagCompleteTags das erste Tool drücken Sie
+	   einfach STRG + 1
+       **********************************************************
+	   
+   03. Warten Sie einen Moment bis die Aktion fertig ist und
+       bestätigen Sie dann mit OK
+   04. Nun können Sie die fertigen Exportkonfigurationen nutzen.
+ 
+ Für Mp3tag v2.46 und älter:
+  
+   01. Markieren sie in Mp3tag alle Dateien deren Tags exportiert
+       werden sollen.
+   02. Rufen Sie "Aktionen > Export > Generate" auf.
+   03. Rechtsklick und wähle "Tools > Mp3tagCompleteTags"
+   
+       **********************************************************
+       Ein Tool kann auch über die Tastatur gestartet werden
+	   wenn es zu den ersten zehn gehört: STRG + Posinummer
+       Ist z.B. Mp3tagCompleteTags das erste Tool drücken Sie
+	   einfach STRG + 1
+       **********************************************************
+	 
+   04. Warten Sie einen Moment bis die Aktion fertig ist und
+       bestätigen Sie dann mit OK
+   
+   05. Nun können Sie die fertigen Exportkonfigurationen nutzen.
+ 
+ 
+ .:: Settings.ini ::.............................................
+ ----------------------------------------------------------------
+ 1) PortablePath
+ Damit das Tool mit einer portablen Mp3tag Version funktioniert
+ muss hier der Pfad zu dessen Ordner eingetragen werden.
+ Der Pfad muss mit einem Backslash \ enden.
+ ________________________________________________________________
+ ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+     ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	     ::::::::::::::::::::::::::::::::::::::::::::::::
+	 
