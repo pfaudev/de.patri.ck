@@ -1,0 +1,1 @@
+<?php echo "Hier ist das Dashboard!"; ?>
