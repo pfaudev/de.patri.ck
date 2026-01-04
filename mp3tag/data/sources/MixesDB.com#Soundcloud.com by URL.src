@@ -1,0 +1,249 @@
+##
+#
+# Anführungszeichen werden \" geschrieben
+#
+#
+#
+#
+#
+#
+#
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+
+[Name]=Soundcloud.com - Direct by URL
+[BasedOn]=www.soundcloud.com
+[AlbumUrl]=
+[SearchBy]=%www%
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+
+
+
+outputto "www"
+sayoutput "currenturl"
+
+outputto "title soundcloud"
+findline "property=\"og:title\"" 1 1
+findinline "property=\"og:title\"" 1 1
+findinline "<meta content=\"" -1 1
+findinline "=\""
+sayuntil "\""
+
+outputto "coverurl"
+findline "<div class=\"artwork-download-link\"><a href=\"" 1 1
+findinline "<div class=\"artwork-download-link\">" 1 1
+if "<a href=\""
+	findinline "<a href=\""
+	sayuntil "?"
+else
+	gotoline 1
+endif
+
+outputto "publisher"
+findline "class=\"user-name\">"
+findinline "class=\"user-name\">"
+sayuntil "</a>"
+
+outputto "date soundcloud"
+findline "class='pretty-date'>"
+
+replace "January" "01"
+replace "February" "02"
+replace "March" "03"
+replace "April" "04"
+replace "May" "05"
+replace "June" "06"
+replace "July" "07"
+replace "August" "08"
+replace "September" "09"
+replace "October" "10"
+replace "November" "11"
+replace "December" "12"
+
+regexpreplace "(on )*(\d\d) (\d\d), (\d\d\d\d)( \d\d:\d\d)*" "$3.$2.$4"
+findinline "class='pretty-date'>"
+sayuntil "<"
+
+
+
+
+
+outputto "unsyncedlyrics"
+findline "window.SC.bufferComments"
+joinuntil "</script></div>"
+
+# deleting milliseconds
+regexpreplace "(timestamp\"):\d{1,3}," "$1:0<<-I->><<-end->>"
+regexpreplace "(timestamp\":\d+)\d\d\d," "$1<<-I->><<-end->>"
+
+# splitting seconds
+replace "0<<-I->>" "<<-X->>"
+replace "1<<-I->>" "<<-X->><<I>>"
+replace "2<<-I->>" "<<-X->><<I>><<I>>"
+replace "3<<-I->>" "<<-X->><<I>><<I>><<I>>"
+replace "4<<-I->>" "<<-X->><<I>><<I>><<I>><<I>>"
+replace "5<<-I->>" "<<-X->><<I>><<I>><<I>><<I>><<I>>"
+replace "6<<-I->>" "<<-X->><<I>><<I>><<I>><<I>><<I>><<I>>"
+replace "7<<-I->>" "<<-X->><<I>><<I>><<I>><<I>><<I>><<I>><<I>>"
+replace "8<<-I->>" "<<-X->><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>"
+replace "9<<-I->>" "<<-X->><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>"
+
+# splitting 10 seconds
+replace "0<<-X->>" "<<-C->>"
+replace "1<<-X->>" "<<-C->><<X>>"
+replace "2<<-X->>" "<<-C->><<X>><<X>>"
+replace "3<<-X->>" "<<-C->><<X>><<X>><<X>>"
+replace "4<<-X->>" "<<-C->><<X>><<X>><<X>><<X>>"
+replace "5<<-X->>" "<<-C->><<X>><<X>><<X>><<X>><<X>>"
+replace "6<<-X->>" "<<-C->><<X>><<X>><<X>><<X>><<X>><<X>>"
+replace "7<<-X->>" "<<-C->><<X>><<X>><<X>><<X>><<X>><<X>><<X>>"
+replace "8<<-X->>" "<<-C->><<X>><<X>><<X>><<X>><<X>><<X>><<X>><<X>>"
+replace "9<<-X->>" "<<-C->><<X>><<X>><<X>><<X>><<X>><<X>><<X>><<X>><<X>>"
+
+# splitting 100 seconds
+replace "0<<-C->>" "<<-M->>"
+replace "1<<-C->>" "<<-M->><<C>>"
+replace "2<<-C->>" "<<-M->><<C>><<C>>"
+replace "3<<-C->>" "<<-M->><<C>><<C>><<C>>"
+replace "4<<-C->>" "<<-M->><<C>><<C>><<C>><<C>>"
+replace "5<<-C->>" "<<-M->><<C>><<C>><<C>><<C>><<C>>"
+replace "6<<-C->>" "<<-M->><<C>><<C>><<C>><<C>><<C>><<C>>"
+replace "7<<-C->>" "<<-M->><<C>><<C>><<C>><<C>><<C>><<C>><<C>>"
+replace "8<<-C->>" "<<-M->><<C>><<C>><<C>><<C>><<C>><<C>><<C>><<C>>"
+replace "9<<-C->>" "<<-M->><<C>><<C>><<C>><<C>><<C>><<C>><<C>><<C>><<C>>"
+
+# splitting 1000 seconds
+replace "0<<-M->>" "<<-XM->>"
+replace "1<<-M->>" "<<-XM->><<M>>"
+replace "2<<-M->>" "<<-XM->><<M>><<M>>"
+replace "3<<-M->>" "<<-XM->><<M>><<M>><<M>>"
+replace "4<<-M->>" "<<-XM->><<M>><<M>><<M>><<M>>"
+replace "5<<-M->>" "<<-XM->><<M>><<M>><<M>><<M>><<M>>"
+replace "6<<-M->>" "<<-XM->><<M>><<M>><<M>><<M>><<M>><<M>>"
+replace "7<<-M->>" "<<-XM->><<M>><<M>><<M>><<M>><<M>><<M>><<M>>"
+replace "8<<-M->>" "<<-XM->><<M>><<M>><<M>><<M>><<M>><<M>><<M>><<M>>"
+replace "9<<-M->>" "<<-XM->><<M>><<M>><<M>><<M>><<M>><<M>><<M>><<M>><<M>>"
+
+# splitting 10000 seconds
+replace "0<<-XM->>" ""
+replace "1<<-XM->>" "<<XM>>"
+replace "2<<-XM->>" "<<XM>><<XM>>"
+replace "3<<-XM->>" "<<XM>><<XM>><<XM>>"
+replace "4<<-XM->>" "<<XM>><<XM>><<XM>><<XM>>"
+replace "5<<-XM->>" "<<XM>><<XM>><<XM>><<XM>><<XM>>"
+replace "6<<-XM->>" "<<XM>><<XM>><<XM>><<XM>><<XM>><<XM>>"
+replace "7<<-XM->>" "<<XM>><<XM>><<XM>><<XM>><<XM>><<XM>><<XM>>"
+replace "8<<-XM->>" "<<XM>><<XM>><<XM>><<XM>><<XM>><<XM>><<XM>><<XM>>"
+replace "9<<-XM->>" "<<XM>><<XM>><<XM>><<XM>><<XM>><<XM>><<XM>><<XM>><<XM>>"
+
+
+replace "<<-I->>" ""
+replace "<<-X->>" ""
+replace "<<-C->>" ""
+replace "<<-M->>" ""
+replace "<<-XM->>" ""
+
+# break it down to single seconds
+replace "<<XM>>" "<<M>><<M>><<M>><<M>><<M>><<M>><<M>><<M>><<M>><<M>>"
+replace "<<M>>" "<<C>><<C>><<C>><<C>><<C>><<C>><<C>><<C>><<C>><<C>>"
+replace "<<C>>" "<<X>><<X>><<X>><<X>><<X>><<X>><<X>><<X>><<X>><<X>>"
+replace "<<X>>" "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>"
+
+# bundle seconds to minutes and hours
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "<<m>>"
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "<<h>>"
+
+# adding hours
+replace "<<h>><<h>><<h>><<h>><<h>><<h>><<h>><<h>><<h>>" "9:"
+replace "<<h>><<h>><<h>><<h>><<h>><<h>><<h>><<h>>" "8:"
+replace "<<h>><<h>><<h>><<h>><<h>><<h>><<h>>" "7:"
+replace "<<h>><<h>><<h>><<h>><<h>><<h>>" "6:"
+replace "<<h>><<h>><<h>><<h>><<h>>" "5:"
+replace "<<h>><<h>><<h>><<h>>" "4:"
+replace "<<h>><<h>><<h>>" "3:"
+replace "<<h>><<h>>" "2:"
+replace "<<h>>" "1:"
+replace "timestamp\":<<" "timestamp\":0:<<"
+
+# adding ten minutes
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "5"
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "4"
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "3"
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "2"
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "1"
+regexpreplace "(timestamp\":\d):<<" "$1:0<<"
+
+# adding minutes
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "9:"
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "8:"
+replace "<<m>><<m>><<m>><<m>><<m>><<m>><<m>>" "7:"
+replace "<<m>><<m>><<m>><<m>><<m>><<m>>" "6:"
+replace "<<m>><<m>><<m>><<m>><<m>>" "5:"
+replace "<<m>><<m>><<m>><<m>>" "4:"
+replace "<<m>><<m>><<m>>" "3:"
+replace "<<m>><<m>>" "2:"
+replace "<<m>>" "1:"
+regexpreplace "(timestamp\":\d:\d)<<" "$1<<zero>>:<<"
+replace "<<zero>>" "0"
+
+# adding ten seconds
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "5"
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "4"
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "3"
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "2"
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "1"
+regexpreplace "(timestamp\":\d:\d\d):<<" "$1:0<<"
+
+# adding seconds
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "9"
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "8"
+replace "<<I>><<I>><<I>><<I>><<I>><<I>><<I>>" "7"
+replace "<<I>><<I>><<I>><<I>><<I>><<I>>" "6"
+replace "<<I>><<I>><<I>><<I>><<I>>" "5"
+replace "<<I>><<I>><<I>><<I>>" "4"
+replace "<<I>><<I>><<I>>" "3"
+replace "<<I>><<I>>" "2"
+replace "<<I>>" "1"
+regexpreplace "(timestamp\":\d:\d\d:\d)<<" "$1<<zero>><<"
+replace "<<zero>>" "0"
+
+# delete html tags
+regexpreplace "@\\\\u003Ca href=.+?\\\\u003C/a\\\\u003E:" ""
+regexpreplace "\\\\u003C.+?\\\\u003E" ""
+
+do
+	findinline "timestamp\":" 1 1
+	say "["
+	sayuntil "<<-end->>"
+	say "]  "
+	findinline "\"body\":\"" -1 1
+	movechar 9
+	sayuntil "\",\"timestamp\""
+	saynewline
+	findinline "\"track_id\":" 1 1
+	findinline "}" 1 1
+while ",{\"id\":"
+
+
+outputto "tags soundcloud"
+findline "<strong>Tags:</strong>"
+moveline 1
+sayregexp "(?<='\">).+?(?=</span>)" ", " "</a>"
+moveline 1
+do
+	say ", "
+	sayregexp "(?<='\">).+?(?=</span>)" ", " "</a>"
+	moveline 1
+while "<a href=\"/tags"
+
+outputto "comment soundcloud"
+findinline "<p>" 1 1
+sayuntilml "</p></div></div>"
+
+
+

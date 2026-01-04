@@ -1,0 +1,151 @@
+# ###################################################################
+# Mp3tag parsing for Audible.com.
+# https://github.com/romanoh/Mp3tag-Repository
+# 12.02.2024: Start
+# 
+#
+#
+# This file should be in your sources dir. 
+# On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+# ####################################################################
+
+[Name]=Soundtrack.Net [v.12.02.2024]
+[BasedOn]=www.soundtrack.net
+[IndexUrl]=https://www.soundtrack.net/search/?q=%s
+[AlbumUrl]=https://www.soundtrack.net
+[WordSeparator]=+
+[IndexFormat]=%_url%|% ↓ Album%|% ↓ Edition / Manufacturer%|% ↓ Artist%|% ↓ Format%
+[SearchBy]=Enter Artist and/or Album||%Artist% %Album%||%s
+[Encoding]=url-utf-8
+
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\INDEX.HTMLmp3tag.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\www.soundtrack.net_INDEX_debug.txt"
+
+# go to the area we need instead of everyting.
+findline "Album" 1 1
+findline "<li class=\"list-group-item\"" 1 1
+unspace
+
+	do	
+		# url
+		findinline "href=\""
+		sayuntil "\""
+		say "|" 
+		
+		# Album
+		findinline "\"><b>" 1 1
+		sayuntil "<"
+		say "|" 
+		
+		# Manufacturer
+		# sometimes no publisher was found
+		replace "<br>" " / "
+		findinline "d-block\">" 1 1
+		movechar -2
+		if "\">"
+		movechar 2
+			sayuntil "</small>"
+			say "|"
+		else
+			say "|"
+			gotochar 1
+		endif
+
+		# Artist
+		# use this 1 1 to remove the errors from search
+		findinline "person" 1 1 
+		findinline "\">" 1 1
+		sayuntil "<"
+		say "|" 
+		
+		# format
+		replace "s: " ""
+		replace ": " ""
+		findinline "Format" 1 1
+		sayuntil "<"
+		
+		
+		saynewline		
+		moveline 1 1
+		unspace
+		  
+	while "<li class" 30
+
+
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+DebugWriteInput "C:\Users\egual\Desktop\1111111_mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\Soundtrack.Net_mp3tagdebug.txt"
+
+
+# Cover
+outputto "Coverurl"
+say "https://www.soundtrack.net"
+findline "id=\"titlebox\""
+findinline "src=\""
+sayuntil "\""
+
+# Album
+outputto "Album"
+findinline "alt=\""
+sayuntil "\""
+
+#comment
+outputto "comment"
+findinline "</h1><p>"
+sayuntil "<"
+
+#Publisher
+outputto "Publisher"
+findinline "href"
+findinline "\">"
+sayuntil "</a>"
+
+#Catagognumber
+replace "(" ""
+replace ")" ""
+outputto "catalognumber"
+findinline ">"
+sayuntil "<"
+
+#year
+outputto "year"
+findinline ", "
+saynextnumber
+
+#mediatype
+outputto "mediatype"
+findinline "</b> "
+sayuntil "<"
+
+
+
+
+
+# Set Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
+
+# Set Comment to DESCRIPTION for better MP4 support
+outputto "DESCRIPTION"
+sayoutput "Comment"
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,457 @@
+# ###################################################################
+# Mp3tag (v2.33 or higher) parsing for discogs.com, created by dano on 2005-09-18
+# Modified by Snykch  
+# 
+# This file should be in your sources directory. On Windows XP it's...
+# C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+# 
+# 
+#
+#
+# Modifications:
+#   2005-09-01: updated coverurl fetching 
+#   2005-09-18: updated
+#   2005-09-19: updated
+#   2005-10-11: updated Genre, Title and VA
+#	2005-11-06: some tuning
+#   2005-11-22: different Artist code
+#	2005-12-05: more infos
+#	2006-02-02: all VA should be recognized now
+#   2006-02-19: updated to get vinyl and catalog no.'s (by Snykch)
+#   2006-04-06: updated to get band (by Ydope)
+#   2007-01-16: updated to get country, credits and notes (by Ydope)
+#   2006-01-23: some tweaks by Ydope
+#
+# ###################################################################
+
+[Name]=Discogs
+[BasedOn]=http://www.discogs.com
+[IndexUrl]=http://www.discogs.com/artist/
+[AlbumUrl]=http://www.discogs.com
+[WordSeperator]=+
+[IndexFormat]=%_url%|%Album%|%Type%|%Label%|%Year%
+[SearchBy]=%artist%
+
+[ParserScriptIndex]=...
+# ###################################################################
+# This script parses the artist's page for all releases
+# by this artist.
+#
+# The output format is defined by IndexFormat above, which
+# is used by the selection dialog
+# ###################################################################
+
+# Uncomment the following line if you want to write some debug output
+# debug "on" "c:\A.txt" "10"
+
+findline "Releases:"
+
+do
+	findline "<a href=\""
+	findinline "<a href=\""
+	sayuntil "\""
+	say "|"
+	
+	# Album
+	findinline ">"
+	sayuntil "<"
+	say "|"
+	
+	# Type
+	findinline "("
+	sayuntil ")"
+	say "|"
+	
+	# Label
+	moveline 2	
+	joinuntil "</td>"
+	findinline ">" 2
+	sayuntil "<"
+	say "|"
+	
+	moveline 1
+	findinline "<td>"
+	saynextnumber
+	
+	saynewline
+	moveline 12
+	
+while "    <a href=" 500
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#debug "on" "C:\E.txt" 
+
+findline "Tracklisting:"
+findline "<td nowrap"
+findline "<td" 2
+findinline "<td"
+
+if " "
+    #################################################################  
+    # VA-mode
+
+    # discogs-id
+    outputto "discogs-id"
+    gotoline 2
+    findline "<a href=\"/release/rat"
+    findinline "/release/rate/"
+    saynextnumber
+
+    gotoline 2
+    findline "<title>"
+    findinline "<title>"   
+
+    # Band
+    outputto "band"
+    joinuntil "- "
+    regexpreplace "\s+" " "
+    findinline "<title>"
+    sayuntil "- "
+    
+    # Album
+    outputto "album"
+    findline "- "
+    findinline "- "
+    sayuntil "<"
+
+    # Coverurl
+    outputto "coverurl"
+    findline "<td valign=top"
+    findinline "<td valign=top"
+    if " align=center>"
+        findinline "<img src=\""
+        sayuntil "-150-"  
+        movechar 4
+        sayuntil "\""  
+    endif
+
+    # Publisher
+    outputto "publisher"
+    findline "<tr><td align=right>Label:</td><td>"
+    joinuntil "</td></tr>"
+    killtag "*"
+    regexpreplace "^\s+Label:\s+" ""
+    regexpreplace "\s,\s{2,}" ", "
+    sayrest
+
+    # Catalog Number
+    outputto "catalog"
+    gotoline 2
+    findline "<tr><td align=right>Catalog#:</td><td>"
+    joinuntil "</td></tr>"
+    killtag "*"
+    regexpreplace "^\s+Catalog\#:\s+" ""
+    sayrest
+
+    # Mediatype
+    outputto "Mediatype"
+    findline "<tr><td align=right>Format:</td><td>"
+    joinuntil "</td></tr>"
+    regexpreplace "<[^>]+>" ""
+    regexpreplace "^\s{0,}Format:\s+" ""
+    sayrest
+
+    # Country:
+    outputto "country"
+    gotoline 2
+    findline "<tr><td align=right>Country:"
+    killtag "*"
+    findinline ":"
+    movechar 2
+    sayrest
+
+    # year
+    outputto "year"
+    findline "Released:"
+    findinline "<td>"
+    # This trick makes sure, that we get the year for both "27 Feb 2004" and "2004" formats
+    findinline "<"
+    movechar -5
+    sayuntil "<"
+
+    # Genre (only 1)
+    outputto "genre"
+    findline "Genre:"
+    joinuntil "</tr>"
+    killtag "*"
+    regexpreplace "\s+" " "
+    regexpreplace "\s+$" ""
+    regexpreplace ",\s[ \w/]+$" ""
+    findinline "Genre:"
+    sayrest
+
+    # Styles
+    outputto "Style"
+    findline "Style:"
+    joinuntil "</tr>"
+    killtag "*"
+    regexpreplace "\s+" " "
+    findinline "Style:"
+    sayrest
+
+    # Credits
+    outputto "Credits"
+    findline "<tr><td align="right" valign="top">Credits:" 1 1
+    if "  <tr><td align="right" valign="top">Credits:"
+      joinuntil "</tr>"
+      regexpreplace "<br>" "; "
+      killtag "*"
+      regexpreplace "\|+" " "
+      regexpreplace "<[^>]+>" ""
+      regexpreplace "\s+" " "
+      regexpreplace "^\s" ""
+      regexpreplace " ; " ";"
+      regexpreplace ";+" ";"
+      regexpreplace "\s*</tr>\s*$" ""
+      regexpreplace "\s*$" ""
+      regexpreplace ";$" ""
+      regexpreplace "\s+(.)$" "$1"
+      regexpreplace " , " ", "
+
+      findinline ":"
+      sayrest
+    endif
+
+    # Notes
+    outputto "Notes"
+    gotoline 2
+    findline "<tr><td align=right valign=top>Notes:" 1 1
+    if "<tr><td align=right valign=top>Notes:"
+      joinuntil "</tr>"
+      regexpreplace "<br>" "; "
+      killtag "*"
+      regexpreplace "\|+" " "
+      regexpreplace "<[^>]+>" ""
+      regexpreplace "\s+" " "
+      regexpreplace "^\s" ""
+      regexpreplace " ; " ";"
+      regexpreplace ";+" ";"
+      regexpreplace "\s*</tr>\s*$" ""
+      regexpreplace "\s*$" ""
+      regexpreplace ";$" ""
+      regexpreplace "\s+(.)$" "$1"
+      findinline ":"
+      sayrest
+    endif
+
+    # Artist & Tracks
+    gotoline 2
+    findline "Tracklisting:"
+    findline "<td nowrap align="left">"
+    do
+        outputto "VinylNo."
+        killtag "*"
+        regexpreplace "^\s+\d+" ""
+        sayrest
+        say "|"
+
+        moveline 6
+        # Artist
+        outputto "Artist"
+        joinuntil "</td>"
+        killtag "*"
+        regexpreplace "\s{2,}" " "
+        sayrest
+        say "|"
+        findline "<td>"
+        # Title
+        outputto "Tracks"
+        unspace
+        killtag "*"
+        regexpreplace "\s\(\d?\d:\d\d\)" ""
+		sayuntil "</td>"
+        say "|"
+        findline "<td nowrap align="left">" 1 1
+    while "    <td nowrap align="left">"
+    # End of VA
+    # ###############################################################
+
+else
+    # discogs-id
+    outputto "discogs-id"
+    gotoline 2
+    findline "<a href=\"/release/rat"
+    findinline "/release/rate/"
+    saynextnumber
+
+
+    gotoline 1
+    findline "<title>"
+    findinline "<title>"
+    
+    # Artist
+    outputto "artist"
+    joinuntil "</title>"
+    regexpreplace "\s{2,}" " "
+    findinline "<title>"
+    sayuntil " - "
+
+    # Album
+    outputto "album"
+    findline "- "
+    findinline "- "
+    sayuntil "<" 
+
+    # Cover url
+    outputto "coverurl"
+    findline "<td valign=top"
+    findinline "<td valign=top"
+    if " align=center>"
+        findinline "<img src=\""
+        sayuntil "-150-"
+        movechar 4
+        sayuntil "\""  
+    endif
+    
+    # Publisher
+    outputto "publisher"
+    findline "<tr><td align=right>Label:</td><td>"
+    joinuntil "</td></tr>"
+    killtag "*"
+    regexpreplace "^\s+Label:\s+" ""
+    regexpreplace "\s,\s{2,}" ", "
+    sayrest
+
+    # Catalog Number
+    outputto "catalog"
+    gotoline 2
+    findline "<tr><td align=right>Catalog#:</td><td>"
+    joinuntil "</td></tr>"
+    killtag "*"
+    regexpreplace "^\s+Catalog\#:\s+" ""
+    sayrest
+
+    # Mediatype
+    outputto "Mediatype"
+    findline "<tr><td align=right>Format:</td><td>"
+    joinuntil "</td></tr>"
+    regexpreplace "<[^>]+>" ""
+    regexpreplace "^\s{0,}Format:\s+" ""
+    sayrest
+
+    # Country:
+    outputto "country"
+    gotoline 2
+    findline "<tr><td align=right>Country:"
+    killtag "*"
+    findinline ":"
+    movechar 2
+    sayrest
+
+    # Year
+    outputto "year"
+    findline "Released:"
+    findinline "<td>"
+    # This trick makes sure, that we get the year for both "27 Feb 2004" 
+    # and "2004" formats
+    findinline "<"
+    movechar -5
+    sayuntil "<"
+
+    # Genre (only 1)
+    outputto "genre"
+    findline "Genre:"
+    joinuntil "</tr>"
+    killtag "*"
+    regexpreplace "\s+" " "
+    regexpreplace "\s+$" ""
+    regexpreplace ",\s\w+$" ""
+    findinline "Genre:"
+    sayrest
+
+    # Styles (all)
+    outputto "styles"
+    findline "Style:"
+    joinuntil "</tr>"
+    killtag "*"
+    regexpreplace "\s+" " "
+    findinline "Style:"
+    sayrest
+
+    # Credits
+    outputto "Credits"
+    findline "<tr><td align="right" valign="top">Credits:" 1 1
+    if "  <tr><td align="right" valign="top">Credits:"
+      joinuntil "</tr>"
+      regexpreplace "<br>" "; "
+      killtag "*"
+      regexpreplace "\|+" " "
+      regexpreplace "<[^>]+>" ""
+      regexpreplace "\s+" " "
+      regexpreplace "^\s" ""
+      regexpreplace " ; " ";"
+      regexpreplace ";+" ";"
+      regexpreplace "\s*</tr>\s*$" ""
+      regexpreplace "\s*$" ""
+      regexpreplace ";$" ""
+      regexpreplace "\s+(.)$" "$1"
+      regexpreplace " , " ", "
+
+      findinline ":"
+      sayrest
+    endif
+
+    # Notes
+    outputto "Notes"
+    gotoline 2
+    findline "<tr><td align=right valign=top>Notes:" 1 1
+    if "<tr><td align=right valign=top>Notes:"
+      joinuntil "</tr>"
+      regexpreplace "<br>" "; "
+      killtag "*"
+      regexpreplace "\|+" " "
+      regexpreplace "<[^>]+>" ""
+      regexpreplace "\s+" " "
+      regexpreplace "^\s" ""
+      regexpreplace " ; " ";"
+      regexpreplace ";+" ";"
+      regexpreplace "\s*</tr>\s*$" ""
+      regexpreplace "\s*$" ""
+      regexpreplace ";$" ""
+      regexpreplace "\s+(.)$" "$1"
+      findinline ":"
+      sayrest
+    endif
+
+    # Tracks    
+    findline "Tracklisting:"
+    findline "<td nowrap align="left">"
+    do
+        outputto "VinylNo."
+        killtag "*"
+        regexpreplace "^\s+\d+" ""
+        sayrest
+        say "|"
+        
+        moveline 6
+        unspace
+        if "<td></td>" # emtpy table row WTF!!
+        	exit
+        else
+        	killtag "*"
+        	regexpreplace "\s\(\d?\d:\d\d\)" ""
+        	# Titles
+        	outputto "tracks"
+			sayuntil "</td>"
+        	say "|"
+        	
+        	# Mixartist
+        	outputto "mixartist"
+			moveline 4 1
+			if "    <tr><td colspan=2>"
+				joinuntil "</small></td>"
+				regexpreplace "<br>" ";<br>"
+				killtag "*"
+				regexpreplace "\s{2,}" " "
+				regexpreplace "\s," ","
+				regexpreplace "\s;" ";"
+				sayrest				
+			endif
+			say "|"
+        	findline "    <td nowrap align="left">" 1 1
+        endif
+    while "    <td nowrap align="left">"
+endif

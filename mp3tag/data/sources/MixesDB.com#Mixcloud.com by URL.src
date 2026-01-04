@@ -1,0 +1,54 @@
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+
+[Name]=Mixcloud.com - Direct by URL
+[BasedOn]=www.mixcloud.com
+[AlbumUrl]=
+[SearchBy]=%www%
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+
+
+
+outputto "www"
+sayoutput "currenturl"
+
+outputto "publisher"
+findline "data-userlinktext=\""
+findinline "data-userlinktext=\""
+sayuntil "\""
+
+outputto "unsyncedlyrics"
+findline "<tbody>"
+findinline "<tbody>"
+ifnot "</tbody>"
+	joinuntil "</tbody>"
+	do
+		findinline "class=\"section-number-cell\">" 1 1
+		saynextnumber
+		say " - "
+		findinline "class=\"tracklistartistname mx-link\">" -1 1
+		movechar 37
+		sayuntil "</a>"
+		say " - "
+		findinline "class=\"tracklisttrackname mx-link\">" -1 1
+		movechar 36
+		sayuntil "</a>"
+		saynewline
+		findinline "</td></tr>"
+	while "<tr class=\"section-row-track\"" 50
+endif
+
+outputto "coverurl"
+findline "data-picture=\""
+findinline "data-picture=\""
+sayuntil "\""
+
+
+
+
+

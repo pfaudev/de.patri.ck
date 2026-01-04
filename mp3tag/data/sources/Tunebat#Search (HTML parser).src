@@ -1,0 +1,21 @@
+# ##################################################################
+#                       WTF PUBLIC LICENSE
+#                   Public Version 15, Jul 2021
+#
+# Copyright (C) 2020-2021 Bugzero <bugzero71@gmail.com>
+# I would like to thank stevehero for his scripts. I've learned a lot.
+#
+# Everyone is permitted to copy and distribute verbatim or modified
+# copies of this license document, and changing it is allowed as long
+# as the name is changed.
+#
+#                       WTF PUBLIC LICENSE
+#   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+#
+#  0. You can do WTF you imagine with this document.
+# ##################################################################
+# Help on Web Sources Framework: https://help.mp3tag.de/main_online.html
+# ##################################################################
+
+[SearchBy]=Artist||$trim($repl($regexp($regexp($regexp($regexp($if2($meta_sep(albumartist, ),$if2($meta_sep(artist, ), )),(?i)^(va|various artists|v\.a\.)$,various),(?i)''s( |$),$1),'(?i)[^\w]+(featuring|feat|ft|presents|pres|and|vs|w/|\+|/|&|www[^\s]+|[^\w\s])\.*', ),'\s+', ),',',))||%s||Title||$trim($regexp($regexp($regexp(%title%,'\b-\b|_', ),'(?i)\[.*\]|cd\s*\d*|[^\s]+.com|\bep\b|feat\.|ft\.|\bom\b|\boriginal\b|\bclub\b|\bmix\b|\bremix\b|\bthe\b|vinyl|web|www[^\s]+|[^\w\s]',),'\s+', ))||+%s
+[Include]=Tunebat#Search (HTML parser).inc

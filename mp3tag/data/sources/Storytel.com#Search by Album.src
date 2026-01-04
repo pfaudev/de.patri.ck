@@ -1,0 +1,294 @@
+# ###################################################################
+#
+# Mp3tag parsing for storytel.com, created by romano on 2020-11-28
+#
+# Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# 
+# 04.12.2020 - Fix sort album tag if the album is not from a series.
+# 27.12.2020 - Improve Lenght display.
+# 03.12.2021 - Complete change because hmtl changes.
+# 04.12.2021 - Added series name and number, more Genres, album sort.
+# 04.12.2021 - Fix several tags errors if data was not present.
+# 07.05.2022 - Fix publisher/year tags errors after html changes
+# 11.06.2022 - Made new Overall script structure as all html as change (Todo: more authors/narrators)
+# 28.01.2023 - Fix for a html error in album 
+# 
+# ####################################################################
+
+[Name]=Storytel [v.28.01.2023]
+[BasedOn]=www.storytel.com
+[IndexUrl]=https://www.storytel.com/in/en/search-
+[AlbumUrl]=https://www.storytel.com
+[WordSeparator]=+
+[IndexFormat]=% ↓ Language%|% ↓ Album%|% ↓ Author%|% ↓ Type%|%_url%
+[SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[UserAgent]=1
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxx\Desktop\mp3tag_storytel_debug_index.txt"	
+
+#Only select the area we need instead of everyting.
+findline "gridItem"
+joinuntil "hiddenSearchPhrase"
+
+replace "asAudio" "Audiobook"
+replace "asEbook" "Ebook"
+
+do	
+	# Language
+	findinline "language=\"" 
+	sayuntil "\""
+	say "|" 
+	
+	# Album
+	findinline "name=\"" 
+	sayuntil "\""
+	say "|" 
+	
+	# Author
+	findinline "authors=\"" 
+	sayuntil "\""
+	say "|" 
+
+	# Type
+	findinline "<span class=\"" 
+	sayuntil "\""
+	say "|" 
+
+	#  Url		
+	findinline "gridBookTitle" 
+	findinline "href=\"" 
+	sayuntil "\""
+	#the last on remove the #	
+	#say "|"
+	
+	saynewline
+	 
+   findinline "gridItem" 1 1
+    
+while "\"" 25
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_storytel_html.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_storytel_debug.txt"
+
+# Cover
+outputto "Coverurl"
+findline "og:image"
+findinline "content=\""
+sayuntil "\""
+
+## Series
+outputto "SERIES"
+findline "Series"
+if "</dd><dt"
+	moveline 1
+	findinline "href=\""
+	findinline "-"
+	sayuntil "\""
+	outputto "series-part"
+	moveline 1
+	sayrest
+	gotoline 1
+else
+	say ""
+	gotoline 1
+endif
+
+# Album
+outputto "Album"
+findline "title svelte-1rjicxl\">"
+findinline "title svelte-1rjicxl\">"
+sayuntil "<"
+
+# Author/Artist
+outputto "Artist"
+findline "authors"
+findinline "href="
+findinline ">"
+sayuntil "<"
+
+# Narrator
+outputto "Composer"
+findline "narrators"
+findinline "href="
+findinline ">"
+sayuntil "<"
+
+# year
+outputto "year"
+findline "Audiobook:"
+findinline ":"
+sayuntil "<"
+
+# Language
+outputto "language"
+findline "Language"
+findinline "info-def"
+findinline ">"
+sayuntil "<"
+
+# Genre
+outputto "Genre"
+findline "categories"
+findinline "book-info-category\">"
+sayrest
+
+# Lenght
+outputto "lenght"
+findline "Length"
+moveline 2
+replace "T" "h"
+sayuntil "<"
+
+# Book Description
+outputto "Comment"
+findline ">Audiobook"
+moveline 1
+findinline "<p><p>"
+regexpreplace "</?[^><]+>" ""
+#unspace
+sayuntil "</p></p>"
+
+# year
+outputto "copyright"
+findline "&copy;"
+findinline "&copy;"
+saynextnumber
+
+# publisher
+outputto "publisher"
+findinline "-publisher\">"
+sayuntil "<"
+
+#Isbn
+outputto "ISBN"
+findinline "ISBN:"
+unspace
+saynextnumber
+
+
+# Set year = RELEASETIME
+outputto "RELEASETIME"
+sayoutput "year"
+
+# Set Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
+
+# Set Disknumber
+outputto "DISCNUMBER"
+sayoutput "series-part"
+
+
+# Set "Albumsort"
+IfOutput "series"
+	outputto "Albumsort"
+	sayoutput "series"
+	say " "
+	sayoutput "series-part"
+	say " "
+	say "- "
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+else
+	outputto "Albumsort"
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+endif
+
+
+
+# More Genres
+
+findline "Explore more of"
+
+
+if "<section class=\"book-tags"
+	joinuntil "</li></ul></div>"
+	
+	outputto "GenreTMP1"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
+	
+	outputto "GenreTMP2"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
+
+	outputto "GenreTMP3"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
+
+	outputto "GenreTMP4"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
+else
+
+endif
+
+
+outputto "Genre"
+
+IfOutput "GenreTMP1"
+	say "//"
+	sayoutput "GenreTMP1"
+else
+endif
+
+IfOutput "GenreTMP2"
+	say "//"
+	sayoutput "GenreTMP2"
+else
+endif
+
+IfOutput "GenreTMP3"
+	say "//"
+	sayoutput "GenreTMP3"
+else
+endif
+
+IfOutput "GenreTMP4"
+	say "//"
+	sayoutput "GenreTMP4"
+else
+endif
+
+# remove tags
+set "GenreTMP1"
+set "GenreTMP2"
+set "GenreTMP3"
+set "GenreTMP4"

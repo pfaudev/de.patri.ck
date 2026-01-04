@@ -1,0 +1,258 @@
+# ##################################################################
+#                       WTF PUBLIC LICENSE
+#                   Public Version 01, Jun 2020
+#
+# Copyright (C) 2020 Bugzero <bugzero71@gmail.com>
+# I would like to thank stevehero for his scripts. I've learned a lot.
+#
+# Everyone is permitted to copy and distribute verbatim or modified
+# copies of this license document, and changing it is allowed as long
+# as the name is changed.
+#
+#                       WTF PUBLIC LICENSE
+#   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+#
+#  0. You can do WTF you imagine with this document.
+# ##################################################################
+
+[Name]=Tunebat (Song Key Bpm) [0.6 by Bugzero]
+[BasedOn]=http://tunebat.com
+[IndexUrl]=https://tunebat.com/Search?q=%s
+[AlbumUrl]=
+[WordSeperator]=+
+[IndexFormat]=%_url%|%artist%|%title%|%key%|%camelot%|%bpm%
+[SearchBy]=[ ARTIST + TITLE ]$trim($trim($repl($regexp($regexp($regexp($regexp($regexp($if2(%albumartist%,$if2(%albumartist%,$if2(%album artist%,$if2(%band%,$if2(%albumartist%,$if2(%artist%,$if2(%artist%,%discogs_artist_name%))))))),(?i)^(va|various artists|v\.a\.)$,various),(?i)the,),(?i)''s( |$),$1),'(?i)[^\w]+(featuring|feat|ft|presents|pres|and|vs|w/|\+|/|&|www[^\s]+|[^\w\s])\.*', ),'\s+', ),',',)) $trim($regexp($regexp($regexp(%title%,'\b-\b|_', ),'(?i)\[.*\]|cd\s*\d*|[^\s]+.com|\bep\b|feat\.|ft\.|\bom\b|\boriginal\b|\bclub\b|\bmix\b|\bremix\b|\bthe\b|vinyl|web|www[^\s]+|[^\w\s]',),'\s+', )))
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+debug "on" "c:\mp3tag_debugs\MP3Tag-debug_INDEX.log"
+
+findline "<div class=\"searchResultList row main-row\">"
+regexpreplace "col-[\w\d\-]+" " "
+regexpreplace "\s+" " "
+# regexpreplace "\(+" "("
+# regexpreplace "\)+" ")"
+regexpreplace "<div class=\"searchResultNode\s*?\">" "<<<starttrack>>>"
+regexpreplace "<a href=\"(.*?)\".*?>" "<url>http://www.tunebat.com$1</url>"
+regexpreplace "<img src=\"(.*?)\".*?>" "<cover>$1</cover>"
+regexpreplace "<div class=\"row search-artist-name\">(.*?)</div>" "<artist>$1</artist>"
+regexpreplace "<div class=\"row search-track-name\">(.*?)</div>" "<track>$1</track>"
+regexpreplace "<div class=\"row search-track-name\">(.*?)</div>" "<track>$1</track>"
+regexpreplace "<div class=\"row search-attribute-value\">(.*?)</div><div class=\"row search-attribute-label\">(.*?)</div>" "<$2>$1</$2>"
+regexpreplace "<(div|button|span|i).*?>" ""
+regexpreplace "</(div|button|span|i)>" ""
+regexpreplace "</a>" "<<<endtrack>>>"
+
+do
+    # find node start
+    findinline "<<<starttrack>>>"
+
+	# URL
+	findinline "<url>"
+	sayuntil "</url>"
+	say "|"
+
+	# COVERURL
+	#findinline "<cover>"
+	#sayuntil "</cover>"
+	#say "|"
+
+	# Artist
+	findinline "<artist>"
+	sayuntil "</artist>"
+	say "|"
+
+	# Title
+	findinline "<track>"
+	sayuntil "</track>"
+	say "|"
+
+	# Key
+	findinline "<Key>"
+	sayuntil "</Key>"
+	say "|"
+
+	# Camelot
+	findinline "<Camelot>"
+	sayuntil "</Camelot>"
+	say "|"
+
+	# BPM
+	findinline "<BPM>"
+	sayuntil "</BPM>"
+	
+	saynewline
+	
+	findinline "<<<endtrack>>>"
+	
+	#if "<div>"
+	#	MoveChar 5
+	#endif
+	#	
+	#if "</div>"
+	#	MoveChar 6
+	#endif
+
+while "<<<starttrack>>>" 50
+	
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+debug "on" "c:\mp3tag_debugs\MP3Tag-debug_AlbumParser.log"
+
+findline "<div id=\"react_"
+unspace
+regexpreplace "\s+" " "
+regexpreplace "\(+" "("
+regexpreplace "\)+" ")"
+regexpreplace "(\([^\(|\)]{1,100})\s+(\()" "$1) ("
+replace "|" "$verticalBar()"
+replace "\/" "/"
+replace "&amp;" "&"
+replace "\\t" ""
+regexpreplace "col-[\w\d\-]+" " "
+regexpreplace "\s+" " "
+replace "<!-- -->" ""                                                                     # remove unusable comments
+regexpreplace "<img src=\"(.*?)\".*?>" "<cover>$1</cover>"
+regexpreplace "<div class=\"row main-attribute-value\">(.*?)</div><div class=\"row main-attribute-label\">(.*?)</div>" "<$2>$1</$2>"
+regexpreplace "<td class=\"main-detail-label\">(.*?)</td><td class=\"main-detail-value\">(.*?)</td>" "<$1>$2</$1>"
+regexpreplace "<h\d class=\"main-(\w+)-name\">\s*(.*?)\s*?</h\d>" "<$1>$2</$1>"           # new style for track and artist
+regexpreplace "<(div|button|span|i|a|table|t\w?|h\d?)\s.*?>" ""
+regexpreplace "</(div|button|span|i|a|table|t\w?|h\d?)>" ""
+regexpreplace "<(div|button|span|i|a|table|tbody)>" ""
+regexpreplace "</(div|button|span|i|a|table|tbody)>" ""
+#regexpreplace "<Label>\s*?<!-- -->(.*?)</Label>" "<publisher>$1</publisher>"
+regexpreplace "<Label>\s*?(.*?)</Label>" "<publisher>$1</publisher>"
+regexpreplace "<form.*?</form>" ""
+
+# DATE
+regexpreplace "<Released>(\w+) (\d), (\d\d\d\d)</Released>" "<date>$3-$1-0$2</date>"
+regexpreplace "<Released>(\w+) (\d\d), (\d\d\d\d)</Released>" "<date>$3-$1-$2</date>"
+replace "-Jan-" "-01-"
+replace "-January-" "-01-"
+replace "-Feb-" "-02-"
+replace "-February-" "-02-"
+replace "-Mar-" "-03-"
+replace "-March-" "-03-"
+replace "-Apr-" "-04-"
+replace "-April-" "-04-"
+replace "-May-" "-05-"
+replace "-Jun-" "-06-"
+replace "-June-" "-06-"
+replace "-Jul-" "-07-"
+replace "-July-" "-07-"
+replace "-Aug-" "-08-"
+replace "-August-" "-08-"
+replace "-Sep-" "-09-"
+replace "-September-" "-09-"
+replace "-Oct-" "-10-"
+replace "-October-" "-10-"
+replace "-Nov-" "-11-"
+replace "-November-" "-11-"
+replace "-Dec-" "-12-"
+replace "-December-" "-12-"
+
+#
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
+#
+# COVERURL
+outputto "COVERURL"
+findinline "<cover>"
+sayuntil "</cover>"
+
+# ARTIST
+outputto "ARTIST"
+findinline "<artist>"
+sayuntil "</artist>"
+
+# TITLE
+outputto "TITLE"
+findinline "<track>"
+sayuntil "</track>"
+
+# INITIALKEY
+outputto "INITIALKEY"
+findinline "<Key>"
+sayuntil "</Key>"
+
+# CAMELOT
+outputto "CAMELOT"
+findinline "<Camelot>"
+sayuntil "</Camelot>"
+
+# _TIME CHECK (shows track length when only single track available, convenient to check time comparison)
+outputto "_TIME CHECK"
+findinline "<Duration>"
+sayuntil "</Duration>"
+
+# BPM
+outputto "BPM"
+findinline "<BPM>"
+sayuntil "</BPM>"
+
+# YEAR
+outputto "YEAR"
+findinline "<date>"
+sayuntil "</date>"
+
+# PUBLISHER/LABEL
+outputto "PUBLISHER"
+findinline "<publisher>"
+sayuntil "</publisher>"
+
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
+#
+
+# ALBUM
+outputto "ALBUM"
+sayoutput "TITLE"
+
+# ALBUMARTIST
+outputto "ALBUMARTIST"
+sayoutput "ARTIST"
+
+# ALBUM ARTIST
+outputto "ALBUM ARTIST"
+sayoutput "ARTIST"
+
+# DATE
+outputto "DATE"
+sayoutput "YEAR"
+
+# DISCNUMBER
+outputto "DISCNUMBER"
+say "1"
+
+# RELEASETIME
+outputto "RELEASETIME"
+sayoutput "YEAR"
+
+# TRACK
+outputto "TRACK"
+say "01/01"
+
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
+
+# set "_TIME CHECK"
+# set "ALBUM"
+# set "ALBUMARTIST"           # ITUNES USES
+# set "ALBUM ARTIST"          # EXTRA FIELD, ALBUM ARTIST USED IN VLC AND OTHERS
+# set "ARTIST"
+# set "BPM"
+set "COMMENT"                # EXTRA FIELD
+# set "COVERURL"
+set "DATE"
+# set "DISCNUMBER"            # EXTRA FIELD
+# set "INITIALKEY"
+set "MEDIATYPE"              # EXTRA FIELD
+# set "PUBLISHER"             # RECORD LABEL
+# set "RELEASETIME"
+# set "TITLE"
+# set "TRACK"                 # NO'S OF TRACKS E.G. 01/06 (if set goes back to default 1, 2, 3... etc)
+# set "YEAR"
+# set "CAMELOT"
+

@@ -1,0 +1,418 @@
+﻿# ###################################################################
+# Mp3tag Tag Source for MusicBrainz API v2 (Official)
+#
+# Search by ARTIST and ALBUM
+#
+# This file needs to be stored in Mp3tag's tag sources directory. 
+# %APPDATA%\Mp3tag\data\sources
+#
+# [2025-11-05] v1.15 CHG: complete rewrite to use JSON input instead of XML.
+#                    CHG: media title is now imported to SETSUBTITLE (instead of Disc Title).
+#                    NEW: added fields COMPILATION, MUSICBRAINZ_ALBUMTYPE, and ORIGYEAR.
+# [2025-05-19] v1.14 FIX: schema change resulted in track numbers not being imported correctly.
+# [2024-05-08] v1.13 NEW: added support for cover thumbnails in list of query results. 
+# [2022-10-03] v1.12 FIX: issue with artist names containing vertical bar character.
+# [2022-04-13] v1.11 FIX: issue when parsing joinphrases
+# [2022-03-23] v1.10 NEW: added fields BARCODE, CATALOGNUMBER, ISRC, and MUSICBRAINZ_ALBUMRELEASECOUNTRY.
+# [2020-11-11] v1.09 NEW: added fields ALBUMARTIST, ALBUMARTISTSORT, and MUSICBRAINZ_ALBUMARTISTID.
+# [2020-01-12] v1.08 NEW: added MusicBrainz field MUSICBRAINZ_RELEASEGROUPID.
+# [2019-12-04] v1.07 CHG: changed to use multi-field search option in SearchBy
+#                    FIX: release type was not parsed anymore
+# [2019-11-11] v1.06 FIX: removed single dash from characters that are replaced from pre-filled search string.
+# [2019-10-18] v1.05 FIX: adapted to new response format.
+# [2018-10-02] v1.04 FIX: included joinphrases that were omitted for featuring artists.
+# [2018-07-02] v1.03 CHG: included artist in search query.
+#                    FIX: extended namespace alias changed on server.
+# [2018-06-05] v1.02 NEW: added MusicBrainz field MUSICBRAINZ_ALBUMID.
+#                    CHG: adjusted to write MUSICBRAINZ_ARTISTID.
+# [2018-03-25] v1.01 NEW: added MusicBrainz fields MusicBrainz Artist Id and MUSICBRAINZ_TRACKID.
+                     FIX: multi-disc releases were not parsed correctly.
+# [2018-01-27] v1.00 based on Tag Source for MusicBrainz API v1 by dano
+#
+# ###################################################################
+
+[Name]=MusicBrainz
+[BasedOn]=musicbrainz.org
+[IndexUrl]=https://musicbrainz.org/ws/2/release/?fmt=json&limit=50&query=
+[AlbumUrl]=https://musicbrainz.org/ws/2/release/
+[WordSeparator]=+
+[IndexFormat]=%_preview%|%_coverurl%|%_url%|%Score%|%Type%|%Artist%|%Album%|%Tracks%|%Year%|%Country%|%Format%|%Publisher%|%CatNo%
+[SearchBy]=Album||$regexp(%album%,'[+!(){}\[\]^"~*?:\\]',)||release:%s||Artist||$if(%artist%,$regexp(%artist%,'[+!(){}\[\]^"~*?:\\]',),)||%20AND%20artist:%28%s%29
+[UserAgent]=1
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+
+replace "|" "$verticalBar()"
+json "ON" "current"
+Trim "off"
+
+json_foreach "releases"
+	
+	# Preview
+	json_select "id"
+	say "https://musicbrainz.org/release/"
+	sayrest
+	say "|"
+
+	# Cover Preview
+	json_select "id"
+	say "http://coverartarchive.org/release/"
+	sayrest
+	say "/front-250"
+	say "|"
+
+	# URL
+	json_select "id"
+	sayrest
+	say "?inc=artists+artist-credits+labels+recordings+release-groups+isrcs&fmt=json"
+	say "|"
+
+	# Score
+	json_select "score"
+	sayrest
+	say "|"
+
+	# Type
+	json_select_object "release-group"
+	json_select "primary-type"
+	sayrest
+	json_unselect_object
+	say "|"
+
+	# Artist
+	json_select_object "artist-credit"
+	json_foreach "artist-credit"
+		json_select "name"
+		sayrest
+		json_select "joinphrase"
+		ifnot ""
+			sayrest
+		endif
+	json_foreach_end
+    json_unselect_object
+    say "|"
+
+    # Album
+	json_select "title"
+	sayrest
+	say "|"
+
+	# Tracks
+	json_select "track-count"
+	sayrest
+	say "|"
+
+	# Year
+	json_select "date"
+	sayrest
+	say "|"
+
+	# Country
+	json_select "country"
+	sayrest
+	say "|"
+
+	# Format
+	json_select_many "media" "format" ", "
+	sayrest
+	say "|"
+
+	# Label
+	json_select_array "label-info" 1
+	json_select_object "label"
+	json_select "name"
+	sayrest
+	json_unselect_object
+	say "|"
+
+	# Catalog-number
+	json_select "catalog-number"
+	json_unselect_object
+	sayrest
+
+	saynewline
+
+json_foreach_end
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+
+replace "|" "$verticalBar()"
+json "ON" "current"
+Trim "off"
+
+# MusicBrainz Album ID
+outputto "MUSICBRAINZ_ALBUMID"
+json_select "id"
+sayrest
+
+# Album
+outputto "ALBUM"
+json_select "title"
+sayrest
+
+# AlbumArtist, AlbumArtistSort, MusicBrainz Album Artist ID
+json_select_object "release-group"
+
+json_foreach "artist-credit"
+	outputto "ALBUMARTIST"
+	json_select "name"
+	sayoutput "TEMP_Join"
+	sayrest
+
+	json_select_object "artist"
+	
+	outputto "ALBUMARTISTSORT"
+	json_select "sort-name"
+	ifoutput "TEMP_Join"
+		say "; "
+	endif
+	sayrest
+
+	outputto "MUSICBRAINZ_ALBUMARTISTID"
+	json_select "id"
+	ifoutput "TEMP_Join"
+		say ", "
+	endif
+	sayrest
+
+	json_unselect_object
+
+	set "TEMP_Join"
+	outputto "TEMP_Join"
+	json_select "joinphrase"
+	sayrest
+json_foreach_end
+set "TEMP_Join"
+
+# MusicBrainz Release Group ID
+outputto "MUSICBRAINZ_RELEASEGROUPID"
+json_select "id"
+sayrest
+
+# MusicBrainz Album Type and Compilation flag
+outputto "MUSICBRAINZ_ALBUMTYPE"
+json_select "primary-type"
+sayrest
+
+json_select_array "secondary-types" -1 ", "
+ifnot ""
+	say ", "
+    if "Compilation"
+		outputto "COMPILATION"
+		say "1"
+	endif
+
+	outputto "MUSICBRAINZ_ALBUMTYPE"
+	sayrest
+endif
+
+# Original Release Year
+outputto "ORIGYEAR"
+json_select "first-release-date"
+saynchars 4
+
+json_unselect_object
+
+# ASIN
+outputto "ASIN"
+json_select "asin"
+sayrest
+
+# Cover via CoverArtArchive
+outputto "coverurl"
+json_select_object "cover-art-archive"
+json_select "front"
+if "1"
+	say "http://coverartarchive.org/release/"
+	sayoutput "MUSICBRAINZ_ALBUMID"
+	say "/front"
+else
+	ifoutput "asin"
+		say "http://images.amazon.com/images/P/"
+		sayoutput "asin"
+		say ".01.LZZZZZZZ.jpg"
+	endif
+endif
+json_unselect_object
+
+# Year
+outputto "YEAR"
+json_select "date"
+sayrest
+
+# Publisher
+json_foreach "label-info"
+	outputto "CATALOGNUMBER"
+	ifoutput "CATALOGNUMBER"
+		say ", "
+	endif
+	json_select "catalog-number"
+	sayrest
+
+	outputto "PUBLISHER"
+	ifoutput "PUBLISHER"
+		say ", "
+	endif
+	json_select_object "label"
+	json_select "name"
+	sayrest
+	json_unselect_object
+json_foreach_end
+
+# MusicBrainz Album Release Country
+outputto "MUSICBRAINZ_ALBUMRELEASECOUNTRY"
+json_select "country"
+sayrest
+
+# Barcode
+outputto "BARCODE"
+json_select "barcode"
+sayrest
+
+# Totaldiscs
+outputto "TEMP_TotalDiscs"
+json_select_many_count "media"
+sayrest
+
+json_foreach "media"
+
+	# Collect the medium title
+	set "TEMP_DiscTitle"
+	json_select "title"
+	outputto "TEMP_DiscTitle"
+	sayrest
+
+	# Collect the medium number
+	set "TEMP_DiscNumber"
+	json_select "position"
+	outputto "TEMP_DiscNumber"
+	sayrest
+
+	# Collect total tracks
+	set "TEMP_TotalTracks"
+	json_select "track-count"
+	outputto "TEMP_TotalTracks"
+	sayrest
+
+	json_foreach "tracks"
+
+		outputto "SETSUBTITLE"
+		sayoutput "TEMP_DiscTitle"
+		say "|"
+
+		outputto "DISCNUMBER"
+		sayoutput "TEMP_DiscNumber"
+		say "/"
+		sayoutput "TEMP_TotalDiscs"
+		say "|"
+
+		# Track Temp
+		outputto "TEMP_Track"
+		json_select "position"
+		sayrest
+		say "/"
+		sayoutput "TEMP_TotalTracks"
+		say "|"
+
+		json_select_object "recording"
+
+		# MusicBrainz Track ID
+		outputto "MUSICBRAINZ_TRACKID"
+		json_select "id"
+		sayrest
+		say "|"
+
+		# _LENGTH
+		outputto "_LENGTH"
+		json_select "length"
+		sayrest
+		say "|"
+
+		# ISRC
+		outputto "ISRC"
+		json_select_array "isrcs" -1 ", "
+		sayrest
+		say "|"
+
+		# Tracks
+		outputto "TEMP_Title"
+		json_select "title"
+		sayrest
+		say "|"
+
+		# Tracks
+		outputto "TRACKS"
+		say "|"
+
+		json_foreach "artist-credit"
+			outputto "ARTIST"
+			json_select "name"
+			sayoutput "TEMP_Join"
+			sayrest
+
+			json_select_object "artist"
+			
+			outputto "ARTISTSORT"
+			json_select "sort-name"
+			ifoutput "TEMP_Join"
+				say "; "
+			endif
+			sayrest
+
+			outputto "MUSICBRAINZ_ARTISTID"
+			json_select "id"
+			ifoutput "TEMP_Join"
+				say ", "
+			endif
+			sayrest
+
+			json_unselect_object
+
+			set "TEMP_Join"
+			outputto "TEMP_Join"
+			json_select "joinphrase"
+			sayrest
+		json_foreach_end
+		set "TEMP_Join"
+
+		outputto "ARTIST"
+		say "|"
+
+		outputto "ARTISTSORT"
+		say "|"
+
+		outputto "MUSICBRAINZ_ARTISTID"
+		say "|"
+
+		json_unselect_object
+
+	json_foreach_end
+
+json_foreach_end
+
+# Avoid discnumber 1/1 
+json_select_many_count "media"
+if "1"
+	set "DISCNUMBER"
+endif
+
+outputto "TITLE"
+sayoutput "TEMP_Title"
+
+outputto "TRACK"
+sayoutput "TEMP_Track"
+
+set "TEMP_DiscNumber"
+set "TEMP_DiscTitle"
+set "TEMP_Join"
+set "TEMP_Title"
+set "TEMP_TotalDiscs"
+set "TEMP_TotalTracks"
+set "TEMP_Track"

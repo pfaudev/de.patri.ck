@@ -1,0 +1,462 @@
+# ###################################################################
+# Mp3tag (v2.36 or higher) parsing for mixesdb.com, created by Pone in June 2009
+# 
+# writes these tags:
+# artist				= DJ name(s)
+# Albumartist				= DJ name(s)
+# album				= name of event/club/podcast/radioshow
+# title				= name of event/club/podcast/radioshow + date (DD.MM.YYYY)
+# year				= year
+# genre				= genre
+# unsyncedlyrics			= notes & tracklists
+# www					= the reference page at mixesdb.com
+# pubisher url			= the page where official mixes (mailny podcasts) are published
+# mixesdb.com title		= page/mix name at mixesdb.com
+# comment (optional)		= tracklist status
+# coverpicture (optional)	= coverartwork/flyers
+#
+# The scpript has different options. They work by writing or deleting the hash/pound character --> # 
+# If "#" stands in front of a line, this line is ignored by the script.
+# The options are explained in the text under the large headings "OPTION".
+# ###################################################################
+
+
+# ###################################################################
+#			S E A R C H   &	I  N  D  E  X
+# ###################################################################
+[Name]=MixesDB - List Category - DJ from Year
+[BasedOn]=www.mixesdb.com
+[IndexUrl]=http://mixesdb.com/db/index.php?title=Category:%s
+[AlbumUrl]=http://mixesdb.com/w/
+[WordSeperator]=+
+[IndexFormat]=%_url%|%Album%
+[SearchBy]=%artist%&from=%year%
+[ParserScriptIndex]=...
+
+# Index:
+
+findline ">Pages</h2>"
+joinuntil "Retrieved from"
+RegexpReplace "</td><td>" ""
+
+#say "|"
+#findInLine "<p>("
+#sayUntil ")"
+#saynewline
+
+do
+	findInLine "<a href=\"/w/" 1 1
+	sayUntil "\""
+	say "|"
+
+	findInLine ">" 1 1
+	sayUntil "<"
+	saynewline
+
+while "</a><" 1000
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+
+
+findline "id=\"firstHeading\""
+
+# MixesDB page title
+outputto "mixesdb.com title"
+gotochar 1
+sayuntil "<"
+
+RegexpReplace " @ " " - "
+
+# Year
+outputto "Year"
+gotochar 1
+findinline ">"
+sayuntil "-"
+
+# Artist = (DJ Name(s))
+outputto "artist"
+gotochar 1
+findinline " - "
+sayuntil " - "
+
+# Albumartist (= DJ Name(s))
+outputto "Albumartist"
+sayoutput "artist"
+
+## OPTION: ####################################################################################################################
+## mixesdb.com title as album or title name ###################################################################################
+##
+## You may want to have the full mixesdb.com title as album or title name.
+## In this case delete the "#" in front of the the <sayoutput "mixesdb.com title"> line,
+## and put a "#" in front of all followin lines in the album or title section.
+
+# Album (= Show Name (Podcast, Radio Show, Club, Event, ...))
+outputto "album"
+# sayoutput "mixesdb.com title"
+gotochar 1
+findinline " - "
+findinline " - "
+if "Live - "
+findinline " - "
+endif
+if "live - "
+findinline " - "
+endif
+sayuntil "<"
+
+
+# Title (= Show Name & Date)
+outputto "title"
+# sayoutput "mixesdb.com title"
+gotochar 1
+findinline " - "
+findinline " - "
+sayuntil "<"
+say " - "
+gotochar 1
+
+## OPTION: ####################################################################################################################
+## European or American date ##################################################################################################
+##
+## The date is in the European DD.MM.YYYY way as default. If you want to keep it in the American YYYY-MM-DD way,
+## put # in front of the following two lines.
+##
+  RegexpReplace "(\d\d..-..)-(\d\d)" "$2.$1"
+  RegexpReplace "(\d\d..)-(\d\d)" "$2.$1"
+################################################################################# end of option: European or American date ####
+
+findinline ">"
+sayuntil " - "
+
+################################################################### end of option: mixesdb.com title as album or title name ####
+
+
+
+# Genre
+outputto "genre"
+findline "id='catlinks'"
+
+replace ">2 Step<" ">Genre:2 Step<"
+replace ">Acid<" ">Genre:Acid<"
+replace ">Acid House<" ">Genre:Acid House<"
+replace ">Ambient<" ">Genre:Ambient<"
+replace ">Big Beat<" ">Genre:Big Beat<"
+replace ">Booty<" ">Genre:Booty<"
+replace ">Breakbeat<" ">Genre:Breakbeat<"
+replace ">Breaks<" ">Genre:Breaks<"
+replace ">Chill Out<" ">Genre:Chill Out<"
+replace ">Dancehall<" ">Genre:Dancehall<"
+replace ">Deep House<" ">Genre:Deep House<"
+replace ">Disco<" ">Genre:Disco<"
+replace ">Drum &amp; Bass<" ">Genre:Drum & Bass<"
+replace ">Dub<" ">Genre:Dub<"
+replace ">Dubstep<" ">Genre:Dubstep<"
+replace ">Electro<" ">Genre:Electro<"
+replace ">Electronica<" ">Genre:Electronica<"
+replace ">Electro Pop<" ">Genre:Electro Pop<"
+replace ">Euro House<" ">Genre:Euro House<"
+replace ">Experimental<" ">Genre:Experimental<"
+replace ">Freestyle<" ">Genre:Freestyle<"
+replace ">Funk / Soul<" ">Genre:Funk / Soul<"
+replace ">Future Jazz<" ">Genre:Future Jazz<"
+replace ">Hardcore<" ">Genre:Hardcore<"
+replace ">Hardstyle<" ">Genre:Hardstyle<"
+replace ">Hardtrance<" ">Genre:Hardtrance<"
+replace ">Hip Hop<" ">Genre:Hip Hop<"
+replace ">Hip Hop (Old School)<" ">Genre:Hip Hop (Old School)<"
+replace ">Hip House<" ">Genre:Hip House<"
+replace ">House<" ">Genre:House<"
+replace ">House (Old School)<" ">Genre:House (Old School)<"
+replace ">IDM<" ">Genre:IDM<"
+replace ">Jazz<" ">Genre:Jazz<"
+replace ">Jazz Dance<" ">Genre:Jazz Dance<"
+replace ">Jungle<" ">Genre:Jungle<"
+replace ">Latin<" ">Genre:Latin<"
+replace ">Minimal<" ">Genre:Minimal<"
+replace ">Pop<" ">Genre:Pop<"
+replace ">Progressive<" ">Genre:Progressive<"
+replace ">Psychedelic<" ">Genre:Psychedelic<"
+replace ">Rare Groove<" ">Genre:Rare Groove<"
+replace ">Rave<" ">Genre:Rave<"
+replace ">Reggae<" ">Genre:Reggae<"
+replace ">Rock<" ">Genre:Rock<"
+replace ">Synth Pop<" ">Genre:Synth Pop<"
+replace ">Tech House<" ">Genre:Tech House<"
+replace ">Techno<" ">Genre:Techno<"
+replace ">Techno (Hard)<" ">Genre:Techno (Hard)<"
+replace ">Techno (Old School)<" ">Genre:Techno (Old School)<"
+replace ">Trance<" ">Genre:Trance<"
+replace ">Trip Hop<" ">Genre:Trip Hop<"
+replace ">Turntablism<" ">Genre:Turntablism<"
+replace ">UK Garage<" ">Genre:UK Garage<"
+replace ">Various<" ">Genre:Various<"
+replace ">Vocal House<" ">Genre:Vocal House<"
+replace ">Acid<" ">Genre:Acid<"
+
+findinline "Genre:" 1 1
+sayuntil "<"
+
+## OPTION: ####################################################################################################################
+## mutivalue or standard tags for genre #######################################################################################
+##
+## if there are more than one genre, the script writes them into multivalue tags per default
+## multivalue tags are read by most media players, but some only read the first tag
+## furthermore, you have to do an additional saving (just press strg + s) in Mp3Tag to have them written propper
+## if you prefer a standard tag with all genres seperated by ", ", edit all following lines with [say "\u005c\u005c"] into [say ", "]
+## if you prefer just one genre (the first listed at mixesdb.com), block all the following lines with a "#" at start of each line
+
+if "</a></span> |"
+findinline "href="
+findinline ">"
+if "Genre:"
+findinline "Genre:"
+say "\u005c\u005c"
+sayuntil "<"
+endif
+endif
+
+if "</a></span> |"
+findinline "href="
+findinline ">"
+if "Genre:"
+findinline "Genre:"
+say "\u005c\u005c"
+sayuntil "<"
+endif
+endif
+
+if "</a></span> |"
+findinline "href="
+findinline ">"
+if "Genre:"
+findinline "Genre:"
+say "\u005c\u005c"
+sayuntil "<"
+endif
+endif
+
+if "</a></span> |"
+findinline "href="
+findinline ">"
+if "Genre:"
+findinline "Genre:"
+say "\u005c\u005c"
+sayuntil "<"
+endif
+endif
+
+if "</a></span> |"
+findinline "href="
+findinline ">"
+if "Genre:"
+findinline "Genre:"
+say "\u005c\u005c"
+sayuntil "<"
+endif
+endif
+
+##################################################################### end of option: mutivalue or standard tags for genre  ####
+
+
+# Comment = Tracklist Status
+
+## OPTION: ####################################################################################################################
+## tracklist status into comment tag ##########################################################################################
+##
+## this section is blocked by default 
+## (because I personally prefer the often usefull information already present in comment tags, which otherwise is overwritten)
+## if you want the tracklist status written, delete this "#" character in front of the following lines
+## you can also change the output-tag by editing the outputto command in the next line
+#
+# outputto "comment"
+# findline "Category:Tracklist" 1 1
+# findinline "Category:Tracklist" 1 1
+# findinline ">" 1 1
+# sayuntil "<"
+#
+######################################################################### end of option: tracklist status into comment tag ####
+
+
+# Coverimages
+
+## OPTION: ####################################################################################################################
+## image into cover artwork ###################################################################################################
+##
+## this section is blocked by default 
+## ((because by adding cover artwork, the whole mp3 has to be rewritten and that takes to much tim (in my opinion)) 
+## if you want the cover artwork written, delete this "#" character in front of the following lines
+##
+## note that you can also choose if the picture is written into the file/the folder/not at all in the web source dialog at the
+## down left with the "Utils" botton. 
+#
+# outputto "coverurl"
+# findline "class=\"image" 1 1
+# findinline "src=\"" 1 1
+# if "/db/images"
+# say "http://mixesdb.com"
+# sayuntil "\""  
+# endif
+#
+################################################################################## end of option: image into cover artwork ####
+
+
+# Unsyncedlyrics/Comment (= Notes & Tracklist)
+
+# Notes & Tracklist are stored in the unsyncedlyrics-tag as default. 
+# This tag is the standard tag for lyrics, but most mp3 players 
+# need a plugin to show it. You can change that in the option parts,
+# but note that you overwrite existing information in the comment part
+# if you change it.
+
+## OPTION: ####################################################################################################################
+## tracklist into lyrics or comment ###########################################################################################
+##
+## If you want to use the comment-tag INSTEAD the unsyncedlyrics-tag for Notes & Tracklist, put # in front of the first line
+## and delete it in front of the second line.
+##
+  outputto "unsyncedlyrics"
+# outputto "comment"
+########################################################################## end of option: tracklist into lyrics or comment ####
+
+gotoline 1
+findline " Tracklist <"
+joinuntil "Retrieved from "
+
+RegexpReplace "<p><a href=\"(.*?)\"(.*?)class=\"external free\"(.*?)</a></p>" "<p>$1</p>"
+
+regexpreplace "<br /></li><li>" "\r\n&nbsp;&nbsp;&nbsp;"
+regexpreplace "<br /></li>" "\r\n"
+regexpreplace "<br />" "\r\n"
+regexpreplace "<br>" "\r\n"
+regexpReplace "<p>" "\r\n"
+regexpReplace "</p>" "\r\n"
+regexpReplace "</h2>" "\r\n"
+regexpReplace "<dt>" "\r\n"
+regexpReplace "</dt>" "\r\n"
+regexpReplace "<dd>" "\r\n&nbsp;&nbsp;&nbsp;"
+regexpreplace "<li>" "\r\n&nbsp;&nbsp;&nbsp;"
+#regexpReplace "<ol>" "\r\n"							
+regexpReplace "</ol>" "\r\n"
+
+### text format elements explanation:
+# ol = ordered list
+# ul = unordered list
+# li = list item
+# dl = definition list
+# dt = definiton term
+# dd = definition description
+#
+# p = paragraph
+# br = break
+# h1, h2, h3, ... = headlines
+#
+# \r\n = line break
+# &nbsp; = nonbreakingspace
+
+regexpReplace "Retrieved from \"" "\r\n Retrieved from \"" 
+regexpReplace "<small>\(<a(.*?)Source</a>\)</small>" ""
+regexpReplace "<span id=\"comment(.*?)</span>" ""
+regexpReplace "File:.*?mp3" ""
+regexpReplace "<(.*?)>" ""
+
+findinline " Tracklist " 1 1
+sayuntil "Retrieved from "
+
+
+## OPTION: ####################################################################################################################
+## tracklist into lyrics AND comment ##########################################################################################
+##
+## If you want to have Notes & Tracklist stored in the ## unsyncedlyrics-tag AND in the comment-tag,
+## delete # in the following two lines.
+##
+#  outputto "comment"
+#  sayoutput "unsyncedlyrics"
+######################################################################### end of option: tracklist into lyrics AND comment ####
+
+
+# WWW: mixesdb-url & publisher-url
+
+## OPTION: ####################################################################################################################
+## mixesdb-url & publisher-url into www tag or extra tags #####################################################################
+##
+## Choose the tag you want to store the URL of the reference page at mixesdb.com and the URL of the puplisher page.
+## Note there is only a publisher-url with podcasts, but a mixesdb-url for all mixes written with this script.
+## If you don't want to store ther URL at all, put "#" in front of all following lines.
+##
+## Put # in front of the line with the tag where you DON'T want to store the MixesDB-URL.
+##
+# outputto "mixesdb url"
+  outputto "www"
+sayoutput "CurrentUrl"
+##
+##
+## Now put # in front of the line with the tag where you DON'T want to store the publisher-url
+## If you want to store both URLs in the www tag, delete "#" in front of the line which say [ say " ; " ]
+##
+##
+  outputto "wwwpublisher"
+# outputto "www"
+# say " ; "
+
+gotoline 1	
+findline "class=\"external free\"" 1 1
+findinline "class=\"external free\"" 1 1
+if " title"
+findinline "title=\""
+sayuntil "\""
+endif
+
+## If you don't want to store ther URL at all, put "#" in front of all following lines.
+
+####################################################### end of option: mixesdb-url & publisher-url into www tag or extra tags ####
+
+
+# Pseudo Titles for presenting Warnings, File Details & Notes
+
+outputto "tracks"
+sayoutput "title"
+say "|"
+sayoutput "title"
+say "|"
+sayoutput "title"
+say "|"
+sayoutput "title"
+say "|"
+sayoutput "title"
+say "|"
+sayoutput "title"
+
+gotoline 1
+findline "Fake.png" 1 1
+if "<div"
+	replace "<br />" "|"
+	replace "<h2" "SCRIPT_END_MARKER <"
+	replace "<h1" "SCRIPT_END_MARKER <"
+	regexpReplace "<(.*?)>" ""
+	say "||"
+	say "- - - A T T E N T I O N - - -|"
+	sayuntil "SCRIPT_END_MARKER"
+	say "|- - - A T T E N T I O N - - -"
+endif
+
+gotoline 1
+findline "> File Details </span></h2>" 1 1
+joinuntil " Tracklist <" 
+regexpreplace "</td><td>" " / "
+regexpreplace "</th><th>" " / "
+regexpreplace "<dt>(.*?)</dt>" "|$1: "
+regexpreplace "<p><b>(.*?)</b>" "|$1: "
+regexpreplace "<tr.*?>" "|"
+replace "<h2>" "|<h2>"
+replace "<div" "|<div"
+regexpreplace "<div class=\"mixwarning\">" "(!):"
+regexpReplace " Tracklist <.+" ""
+regexpReplace "<(.*?)>" ""
+regexpreplace "Notes\s*&amp;*\s*$" ""
+sayrest
+
+outputto "track"
+say "|"

@@ -1,0 +1,178 @@
+#############################################################################################
+# MusicBrainz Web Source v1.01 by Cess Blue (cessblue@gmail.com) for use with MP3Tag v2.33c+
+# History:
+#    2005-10-31 v1.00 - Initial release, added various artists support and improvements.
+#    2005-11-01 v1.01 - Optimized the code a little bit.
+#############################################################################################
+
+[Name]=MusicBrainz
+[BasedOn]=http://musicbrainz.org
+[IndexUrl]=http://musicbrainz.org/newsearch.html?limit=100&table=album&search=%s
+[AlbumUrl]=http://musicbrainz.org
+[WordSeperator]=+
+[IndexFormat]=%tracks%|%_url%|%album%|%artist%|%year%
+[SearchBy]=%album%
+[Encoding]=UTF-8
+
+[ParserScriptIndex]=...
+####################################################################
+# This script parses the artist's page for all releases
+# by this artist.
+#
+# The output format is defined by IndexFormat above, which
+# is used by the selection dialog
+####################################################################
+# Uncomment the following line if you want to write some debug output
+#debug "on" "C:\\debug_musicbrainz_cess_index.txt"
+
+findline "<title>"
+findinline "<title>Album"
+
+# More than one search result
+if " Search Results"
+	findline "Album Title"
+	do
+		# Tracks
+		findline "<td class=\"trk\">"
+		findinline "<td class=\"trk\">"
+		sayuntil "&nbsp;"
+		say "|"
+
+		# URL
+		findline "<a href=\""
+		findinline "<a href=\""
+		sayuntil "\""
+		say "|"
+
+		# Album
+		movechar 2
+		sayuntil "<"
+		say "|"
+
+		# Artist
+		moveline 1
+		findline "<td>"
+		findinline "\">"
+		sayuntil "<"
+		Say "|"
+
+		# Year
+		moveline -2
+		findinline "<td"
+		if " class=\"rdate\""
+			findinline "class=\"rdate\">"
+			sayuntil "<"
+		endif
+
+		# Next section
+		findline "</tr>"
+		moveline  1
+		saynewline
+	while "        <tr "
+
+# One search result, redirected to the album page
+else
+	say "|"
+	findline "<a href=\"/showrel.html?id="
+	findinline "<a href=\"/showrel.html?id="
+	say "/showalbum.html?albumid="
+	sayuntil "&amp"
+	say "|||"
+endif
+
+[ParserScriptAlbum]=...
+####################################################################
+# This script parses the albums page for all common information.
+#
+# The current output variable is set via the outputto command
+# All these fields are used by the confirm online information dialog
+####################################################################
+# Uncomment the following line if you want to write some debug output
+#debug "on" "C:\\debug_musicbrainz_cess_album.txt"
+
+findline "class=\"ArtistTitleIcon\">"
+findinline "class=\"ArtistTitleIcon\">"
+
+# Various Artists
+if "Various Artists"
+	findline "<td width=\"10%\""
+	do
+		# Title
+		outputto "tracks"
+		findline "<td width=\"45%\""
+		moveline 1
+		findinline "\">"
+		sayuntil "<"
+		say "|"
+
+		# Artist
+		outputto "artist"
+		findline "<td width=\"30%\""
+		moveline 1
+		findinline "\">"
+		sayuntil "<"
+		say "|"
+
+		# Next section
+		findline "</tr>"
+		moveline 2
+	while "    <td width=\"10%\""
+# One Artist
+else
+	# Artist
+	moveline 3
+	outputto "artist"
+	if "					<br>"
+		findinline "class=\"ArtistTitleSortname\">"
+		sayuntil "<"
+	else
+		moveline -3
+		findinline "class=\"ArtistTitleIcon\">"
+		sayuntil "<"
+	endif
+
+	# Title
+	findline "<td width=\"10%\""
+	outputto "tracks"
+	do
+		findline "<td width=\"75%\""
+		moveline 1
+		findinline ">"
+		sayuntil "<"
+		say "|"
+
+		# Next section
+		findline "</tr>"
+		moveline 2
+	while "    <td width=\"10%\""
+endif
+
+# Retrieve other stuff
+gotoline 1
+
+# Album
+findline "style=\"font-weight: bold\">"
+findinline "style=\"font-weight: bold\">"
+outputto "album"
+sayuntil "<"
+
+# CoverURL
+findline "src=\"http://images.amazon.com/" 1 1
+if "   src=\""
+	findinline "src=\""
+	outputto "coverurl"
+	sayuntil ".MZZZZZZZ"
+	say "._SCLZZZZZZZ_.jpg"
+else
+	gotoline 1
+endif
+
+# Year
+findline "Edit releases"
+findinline "Edit releases"
+findinline "<td"
+if ">"
+	movechar 1
+	outputto "year"
+	sayuntil "<"
+endif

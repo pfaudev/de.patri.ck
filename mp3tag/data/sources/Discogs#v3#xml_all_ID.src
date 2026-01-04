@@ -1,0 +1,330 @@
+[Name]=Discogs XML
+[BasedOn]=http://api.discogs.com
+[AlbumUrl]=http://api.discogs.com/release/%s?f=xml&api_key=1e48c7f4e4
+[SearchBy]=%discogsid%
+[Encoding]=utf-8
+[ParserScriptAlbum]=...
+# Join Lines
+JoinUntil "</resp>"
+
+# Result
+do
+    findinline "<result num"
+# Title
+    sayregexp "(?<=<title>)[^<]+(?=</title>)" ", " "</result>"
+    say "|"
+#URL-Release
+    sayregexp "(?<=release/)[^<]+(?=</uri>)" ", " "</result>"
+    say "?f=xml&api_key=1e48c7f4e4"
+    say "|"
+#URL-Preview
+    sayregexp "(?<=<uri>)[^<]+(?=</uri>)" ", " "</result>"
+    say "|"
+# Comment
+    sayregexp "(?<=<summary>)[^<]+(?=</summary>)" ", " "</result>"
+    saynewline
+    findinline "</result>"
+while "<result num"
+
+[ParserScriptAlbum]=...
+
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+
+#debug "on" "C:\debug.txt" 100
+
+replace "|" ":vrln:"
+
+#fixes missing fields
+findinline "</genres>"
+ifnot "<styles>"
+    gotochar 1
+    RegexpReplace "</genres>" "</genres><styles></styles>"
+endif
+
+findinline "</styles>"
+ifnot "<country>"
+    gotochar 1
+    RegexpReplace "</styles>" "</styles><country></country>"
+endif
+
+findinline "</country>"
+ifnot "<released>"
+    gotochar 1
+    RegexpReplace "</country>" "</country><released></released>"
+endif
+
+# NOTES
+outputto "Notes"
+gotochar 1
+findinline "</released>"
+if "<notes>"
+    gotochar 1
+    findinline "<notes>"
+    sayuntilml "</notes>"
+endif
+gotoline 1
+joinuntil "</resp>"
+
+replace "|" ":vrln:"
+
+regexpreplace "<id>(.*?)</id>" ""
+#fixes missing fields (again)
+findinline "</genres>"
+ifnot "<styles>"
+    gotochar 1
+    RegexpReplace "</genres>" "</genres><styles></styles>"
+endif
+
+findinline "</styles>"
+ifnot "<country>"
+    gotochar 1
+    RegexpReplace "</styles>" "</styles><country></country>"
+endif
+
+findinline "</country>"
+ifnot "<released>"
+    gotochar 1
+    RegexpReplace "</country>" "</country><released></released>"
+endif
+
+#fixes TRACK CD separator
+regexpreplace "<position>(\d+?)[.: ](\d+?)</position>" "<position>\1-\2</position>"
+replace "<position>CD" "<position>"
+replace "<position>DVD" "<position>"
+regexpreplace "<position>[-.:]" "<position>"
+
+#fixes Written By
+regexpreplace "Written[ -][Bb]y" "Written By"
+
+# Box set fix
+regexpreplace "(<format name=\"Box Set\"[^<]*?/>)(<format .*?</format>)" "\2\1"
+
+# DISCOGSID
+outputto "DISCOGSID"
+findinline "id=\""
+sayuntil "\""
+
+# COVER
+findinline "<artists>"
+movechar -18
+if "</images>"
+    outputto "COVERURL"
+    gotochar 1
+    findinline  "uri=\""
+    sayuntil "\""
+    gotochar 1
+    do
+        findinline "type=\""
+        if "primary"
+            set "COVERURL" ""
+            findinline  "uri=\""
+            sayuntil "\""
+            findinline "</images>"
+            movechar -12
+        endif
+    findinline "/>"
+    while "<image "
+endif
+
+# BAND
+outputto "BANDTMP"
+#regexpreplace "<id>(.*)</id>" ""
+findinline "<artists>"
+sayuntil "</artists>"
+gotochar 1
+
+# ALBUM
+outputto "ALBUM"
+findinline "<title>"
+sayuntil "</title>"
+
+# LABEL & CATALOG
+outputto "PUBTMP"
+findinline "<labels>"
+sayuntil "</labels>"
+
+# CREDITS
+movechar 9
+if "<extraartists>"
+    movechar 14
+    outputto "CREDTMP"
+    sayuntil "</extraartists>"
+endif
+
+# MEDIATYPE, RELEASETYPE & QUANTINITY
+outputto "MEDIATMP"
+findinline "<formats>"
+sayuntil "</formats>"
+
+
+# GENRES
+outputto "GENRE"
+findinline "<genres>"
+sayuntil "</genres>"
+
+
+# STYLES
+outputto "STYLE"
+findinline "<styles>"
+ifnot "</styles>"
+    sayuntil "</styles>"
+endif
+
+# COUNTRY
+outputto "COUNTRY"
+findinline "<country>"
+ifnot "</country>"
+    sayuntil "</country>"
+endif
+
+# YEAR
+outputto "YEARTMP"
+findinline "<released>"
+ifnot "</released>"
+    sayuntil "</released>"
+endif
+
+# DISCNAME
+
+findinline "<tracklist>"
+do
+    findinline "<track>"
+    if "<position />"
+        movechar 12
+        if "<title>" 
+            set "TMPDISCNAME" ""
+            outputto "TMPDISCNAME"
+            findinline "<title>"
+            sayuntil "</title>"
+        else
+            set "TMPDISCNAME" ""
+        endif
+    else
+        outputto "DISCNAME"
+        sayoutput "TMPDISCNAME"
+        say "|"
+    endif
+    findinline "</track>"
+while "<track>"
+set "TMPDISCNAME" ""
+gotochar 1
+RegexpReplace "<track><position />.*?</track>" ""
+
+# TRACK fix
+regexpreplace "<position>0(\d+?)</position>" "<position>\1</position>"
+regexpreplace "<position>AA(\d*?)</position>" "<position>B\1</position>"
+regexpreplace "<position>AAA(\d*?)</position>" "<position>C\1</position>"
+regexpreplace "<position>AAAA(\d*?)</position>" "<position>D\1</position>"
+regexpreplace "<position>X(\d*?)</position>" "<position>A\1</position>"
+regexpreplace "<position>Y(\d*?)</position>" "<position>B\1</position>"
+regexpreplace "<position>([ABCDEFGHIJKLMNOP])</position>(.*?)<position>\12</position>" "<position>\11</position>\2<position>\12</position>"
+
+# TRACKNUMBERS & DISCNUMBERS
+outputto "TRACKTMP"
+findinline "<tracklist>"
+do
+    findinline "<position>"
+    sayuntil "</position>"
+    findinline "</track>"
+    if "<track>"
+        say "|"
+    endif
+while "<track>"
+gotochar 1
+
+# TOTALTRACKS
+outputto "TOTALTMP"
+findinline "<tracklist>"
+do
+    findinline "<position>"
+    say ";"
+    sayuntil "</position>"
+    say ";"
+    findinline "</track>"
+while "<track>"
+gotochar 1
+
+# TITLE
+outputto "TRACKS"
+findinline "<tracklist>"
+do
+    findinline "<title>"
+    sayuntil "</title>"
+    findinline "</track>"
+    if "<track>"
+        say "|"
+    endif
+while "<track>"
+gotochar 1
+
+
+# ARTIST
+outputto "ARTISTTMP"
+findinline "<tracklist>"
+RegexpReplace "<duration />" "<duration></duration>"
+#regexpreplace "<id>(.*)</id>" ""
+do
+	#findinline "</position>"
+	findinline "</duration>"
+	
+    if "<artists>"
+		outputto "ARTISTTMP"
+        movechar 9
+        sayuntil "</artists>"
+        outputto "COMPILATION"
+        set "COMPILATION" ""
+        say "Yes"
+        outputto "ARTISTTMP"
+    else
+        sayoutput "BANDTMP"
+    endif
+    findinline "</track>"
+    if "<track>"
+        say "|"
+    endif
+while "<track>"
+gotochar 1
+
+# CREDITS per track
+outputto "CRTMP"
+findinline "<tracklist>"
+do
+    findinline "</title>"
+    if "<extraartists>"
+        movechar 14
+        sayuntil "</extraartists>"
+    else
+		if "<duration>"
+		   findinline "</duration>"
+		   if "<extraartists>"
+			movechar 14
+			sayuntil "</extraartists>"
+		   else
+			say " "
+		   endif
+	    else 
+			say " "
+		endif
+    endif
+    findinline "</track>"
+    if "<track>"
+        say "|"
+    endif
+while "<track>"
+gotochar 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+

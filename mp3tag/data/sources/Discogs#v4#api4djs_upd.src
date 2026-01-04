@@ -1,0 +1,570 @@
+# ########################################################################
+# Mp3tag (v2.42 or higher) parsing for discogs.com, created by TerzOpperator on 2008-10-08
+# 
+# Search for DiscogsID only!
+# This script is for updateing all tags with discogs if you have the Tag: "DiscogsID"
+# If you are useing the old script from me, you can use it without any problems.
+# This file should be in your sources directory.
+# On Windows XP it's:
+# C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+#
+# On Windows Vista it's:
+# C:\Users\*username*\AppData\Roaming\Mp3tag\data\sources
+#
+#
+# Uses the tag DISCOGSID to update your tags with Discogs
+# or search by DISCOGSID (from your browser)
+#
+# Note: THIS SCRIPT IS AN "ADD ON" FOR THE DISCOGS API 4 DJS SCRIPT or you can use it
+#		to search with the discogsid
+# 		Currently mp3tag does not have a makro function to update the file tags step by step
+# 		In future i hope we can solve this problem
+#
+# Modifications:
+#   2008-10-08:	First Release of this Script - tested with version 2.41
+#   2008-10-10:	Added: Tag for check if it is a Compilation (For a better Tag To File Action)
+#   2008-10-10:	Not an Script update, but see the Action Update below.
+#   2008-14-10:	Fixed: Remix Bug @ Script
+#   2008-29-10:	Fixed: Date if Discogs have only the Day and Month only (now we will get all Date Formats from Discogs ;))
+#	2009-08-03:	Script:	Version 1.5.0
+#				Script:	fully recoded and now uses the discogs API
+#				Script:	renamed discogs.src is now: discogsapi4djs-at.src
+#				Added:	Windows Vista description in this file
+#				Added:	Script Version in the description
+#				Changed:[Name] - For the future / other scripts
+#				Added:	[IndexURL], [WordSeperator], [SearchBy], [Encoding]
+#				Added:	Now you can search by Artist & Album to find a release in this script
+#				Fixed:	Now detecting remixer and mixartist correctly this was a very bad bug before
+#						e.g. DiscogsID:355807 = Schranz Total 9 and Mixartist now is =Boris S. (Credits)
+#				Added:	iTunes Tags: BAND (If the there are different Track-Artists and the "Main" is not Various,
+#									 ITUNESCOMPILATION (if its a Compilation) - i think you know what it is. ;)
+#									 Result: Fully iTunes integration / Album / Compilation / CoverFlow
+# 
+# ########################################################################
+
+[Name]=Discogs Release for Deejay's - Tag Updater [discogs4djs ADDON]
+[BasedOn]=http://www.discogs.com
+[IndexUrl]=http://www.discogs.com/release/%s?f=xml&api_key=e23cf6161b
+[AlbumUrl]=http://www.discogs.com/release/
+[WordSeperator]=
+[IndexFormat]=%_url%|%_preview%
+[SearchBy]=%discogsid%
+[Encoding]=UTF-8
+
+
+[ParserScriptIndex]=...
+#Debug "on" "C:\debug.txt"
+# ########################################################################
+# This script parses the discogs api for all releases
+# by this artist and albumname.
+#
+# The output format is defined by IndexFormat above, which
+# is used by the selection dialog
+# ########################################################################
+
+# Join Lines
+JoinUntil "</resp>"
+
+# URL
+findinline "<release id=\""
+sayuntil "\" status"
+say "?f=xml&api_key=e23cf6161b"
+say "|"
+
+#URL-Preview
+findinline "<release id=\"" -1
+movechar -13
+say "http://www.discogs.com/release/"
+sayuntil "\" status"
+saynewline
+
+[ParserScriptAlbum]=...
+#Debug "on" "C:\debug.txt"
+# ########################################################################
+# This script parses the discogs release api for all common information.
+#
+# The current output variable is set via the outputto command
+# All these fields are used by the confirm online information dialog
+# ########################################################################
+
+# Join Lines
+JoinUntil "</resp>"
+
+# Format XML (Converting to UTF-8)
+regexpreplace "&quot;" "\""
+regexpreplace "&amp;" "&"
+regexpreplace "&apos;" "'"
+
+# DiscogsID
+outputto "DiscogsID"
+findinline "<release id=\""
+sayuntil "\" status"
+findinline "\">"
+
+# Coverurl
+outputto "coverurl"
+if "<images>"
+    findinline "uri=\""
+    sayuntil "\" uri"
+	findinline "</images>"
+endif
+
+#Artist or BAND Tag - (first)
+if "<artists>"
+		findinline "<artist>"
+		# Set to Compilation if Various
+		if "<name>Various"
+			outputto "isCompilation"
+			say "yes"
+			outputto "ITUNESCOMPILATION"
+			say "1"
+		else
+			# oh my god. ok, skip to <tracklist> i hope it exists... ;)
+			findinline "<tracklist>"
+			if "<track>"
+				findinline "<track>"
+			endif
+			if "<position>"
+				findinline "</position>"
+			endif
+			# check if there are track artists
+			if "<artists>"
+				# first get hack to here
+				findinline "<tracklist>" -1
+				findinline "<artists>" -1
+				findinline "<artist>"
+				# now set ONLY the BAND TAG for iTunes
+				do
+				outputto "BAND"
+				findinline "</name>"
+				movechar -8
+				if ")</name>" # Split Artist
+					findinline "<name>" -1
+					sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+				else
+					findinline "<name>" -1
+					sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+				endif
+				findinline "</name>"
+				if "<anv>"
+					findinline "</anv>"
+				endif		
+				if "<join>"
+					say " "
+					sayregexp "(?<=<join>)[^<]+(?=</join>)" ", " "</artist>"
+					say " "
+				endif
+				findinline "</artist>"
+				while "<artist>"				
+			else
+				# first get hack to here
+				findinline "<tracklist>" -1
+				findinline "<artists>" -1
+				findinline "<artist>"
+				# now set ONLY the "Main" Artist TAG (no other Artists Exists)
+				do
+				outputto "Artist"
+				findinline "</name>"
+				movechar -8
+				if ")</name>" # Split Artist
+					findinline "<name>" -1
+					sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+				else
+					findinline "<name>" -1
+					sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+				endif
+				findinline "</name>"
+				if "<anv>"
+					findinline "</anv>"
+				endif		
+				if "<join>"
+					say " "
+					sayregexp "(?<=<join>)[^<]+(?=</join>)" ", " "</artist>"
+					say " "
+				endif
+				findinline "</artist>"
+				while "<artist>"
+			endif			
+		endif
+	findinline "</artists>"
+endif
+
+# Album
+outputto "Album"
+if "<title>"
+	findinline "<title>"
+	sayuntil "</title>"
+	findinline "</title>"
+endif
+
+# CatalogID and Publisher
+if "<labels>"
+	# CatalogID
+	outputto "CatalogID"
+	findinline "<labels>"
+	sayregexp "(?<=<label catno=\")[^<]+(?=\" name)" ", " "</labels>"
+	# Publisher
+	outputto "Publisher"
+	findinline "<label catno=\"" -1
+	findinline "\" />"
+	movechar -5
+	if ")\" />" # Split Publisher
+		findinline "<label catno=\"" -1
+		sayregexp "(?<=name=\")[^<]+(?= \()" ", " "</labels>"
+	else
+		findinline "<label catno=\"" -1
+		sayregexp "(?<=name=\")[^<]+(?=\")" ", " "</labels>"
+	endif	
+	findinline "</labels>"
+endif
+
+# Mixartists
+if "<extraartists>"
+	#outputto "Mixartist"
+	findinline "<extraartists>"
+	if "<artist>"
+		do
+			findinline "<artist>"
+			if "<name>"
+				findinline "</name>"
+			endif
+			if "<anv>"
+				findinline "</anv>"
+			endif
+			if "<role>"
+				findinline "<role>"
+				if "DJ Mix"
+					findinline "<name>" -1
+					outputto "Mixartist"
+					findinline "</name>"
+					movechar -8
+					if ")</name>" # Split Mixartist
+						findinline "<name>" -1
+						sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+					else
+						findinline "<name>" -1
+						sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+					endif
+					findinline "</role>"
+					if "<tracks>"
+						#findinline "<tracks>"
+						say " ("
+						sayregexp "(?<=<tracks>)[^<]+(?=</tracks>)" ", " "</artist>"
+						say ")"
+						findinline "</tracks>"
+						findinline "<role>" -1
+					else
+						findinline "<role>" -1
+					endif
+					say ", "
+				endif
+			findinline "</role>"
+			endif		
+			findinline "</artist>"
+		while "<artist>"
+	endif
+	findinline "</extraartists>"
+endif
+
+# Check Compilation
+if "<formats>"
+	findinline "<formats>"
+	if "<format name"
+		findinline ">"
+	endif
+	if "<descriptions>"
+		# Checking Format Descriptions (is it a Compilation)
+		do
+			findinline "<description>"
+			if "Compilation"
+				outputto "isCompilation"
+				set "isCompilation" "yes"
+				outputto "ITUNESCOMPILATION"
+				set "ITUNESCOMPILATION" "1"
+			endif
+			#saynewline
+			findinline "</description>"
+		while "<description>"
+	endif
+	findinline "</formats>"
+endif
+
+# API - <genres> (skip and use style as genre)
+if "<genres>"
+	findinline "</genres>"
+endif
+
+# Style - Output as Genre (Default normally is Genre as Genre, but i think this is a little bit more information and it's cool 4 DJing) ;)
+if "<styles>"
+	outputto "Genre"
+	do
+		findinline "<style>"
+		sayuntil "</style>"
+		#saynewline
+		findinline "</style>"
+		if "<style>"
+			say ", "
+		endif
+	while "<style>"
+	findinline "</styles>"
+endif
+
+# Country
+if "<country>"
+	outputto "Country"
+	findinline "<country>"
+	sayuntil "</country>"
+	findinline "</country>"
+endif
+
+# Outputs: Year, Date, ORIGYEAR
+if "<released>"
+	# Year (Recommed for mp3 Players)
+	outputto "Year"
+	sayregexp "(\d{4})" ", " "</released>"
+	# Date (Recommed some library tools like rrs.at/Trakker)
+	# Output to: YYYY-MM-DD
+	outputto "Date"
+	findinline "<released>"
+	sayuntil "</released>"
+	# ORIGYEAR (Recommed for Traktor DJ Studio)
+	# YYYY-MM-DD
+	outputto "ORIGYEAR"
+	findinline "<released>" -1
+	findinline "<released>"
+	sayuntil "</released>"	
+	findinline "</released>"
+endif
+
+# API - <notes> (skip)
+if "<notes>"
+	findline "</notes>"
+endif
+
+# Tracklisting
+findinline "<tracklist>"
+do	
+	findinline "<track>"
+	
+	# Position
+	outputto "position"
+	if "<position>"
+		sayregexp "(?<=<position>)[a-zA-Z].*(?=</position>)" ", " "</track>"
+		say "|"
+		findinline "</position>"
+	else
+		say "|"
+	endif
+	
+   	# Artist (second)
+	# ok, now: no code trash, but Stupid codeing... can not make a nested operation....
+	# That is while i must repeat this script :(
+	if "<artists>"
+		outputto "Artist"
+		findinline "<artist>"
+		findinline "</name>"
+		movechar -8
+		if ")</name>" # Split Artists
+			findinline "<name>" -1
+			sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+		else
+			findinline "<name>" -1
+			sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+		endif	
+		findinline "</name>"
+		if "<anv>"
+			findinline "</anv>"
+		endif
+		if "<join>"
+			say " "
+			sayregexp "(?<=<join>)[^<]+(?=</join>)" ", " "</artist>"
+			say " "
+		endif		
+		findinline "</artist>"
+	# 2
+		if "<artist>"
+			findinline "<artist>"
+			findinline "</name>"
+			movechar -8
+			if ")</name>" # Split Artists
+				findinline "<name>" -1
+				sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+			else
+				findinline "<name>" -1
+				sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+			endif	
+			findinline "</name>"
+			if "<anv>"
+				findinline "</anv>"
+			endif
+			if "<join>"
+				say " "
+				sayregexp "(?<=<join>)[^<]+(?=</join>)" ", " "</artist>"
+				say " "
+			endif				
+			findinline "</artist>"
+		endif
+
+	# 3
+		if "<artist>"
+			findinline "<artist>"
+			findinline "</name>"
+			movechar -8
+			if ")</name>" # Split Artists
+				findinline "<name>" -1
+				sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+			else
+				findinline "<name>" -1
+				sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+			endif	
+			findinline "</name>"
+			if "<anv>"
+				findinline "</anv>"
+			endif
+			if "<join>"
+				say " "
+				sayregexp "(?<=<join>)[^<]+(?=</join>)" ", " "</artist>"
+				say " "
+			endif				
+			findinline "</artist>"
+		endif		
+	# End code loop... trash.... ;)
+		findinline "</artists>"
+		say "|"
+	endif
+	
+	# Tracks and split remix
+	if "<title>"
+		findinline "</title>"
+		movechar -9
+		if ")</title>" # Split Remix
+			outputto "tracks"
+			findinline "<title>" -1
+			sayregexp "(?<=<title>)[^<]+(?= \()" ", " "</track>"
+			say "|"
+			# split remix and write it to remix
+			outputto "remix"
+			#findinline "<title>" -1
+			sayregexp "(?<= \()[^<]+(?=\)</title>)" ", " "</track>"
+			say "|"
+		else	# Show title
+			outputto "tracks"
+			findinline "<title>" -1
+			sayregexp "(?<=<title>)[^<]+(?=</title>)" ", " "</track>"
+			say "|"
+			# write empty to remix
+			outputto "remix"
+			say ""
+			say "|"						
+		endif
+		findinline "</title>"
+	else
+		outputto "tracks"
+		say "|"
+		outputto "remix"
+		say "|"
+	endif	
+
+	#Remixer
+	# ok, now: no code trash, but Stupid codeing... can not make a nested operation....
+	# That is while i must repeat this script :(
+	outputto "remixer"
+	if "<extraartists>"
+		findinline "<extraartists>"
+		#1
+		if "<artist>"
+			findinline "<artist>"
+			if "<name>"
+				findinline "</name>"
+			endif
+			if "<anv>"
+				findinline "</anv>"
+			endif
+			if "<role>"
+				findinline "<role>"
+				if "Remix"
+					findinline "<name>" -1
+					findinline "</name>"
+					movechar -8
+					if ")</name>" # Split Mixartist
+						findinline "<name>" -1
+						sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+					else
+						findinline "<name>" -1
+						sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+					endif
+					findinline "</role>"
+				endif
+			endif
+			findinline "</artist>"
+		endif
+		#2
+		if "<artist>"
+			findinline "<artist>"
+			if "<name>"
+				findinline "</name>"
+			endif
+			if "<anv>"
+				findinline "</anv>"
+			endif
+			if "<role>"
+				findinline "<role>"
+				if "Remix"
+					findinline "<name>" -1
+					findinline "</name>"
+					movechar -8
+					say ", "
+					if ")</name>" # Split Mixartist
+						findinline "<name>" -1
+						sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+					else
+						findinline "<name>" -1
+						sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+					endif
+					findinline "</role>"
+				endif
+			endif
+			findinline "</artist>"
+		endif	
+		# End code loop... trash.... ;)
+		findinline "</extraartists>"
+		say "|"
+		#3
+		if "<artist>"
+			findinline "<artist>"
+			if "<name>"
+				findinline "</name>"
+			endif
+			if "<anv>"
+				findinline "</anv>"
+			endif
+			if "<role>"
+				findinline "<role>"
+				if "Remix"
+					findinline "<name>" -1
+					findinline "</name>"
+					movechar -8
+					say ", "
+					if ")</name>" # Split Mixartist
+						findinline "<name>" -1
+						sayregexp "(?<=<name>)[^<]+(?= \()" ", " "</artist>"
+					else
+						findinline "<name>" -1
+						sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</artist>"
+					endif
+					findinline "</role>"
+				endif
+			endif
+			findinline "</artist>"
+		endif	
+	else
+		say "|"
+	endif
+
+	# API - <duration> (skip)	
+	if "<duration>"
+		findinline "</duration>"
+	endif
+	
+	findinline "</track>"
+while "<track>"

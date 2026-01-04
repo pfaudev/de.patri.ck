@@ -1,0 +1,144 @@
+# Web Sources Script for Mp3Tag / Musik-Sammler.de
+# created by pone, December 2013
+#
+# http://mp3tag.de/
+# http://www.musik-sammler.de/   
+
+
+[Name]=musik-sammler.de (v1.0)
+[IndexUrl]=http://www.musik-sammler.de/?do=search&artist=%s
+[AlbumUrl]=http://www.musik-sammler.de/media/
+[WordSeperator]=%20
+[IndexFormat]=%Artist%|%Album%|%_url%|%Format%|%Year%|%Country%|%Catalog%
+[SearchBy]=%artist%&title=%album%
+[Encoding]=utf-8
+
+
+[ParserScriptIndex]=...
+
+findline "<h1>Suchergebnisse</h1>"
+findline "<tr" 2 1
+do
+	#ARTIST
+	findinline "<a href=" 1 1
+	if "\"/artist/"
+		sayregexp "(?<=>).+?(?=</a>)" "" ""
+		sayregexp "(?<=</a>).+?(?=</th>)" "" ""
+		findline "<a href=\"/media"
+	else
+		findline "<a href=\"/artist" -1 1
+		findinline "<a href=" 1 1
+		sayregexp "(?<=\">).+?(?=</a>)" "" ""
+		sayregexp "(?<=</a>).+?(?=</th>)" "" ""
+		moveline 1
+		joinlines 8
+		findline "<a href=\"/media" 2 1
+	endif
+	say "|"
+	
+	#ALBUM
+	sayregexp "(?<=<td>).+?(?=<a)" "" ""
+	sayregexp "(?<=\">).+?(?=</a>)" "" ""
+	say "|"
+	
+	#ULR
+	sayregexp "(?<=<a href=\"/media/).+?(?=\">)" "" ""
+	say "|"
+	
+	#Format
+	moveline 1
+	sayregexp "(?<=<td>).+?(?=</td>)" "" ""
+	say "|"
+	
+	#Year
+	moveline 1
+	sayregexp "(?<=<td>).+?(?=</td>)" "" ""
+	say "|"
+	
+	#Counry
+	moveline 1
+	sayregexp "(?<=<td>).+?(?=</td>)" "" ""
+	say "|"
+	
+	#Catalog
+	moveline 2
+	sayregexp "(?<=<td>).+?(?=</td>)" "" ""
+	saynewline
+	
+	moveline 1
+	unspace
+	while "<tr" 100	
+
+
+[ParserScriptAlbum]=...
+
+#Albumartist
+outputto "albumartist"
+findline "<h1 itemprop=\"byArtist\"" 1 1
+findline "<span" 1 1
+joinuntil "</span>"
+sayregexp "(?<=>).+?(?=</span>)" "" ""
+
+#Album
+outputto "album"
+findline "<h2 itemprop=\"name\">" 1 1
+joinuntil "</h2>"
+sayregexp "(?<=>).+?(?=</h2>)" "" ""
+
+#Cover
+outputto "coverurl"
+findline "<div id=\"coverMain\">" 1 1
+findline "<img src=" 1 1
+say "http://www.musik-sammler.de"
+sayregexp "(?<=<img src=\").+?(?=\")" "" ""
+
+#Year
+outputto "year"
+findline "<th class=\"mi\">Jahr</th>" 1 1
+moveline 1
+sayregexp "(?<=<td>).+?(?=</td>)" "" ""
+
+#Publisher
+outputto "publisher"
+findline "<th class=\"mi\">Plattenfirma</th>" 1 1
+moveline 1
+sayregexp "(?<=<td>).+?(?=</td>)" "" ""
+
+#Genre
+outputto "genre"
+findline "<th class=\"mi\">Musikrichtung</th>" 1 1
+moveline 1
+sayregexp "(?<=<td>).+?(?=</td>)" "" ""
+
+#Tracks
+findline "<h3>Tracklist"
+findline "<th class=\"tlnr" 1 1
+do
+	#Artist
+	outputto "Artist"
+	findline "<td class=" 1 1
+	findinline "<a href=" 1 1
+	if "\"/artist/"
+		sayregexp "(?<=\">).+?(?=</a>)" "" ""
+	else
+		sayoutput "albumartist"
+		moveline -1
+	endif
+	say "|"
+	
+	#Title
+	outputto "tracks"
+	findline "itemprop=\"name\">" 1 1
+	sayregexp "(?<=\"name\">).+?(?=</span>)" "" ""
+	say "|"
+	
+	#Length
+	outputto "_length"
+	moveline 1 1
+	findline "<td class" 1 1
+	sayregexp "(?<=>).+?(?=</td>)" "" ""
+	say "|"
+	
+	findline "<th class=\"tlnr" 1 1
+	unspace
+while "<th class=\"tlnr" 100

@@ -1,0 +1,167 @@
+# Mp3tag (v2.36+) parsing for musicbrainz.org XMLWebService 
+# created by dano 2006-07-19
+#
+# This file should be in your sources dir. 
+# On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+#	
+#	-> DO NOT COPY/MODIFY AND REDISTRIBUTE THIS WITHOUT PERMISSION <- 
+#
+
+[Name]=MusicBrainz XML (by track)
+[BasedOn]=musicbrainz.org
+[IndexUrl]=http://musicbrainz.org/ws/1/track/?type=xml&limit=20&title=%s
+[AlbumUrl]=http://musicbrainz.org/ws/1/release/
+[WordSeperator]=+
+[IndexFormat]=%Relevance%|%Title%|%Length - milliseconds%|%Artist%|%_preview%|%_url%|%Album%|%Track - add 1%|%Tracks on Album%
+[SearchBy]=%title%
+[Encoding]=utf-8
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+debug "on" "c:\\debug_MusicBrainz_XML_A.xml" "5"
+
+findline "<track-list"
+do	
+	# Score
+	findinline "ext:score=\""
+	sayuntil "\""
+	say "|"
+
+	# Title
+	findinline "<title>"
+	sayuntil "</title>"
+	say "|"
+
+	# Length
+	findinline "<duration>"
+	sayuntil "</duration>"
+	say "|"
+	
+	# Artist
+	findinline "<name>"
+	sayuntil "</name>"
+	say "|"
+
+	# Preview
+	say "http://musicbrainz.org/album/"
+	sayregexp "(?<=<release id=\")[-0-9a-y]{34,40}(?=\" )" ", " "</release>"
+	say ".html"
+	say "|"
+
+	# URL
+	findinline "<release id=\""
+	sayuntil "\""
+	say "?type=xml&inc=tracks+artist+release-events"
+	say "|"
+
+	# Album
+	findinline "<title>"
+	sayuntil "</title>"
+	say "|"
+
+	# Track
+	findinline "<track-list offset=\""
+	saynextnumber
+      say "|"
+
+	# Tracks
+	findinline "count=\""
+	saynextnumber
+	saynewline
+	
+	findinline "</track>"
+while "<track id=\""
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#debug "on" "c:\\debug_MusicBrainz_XML-B.xml"
+
+# Album
+outputto "Album"
+findinline "<title>"
+sayuntil "</title>"
+
+# Cover
+findinline "<asin>" 1 1
+movechar -6
+if "<asin>"
+	outputto "coverurl"
+	movechar 6
+	say "http://images.amazon.com/images/P/"
+	sayuntil "</asin>"
+	say ".01.LZZZZZZZ.jpg"
+else
+	findline "<?xml"
+endif
+
+findinline "<track-list>"
+findinline "<artist id=" 1 1
+movechar -11
+if "<artist id="
+	# ##############################################################
+	# Varioos Artists
+	gotoline 1
+	
+	# Year
+	findinline "<event date=\"" 1 1
+	movechar -13
+	if "<event date=\""
+		outputto "Year"
+		findinline "<event date=\""
+		saynextnumber
+	else
+		gotoline 1
+	endif
+
+	# Tracks & Artists
+	findinline "<track-list>"	
+	do	
+		outputto "tracks"
+		findinline "<title>"
+		sayuntil "</title>"
+		say "|"
+		
+		outputto "Artist"
+		sayregexp "(?<=<name>)[^<]+(?=</name>)" ", " "</track>"
+		say "|"
+		
+		findinline "</track>"
+	while "<track id"
+
+	# End of VA
+	# #############################################################
+	
+else
+	gotoline 1
+	
+	# Artist
+	outputto "Artist"
+	findinline "<name>"
+	sayuntil "</name>"
+
+	# Year
+	findinline "<event date=\"" 1 1
+	movechar -13
+	if "<event date=\""
+		outputto "Year"
+		findinline "<event date=\""
+		saynextnumber
+	else
+		gotoline 1
+	endif
+
+	# Tracks
+	findinline "<track-list>"
+	outputto "tracks"
+	do
+		findinline "<title>"
+		sayuntil "</title>"
+		say "|"
+	
+		findinline "</track>"
+	while "<track id"
+endif
