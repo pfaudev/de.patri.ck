@@ -1,0 +1,98 @@
+$filename(MP3List.html)<html>
+<head>
+  <title>%_workingdir%</title>
+  <style type="text/css">
+  <!-- 
+    a { color:#000000; font-size:12px; font-family: Arial; }
+    a.large { color:#ffffff; background:#960000; font-size:18pt; font-family: Arial;  }
+    a:link { color:#000000; }
+    a.large:link { color:#ffffff; }
+    a:visited { color:#444444; }
+    a:active { color:#cc0000; }
+    a:hover { color:#ffffff; background:#000000; }
+    p { color: #000000; font-size:12px; font-family: Arial; }
+    body { background: #ffffff; color: #000000; }
+    h1 { font-size:18pt; font-family: Arial; font-weight: bold; text-align: center; }
+    td { text-align: left; vertical-align: baseline; font-size:12px; font-family: Arial; }
+    th { text-align: left; font-size:12px; font-family: Arial; background: #960000; color: #ffffff; }
+    th.large { text-align: center; vertical-align: middle; font-size:18pt; font-family: Arial; font-weight: bold; background: #960000; color: #ffffff; }
+    td.small { text-align: left; font-size:10px; font-family: Arial; }
+    td.medium { text-align: left; font-size:14pt; font-family: Arial; }
+    td.image { text-align: center; vertical-align: middle; font-size:12px; font-family: Arial; }
+    td.right { text-align: right; }
+    .CDTitle { text-align: left; font-size:16pt; font-weight: bold; font-family: Arial; }
+  //-->
+  </style>
+</head>
+<body>
+<center>
+<p>
+<table border="0" cellpadding="5" cellspacing="0" bgcolor="#f0c0a0" width="95%%">
+<tr><td>
+<table border="0" cellpadding="1" cellspacing="0" bgcolor="#960000" width="100%%">
+<tr><td bordercolor="#960000">
+<table border="0" cellpadding="3" cellspacing="1" bgcolor="#ffffff" width="100%%">
+<tr><th class="large" width="100%%" colspan="2"><a class="large" href="Playlist.m3u">%_workingdir%</a></th></tr>
+<tr><td class="right" width="50%%"><br><b>Numero tracce:</b><br><b>Durata Totale:</b><br><b>Spazio su disco:</b><br></td>
+<td width="50%%"><br>%_total_files%<br>%_total_time%<br>%_total_size%<br></td></tr>
+</table>
+</td></tr></table>
+</td></tr></table>
+</p>
+$loop(%_folderpath%)
+<p>
+<table border="0" cellpadding="5" cellspacing="0" bgcolor="#f0c0a0" width="95%%">
+<tr><td>
+<table border="0" cellpadding="1" cellspacing="0" bgcolor="#960000" width="100%%">
+<tr><td bordercolor="#960000">
+<table border="0" cellpadding="3" cellspacing="1" bgcolor="#ffffff" width="100%%">
+<td class="image" width="28%%" bgcolor="#ffeec0">
+<img alt="Cover" width="200" height="200" border="0" src="$replace(%_folderpath_rel%,\,/)cover.jpg" bordercolor="#ffeec0"></td>
+<td class="medium" width="72%%" bgcolor="#ffeec0">%artist%<br>
+<a class="CDTitle" href="$replace(%_folderpath_rel%,\,/)Playlist.m3u">%album%</a>
+<table border="0" cellpadding="3" cellspacing="1" bgcolor="#ffeec0" width="100%%">
+<tr><td width="85%%" colspan="2">&nbsp;</tr>
+<tr><td width="15%%"><b>Anno:</b><br><b>Genere:</b></td>
+<td width="70%%">%year%<br>%genre%</td></tr>
+<tr><td width="15%%"><b>Numero tracce:</b><br><b>Durata Totale:</b><br><b>Spazio su disco:</b></td>
+<td width="70%%">%_total_files%<br>%_total_time2%<br>%_total_size%</td></tr>
+<tr><td width="85%%" colspan="2">&nbsp;</tr>
+</table>
+</td>
+</tr></table>
+<table border="0" cellpadding="3" cellspacing="1" bgcolor="#ffffff" width="100%%">
+<th width="28%%">Filename</th><th width="28%%">ID3-Details</th><th width="28%%">mp3-Details</th><th width="8%%">Duration</th><th width="8%%">Filesize</th>
+$loop(%_filename_ext%)<tr$if($odd(%_counter%), bgcolor="#ffeec0", bgcolor="#f0c0a0")>
+  <td>
+    <A HREF="$replace(%_filename_rel%,\,/)">%track% - %title%</A>
+  </td>
+  <td class="small">
+    %artist% &quot;%title%&quot;<br>
+    Album: %album%, %year%<br>
+    <!-- Comment: %comment%<br> -->
+    Genre: %genre%<br>
+  </td>
+  <td class="small" width="160">
+    %_codec% - %_bitrate% Kbit %_vbr%<br>
+    %_mode%, %_samplerate% Hz<br>
+    Tags: %_tag% Size: %_tag_size%
+  </td>
+  <td>
+   %_length% min
+  </td>
+  <td>
+    %_file_size%
+  </td>
+</tr>$loopend()
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+<p>$loopend()
+<hr size="1" color="#f0c0a0">
+<p>
+Created by <A HREF="http://www.mp3tag.de">%_app%</A> (© 1999-2004, <A HREF="mailto:support@mp3tag.de">Florian Heidenreich</A>)<br>
+Original Template Design from <b>www.cd2html.de</b>. This is a mod by <b>squonk</b></p>
+</body>
+</html>

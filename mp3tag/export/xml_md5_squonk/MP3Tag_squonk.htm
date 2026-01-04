@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<!-- squonk63 -->
+	<!-- http://www.mp3tag.de/ -->
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<meta name="Author" content="squonk63" />
+	<meta name="Description" content="Mp3tag - Stylesheet" />
+	<meta name="Keywords" content="mp3tag, Mp3tag, Mp3, MP3, ,MP4, M4A, AAC, Ogg, OGG, Vorbis, VORBIS, MPC, Musepack, APE, APEv2, FLAC, WavPack, WMA, Comment, tag, ID3, ID3V1, ID3V1.1, ID3V2, ID3-Tag, ID3-Editor, Editor, Export, CDDB, FREEDB, FREECDDB, Listen, HTML, export, exportieren, Heidenreich, squon63" />
+	<meta name="MSSmartTagsPreventParsing" content="TRUE" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="_css/mp3tag_content.css" />
+    <title>MP3Tag squonk report</title>
+</head>
+
+<script type="text/javascript" src='_script/sarissa.js'></script>
+<script type="text/javascript" src='_script/sarissa_dhtml.js'></script>
+<script type="text/javascript" src='_script/sarissa_ieemu_xpath.js'></script>
+<script type="text/javascript" src='_script/MP3Tag_squonk.js'></script>
+
+<script type="text/javascript">
+<!--
+var xmlData;
+var xslSheet;
+var xsltProc;
+
+function init() {
+	xmlData = Sarissa.getDomDocument();
+	xmlData.async = false; // this is the important part
+	xmlData.load('MP3List.xml');
+
+	xslSheet = Sarissa.getDomDocument();
+	xslSheet.async = false; // this is the important part
+	if(_SARISSA_IS_IE)
+		xslSheet.load('_css/MP3Tag_squonk_ie.xsl');
+	else
+		xslSheet.load('_css/MP3Tag_squonk_moz.xsl');
+	
+	xsltProc = new XSLTProcessor();
+	xsltProc.importStylesheet(xslSheet);
+
+	Sarissa.clearChildNodes(document.body);
+	
+	if(_SARISSA_IS_IE)
+	{
+		Sarissa.updateContentFromNode(xmlData, document.body, xsltProc);
+	}
+	else
+	{
+		var fragment = xsltProc.transformToFragment(xmlData, document);
+		document.body.appendChild(fragment);
+	}
+ }
+//-->
+</script>
+
+<body onload="init();">
+</body>
+</html>

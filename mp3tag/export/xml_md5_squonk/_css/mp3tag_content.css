@@ -1,0 +1,313 @@
+body, p, h1, h2, h3, h4, h5, h6, table, td, th, li, ul, ol, a {
+	font-family: verdana, helvetica, arial, sans-serif;
+	line-height: 130%;
+}
+
+body {
+	background: #ffe url(../_images/grid.gif);
+	color: #333;
+	font-size: 70%;
+	font-style: normal;
+	font-weight: normal;
+	margin: 10px 10px;
+	padding: 0px; /* Need to set body margin and padding to get consistency between browsers. */
+	text-align: center; /* Hack for IE5/Win */
+	text-decoration: none;
+}
+
+h1, h2, h3 {
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	border-bottom: 1px solid #330000;
+	color: #960000;
+	font-size: 200%;
+	font-weight: bold;	
+}
+
+h2 {
+	background: #ffffe1;
+	border-bottom: 1px solid #EECDA3;
+	border-top: 1px solid #EECDA3;
+	font-size: 130%;
+	margin: 0px 0px 15px 0px;
+}
+
+h3 {
+	font-size: 100%;
+	margin: 0px 0px 5px 0px;
+}
+
+table, td {
+	empty-cells: show;
+	font-size: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: auto;
+}
+
+td.banner {
+	background: #F90; /* url(../_images/tile_back.gif); */
+	height: 68px;
+	vertical-align: top;
+}
+
+td.CD {
+	border-right: 1px solid #EECDA3;
+}
+
+/****************************************************************************
+	IDs
+****************************************************************************/
+
+#adblock {
+	width: auto;
+	margin-top: 2.5em;
+	margin-bottom: 2.5em;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#banner {
+	background: #F90 url(../_images/tile_back.gif);
+	border: 1px solid #960000;
+	height: 68px;
+}
+
+#footer {
+	font-size: 80%;
+	width: auto;
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#lang {
+	width: auto;
+	margin: 0;
+	margin-bottom: 0.5em;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: right;
+}
+
+#langbox {
+	font-size: 100%;
+	color: #333;
+	border: 1px solid #900;
+	padding: 0.6em;
+	width: 200px;
+	height: auto;
+	float: right;
+	display: inline;
+	background-color:#ffffe1;
+}
+
+#nav {
+	font-size: 100%;
+	width: auto;
+	margin-top: 2.5em;
+	margin-bottom: 2.5em;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#wrap {
+	background-color: #ffe;
+	border: 1px solid #900;
+	margin:0px auto; /* Right and left margin widths set to "auto" */
+	min-width:800px;
+	height: auto;
+	padding:10px;
+	text-align:left; /* Counteract to IE5/Win Hack */	
+	width: 800px;
+}
+
+/****************************************************************************
+	CLASSES
+****************************************************************************/
+
+.bulletlist {
+	list-style-type: square;
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 1em;
+	margin-left: 1.5em;
+}
+
+.content {
+	color: #333;
+	padding: 15px 0px 15px 0px;
+	text-align:left;
+}
+
+.download {
+	font-size: 130%;
+	font-weight: bold;
+	line-height: 300%;
+}
+
+.link {
+	margin-bottom: 0.5em;
+}
+
+.news {
+	font-size: 100%;
+	color: #333;
+	padding: 0.5em;
+	margin-bottom: 2em;
+	border: 1px solid #900;
+	width: 222;
+	height: 200;
+	float: right;
+	display: inline;
+	background-color:#ffffe1;
+}
+
+.newsdate {
+	font-family: 'Georgia', 'Palatino', 'Times New Roman';
+	margin: 0;
+	padding: 0;
+}
+
+.newsitem {
+	margin: 0px 0px 10px 0px;
+}
+
+.screenshot {
+	width: 200px;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
+.topic {
+	border-bottom: 1px solid #EECDA3;
+	border-top: 1px solid #EECDA3;
+	background: #ffffe1;
+	font-weight: bold;
+	font-size: 130%;
+	margin: 0px 0px 15px 0px;
+	padding: 2px 0px 2px 0px;
+	width: 547px;
+}
+
+.MI
+{
+	background-color: #ffffe1;
+	color: black;
+	font-size: 8pt;
+	font-weight: normal;
+	font-family: 'Georgia', 'Palatino', 'Times New Roman';
+	width: 100%; 
+	cursor: pointer;
+}
+
+#AlbumRow
+{
+	border: 1px solid #ffffe1;
+	background-color: #ffffe1;
+	color: black;
+	font-size: 8pt;
+	font-weight: normal;
+	font-family: 'Georgia', 'Palatino', 'Times New Roman';
+	cursor: pointer;
+}
+
+td.AlbumRow
+{
+	background-color: transparent;
+	font-family: 'Georgia', 'Palatino', 'Times New Roman';
+}
+
+/****************************************************************************
+	A
+****************************************************************************/
+
+a {
+	color:				#960000;
+	font-weight:		bold;
+	text-decoration:	none;
+}
+
+a.large {
+	font-size: 200%;
+	margin-left: 10px;
+}
+
+a.MI {
+	padding: 2px 0px 2px 0px;
+	border: 1px solid #ffffe1;
+}
+
+a:visited {
+	color:				#960000;
+	font-weight:		bold;
+	text-decoration:	none;
+}
+
+a:hover {
+	font-weight:		bold;
+	text-decoration:	underline;
+}
+
+a.MI:hover {
+	border-color: #960000;
+	background: #EECDA3;
+}
+
+
+/****************************************************************************
+	IMG
+****************************************************************************/
+
+img {
+	border: none;
+}
+
+img.preview {
+	vertical-align:text-bottom;
+	margin-right: 1em;
+	margin-bottom: 1em;
+}
+
+img.imgcenter {
+	background-color: #900;
+	margin: 0 2px 0 2px;
+}
+
+/****************************************************************************
+	PRE
+****************************************************************************/
+
+pre {
+}
+
+pre.changes {
+	font-family:		monospace;
+	font-size:			9pt;
+}
+
+/****************************************************************************
+	SPAN
+****************************************************************************/
+
+span {
+}
+
+span.hilight {
+	font-weight: bold;
+}
+
+span.amazon {
+	font-size: 120%;
+	font-weight: bold;
+	font-family: tahoma, helvetica, arial, sans-serif;
+}

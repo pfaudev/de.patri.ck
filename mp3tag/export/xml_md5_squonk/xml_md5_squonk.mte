@@ -1,0 +1,64 @@
+$filename(MP3List.xml)<?xml version="1.0" encoding="ISO-8859-1"?> 
+
+<!-- 
+<?xml-stylesheet type="text/xsl" href="MP3Tag_squonk.xsl"?>
+<?xml-stylesheet type="text/xsl" href="xsl_squonk.xsl" ?>
+<?xml-stylesheet type="text/xsl" href="xsl_simple.xsl"?>
+-->
+<MP3List>
+	<name><!'['CDATA'['%_workingdir%']'']'></name>
+	<pathname><!'['CDATA'['%_workingpath%']'']'></pathname>
+	<app>%_app%</app>
+	<totalfiles>%_total_files%</totalfiles>
+	<totalsize>%_total_size%</totalsize>
+	<totaltime>%_total_time%</totaltime>
+	<date>%_date%</date>
+	<datetime>%_datetime%</datetime>
+$loop(%artist%)
+	<artist>
+		<name><!'['CDATA'['%artist%']'']'></name>
+		<files>%_total_files%</files>
+		<size>%_total_size%</size>
+		<time>%_total_time%</time>
+$loop(%year%)
+$loop(%album%)
+		<album>
+			<title><!'['CDATA'['%album%']'']'></title>
+			<files>%_total_files%</files>
+			<size>%_total_size%</size>
+			<time>%_total_time%</time>
+			<genre><!'['CDATA'['%genre%']'']'> </genre>
+			<path><!'['CDATA'['$replace(%_folderpath_rel%,\,/)']'']'></path>
+			<year>%year%</year>
+$loop(%_filename_ext%)
+			<track>
+				<numtrack>%track%</numtrack>
+				<title><!'['CDATA'['%title%']'']'></title>
+				<album><!'['CDATA'['%album%']'']'></album>
+				<artist><!'['CDATA'['%artist%']'']'></artist>
+				<time>%_length%</time>
+				<size>%_file_size%</size>
+				<codec>%_codec%</codec>
+				<bitrate>%_bitrate%</bitrate>
+				<vbr>%_vbr%</vbr>
+				<mode>%_mode%</mode>
+				<samplerate>%_samplerate%</samplerate>
+				<tags>%_tag%</tags>
+				<tagsize>%_tag_size%</tagsize>
+				<genre><!'['CDATA'['%genre%']'']'></genre>
+				<year>%year%</year>
+				<FileModDateTime>%_file_mod_datetime%</FileModDateTime>
+				<filename><!'['CDATA'['$replace(%_filename_rel%,\,/)']'']'></filename>
+				<FilenameExt><!'['CDATA'['$replace(%_filename_ext%,\,/)']'']'></FilenameExt>
+				<FilenamePath><!'['CDATA'['$replace(%_folderpath_rel%,\,/)']'']'></FilenamePath>
+				<comment><!'['CDATA'['%comment%']'']'></comment>
+				<md5>%_md5%</md5>
+			</track>
+$loopend()
+		</album>
+$loopend()
+$loopend()
+	</artist>
+$loopend()
+</MP3List>
+
