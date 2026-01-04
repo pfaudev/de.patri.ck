@@ -1,0 +1,3 @@
+$filename($getEnv('USERPROFILE')'\Desktop\Mp3tag Split Export.SL.txt,utf-8)$loop(%_folderpath%%_filename_ext%)$if(%UNSYNCEDLYRICS%,#*=====START=====*%_folderpath%%_filename%.txt
+$regexp(%UNSYNCEDLYRICS%,'^[a-z]{3}\|\|',)
+#*=====END=====*$char(13)$char(10),)$loopend()

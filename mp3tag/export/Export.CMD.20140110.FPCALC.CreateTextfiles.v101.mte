@@ -1,0 +1,51 @@
+$filename($getEnv('USERPROFILE')'\Desktop\Mp3tag.FPCALC.create.cmd', ANSI)$puts()$loop(%_path%)$puts(items, $add(1, $get(items)))$loopend()$puts()
+'@ECHO OFF'
+'REM =============================================================================='
+'REM Create AcoustID-Chromaprint-FPCALC Textfiles.'
+'SET FPCALC_EXE="C:\Windows\SysWOW64\fpcalc.exe"'
+'REM =============================================================================='
+'SETLOCAL DisableDelayedExpansion'
+'CHCP 1252 1>NUL 2>NUL'
+'ECHO.[Mp3tag.FPCALC.create.cmd]'
+'ECHO.'
+'ECHO.Create AcoustID-Chromaprint-FPCALC Textfiles.'
+'%FPCALC_EXE% -version'
+'ECHO.'
+'ECHO.Files to process: '$get(items)
+'ECHO.'
+'ECHO.Press [Enter] to continue or [Ctrl+C] to exit ...'
+'PAUSE 1>NUL 2>NUL'
+'ECHO.'
+$loop(%_path%)$puts(item, $add(1, $get(item)))
+'SET FOLDER="'%_folderpath%'"'
+'SET FILE_IN="'%_filename_ext%'"'
+'SET FILE_OUT="'%_filename%'.fp.txt"'
+'CD /D %FOLDER% 1>NUL 2>NUL'
+'ECHO.Working ...'
+'ECHO.Progress: '$div($mul(100, $get(item)), $get(items))'%%'
+'ECHO.Item    : '$get(items)'/'$get(item)
+'ECHO.%FOLDER%'
+'ECHO.%FILE_IN%'
+'ECHO.%FILE_OUT%'
+'ECHO.'
+'%FPCALC_EXE% %FILE_IN% >%FILE_OUT%'
+'REM ECHO.Error   : %ERRORLEVEL%'
+'IF ERRORLEVEL 1 ('
+'   ECHO.'
+'   ECHO.There was an error with the last input file.'
+'   ECHO.Press [Enter] to continue or [Ctrl+C] to exit ...'
+'   PAUSE 1>NUL 2>NUL'
+'   ECHO.'
+')'
+'ECHO.'
+$loopend()
+'ECHO.Ready.'
+'ECHO.'
+'PAUSE'
+':EOB'
+
+A1: FP_TEMP        <== %_filename_ext%'.fp.txt'
+A2: FP_FILE        <== $regexp(%FP_TEMP%,'\A(?:.*\n)?FILE=(.+?)\r.*\Z','$1',1)
+A3: FP_DURATION    <== $regexp(%FP_TEMP%,'\A(?:.*\n)?DURATION=(.+?)\r.*\Z','$1',1)
+A4: FP_FINGERPRINT <== $regexp(%FP_TEMP%,'\A(?:.*\n)?FINGERPRINT=(.+?)\r.*\Z','$1',1)
+A5: FP_TEMP        ==> remove tag field)

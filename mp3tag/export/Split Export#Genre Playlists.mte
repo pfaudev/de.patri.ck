@@ -1,0 +1,6 @@
+$filename($getEnv('USERPROFILE')'\Desktop\Mp3tag Split Export.SL.txt,utf-8)$loop(%genre%)#*=====START=====*%_workingpath%Genre - $validate($if2(%genre%,'[ empty ]'),_).m3u8
+#EXTM3U
+$loop(%_folderpath%)$loop(%_path%)#EXTINF:%_length_seconds%,%artist% - %title%
+%_path%
+$loopend()$loopend()#*=====END=====*
+$loopend()

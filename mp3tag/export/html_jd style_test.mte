@@ -1,0 +1,161 @@
+$filename(%_workingdir%_albumlist_jd_style.html,utf-8)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta name="GENERATOR" content="Mp3tag - http://www.mp3tag.de">
+	<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+	<title>List of albums</title>
+<script type="text/javascript">
+<!--
+function show(id) {
+	if(document.getElementById("show" + id).style.display == ''none'') {
+		document.getElementById("show" + id).style.display = '''';
+	}
+	else{
+		document.getElementById("show" + id).style.display = ''none'';
+	}
+}
+function MShow(id) {
+	for (i = 1; i < 21; i++){
+	if (document.getElementById(id + i).style.display == ''none'') {
+		document.getElementById(id + i).style.display = '''';
+	}
+	else{
+		document.getElementById(id + i).style.display = ''none'';
+	}
+}}
+//-->
+</script>
+<style type="text/css"><!--	
+		h1 { font-family: Arial; font-size: 12pt }
+		h2 { font-family: Arial; font-size: 10pt }
+		body { font-family: Arial; font-size: 9pt }
+		table { font-family: Arial; font-size: 9pt }
+		a {color: #960000; text-decoration: none }
+		a:hover {color: #960000; text-decoration: none}
+		#wrap { width: 95%%; }
+		.tbox { padding: 10px; margin: 10px; background-color: #EFEFEF;}
+		.odd { background-color: #F3F7FB; }
+		.bigtable { border:1px solid #C9C9C9; border-collapse:collapse; }
+		img#banner { background:url($getEnv('USERPROFILE')\AppData\Roaming\Mp3tag\export\nopic.jpg) no-repeat #000; }
+		fieldset.title {
+			border-top: 1px solid #aaa;
+			border-bottom: none;
+			border-left: none;
+			border-right: none;
+			display: block;
+			text-align: center;
+		}
+		fieldset.title legend { padding: 5px 10px; }
+	--></style>
+</head>
+<body>
+<h1>List of albums in %_workingdir%</h1>
+$loop($if2(%albumartistsort%,($if2(%albumartist%,%artist%)))) $puts(cnt2,$replace(%_counter%_%albumartist%,'',_))
+	<br>
+	<table border="1" width="100%%" class="bigtable">
+	<td>
+	$puts(grundtiefe,$folderdepth(%_workingpath%))
+	$puts(tiefe,$folderdepth(%_folderpath%))
+	$puts(anz,$sub($get(tiefe),$get(grundtiefe)))
+
+$get(anz) = $get(tiefe) - $get(grundtiefe) - $get(%_folderpath%) - $get(%_workingpath%) ---
+$if($eql($get(anz),1),$puts(abs,$left(%_folderpath%,$sub($strrchr(%_folderpath%,\),1))),)
+$if($eql($get(anz),1),$puts(abs,$left($get(abs),$sub($strrchr($get(abs),\),1))),)
+$if($eql($get(anz),1),$puts(fldr,$get(abs)),)
+$if($eql($get(anz),2),$puts(abs,$left(%_folderpath%,$sub($strrchr(%_folderpath%,\),1))),)
+$if($eql($get(anz),2),$puts(abs,$left($get(abs),$sub($strrchr($get(abs),\),1))),)
+$if($eql($get(anz),2),$puts(fldr,$get(abs)),)
+$if($eql($get(anz),3),$puts(abs,$left(%_folderpath%,$sub($strrchr(%_folderpath%,\),1))),)
+$if($eql($get(anz),3),$puts(abs,$left($get(abs),$sub($strrchr($get(abs),\),1))),)
+$if($eql($get(anz),3),$puts(abs,$left($get(abs),$sub($strrchr($get(abs),\),1))),)
+$if($eql($get(anz),3),$puts(fldr,$get(abs)),)
+$if($eql($get(anz),4),$puts(abs,$left(%_folderpath%,$sub($strrchr(%_folderpath%,\),1))),)
+$if($eql($get(anz),4),$puts(abs,$left($get(abs),$sub($strrchr($get(abs),\),1))),)
+$if($eql($get(anz),4),$puts(abs,$left($get(abs),$sub($strrchr($get(abs),\),1))),)
+$if($eql($get(anz),4),$puts(abs,$left($get(abs),$sub($strrchr($get(abs),\),1))),)
+$if($eql($get(anz),4),$puts(fldr,$get(abs)),)
+$get(fldr) - 
+$mid($get(fldr),$add($strrchr($get(fldr),\),1),$sub($len($get(fldr)),$strrchr($get(fldr),\)))
+	<font size="4"><b><a href="javascript:show(''$get(cnt2)'');">%_counter% %artist%<b></a></font>
+	%_total_time% %_total_files% files (%_total_size%) "%genre%" <font size="4"><a href="$replace($get(fldr),\,/)\all.m3u" target="_blank">&#9835;</a></font>
+	<div style="display:none;background:#DDDDDD" id="show$get(cnt2)">
+	<table border=0>
+	<td width:="200" valign="top" align="middle">
+	$puts(fldr,%_folderpath_rel%)
+	$puts(fldr,$mid($get(fldr),1,$strchr($get(fldr),\)))
+	$puts(pic,Artist)
+	$puts(pic,$mid($get(fldr),1,$sub($len($get(fldr)),1)))
+	<object data="$get(fldr)$get(pic).jpg" type="image/jpg" width="150" border="0"> 
+	<img src="$getEnv('USERPROFILE')\AppData\Roaming\Mp3tag\export\noartist.jpg" alt="Photo not found" />
+	</object> 
+	<br>
+	$if2(%albumartist%,%artist%)
+	</td>
+	<td>
+	$loop(%_app%)$puts(check,%artist%)$loopend()
+	$loop(%_path%)$puts(check,$if($eql($get(check),%artist%),%artist%,Various))$loopend()
+	$loop(%year%%album%) $puts(cnt1,$replace(%artist%_%_counter%,'',_))
+		<table border="0">
+		<td width="20" align="right"><a href="javascript:show(''$get(cnt1)'');">(%_counter%)</a></td><td width="600"><a href="javascript:show(''$get(cnt1)'');"><b>$if(%year%,%year%,?) - $if(%album%,%album%,?)</b></a> - $get(discs) discs - %_total_files% files (%_total_size%) %_total_time% <font size="4"><a href="$replace(%_folderpath_rel%,\,/)%album%.m3u" target="_blank">&#9835;</a></font></td><td>$get(check)&nbsp;&nbsp;&nbsp;</td><td width="150">%genre%</td>
+		</table>
+		<table border="1" style="display:none;background:white" id="show$get(cnt1)" width="100%%" class="bigtable">
+		<td align="middle" valign="top" width="220">
+		<div>&nbsp;</div>
+		<object data="%_folderpath_rel%Folder.jpg" type="image/jpg" width="150" height="150" border="0"> 
+		<img src="$getEnv('USERPROFILE')\AppData\Roaming\Mp3tag\export\nocover.jpg" alt="Cover not found" />
+		</object> 
+		<br>%_total_files% files (%_total_size%)<br>
+		<h2>%album% (%year%)</h2>
+		<p>%_total_time%</p>
+		<p>$get(check)</p>
+		<p>%genre%</p>
+		$if(%discnumber%,$puts(cd,%discnumber%),$puts(cd,99)) $puts(nr,0)
+		</td>
+		<td valign="top">
+		<table width="100%%">
+		<thead>
+		<tr>
+		<th width="35">Track</th><th align="left" width="440">Title</th>
+		<th align="right" width="50">Length</th><th align="right" width="150">Genre</th><th align="right" width="50">Bitrate</th><th align="right" width="70">Codec</th>
+		</tr>
+		</thead>
+		$loop(%_app%)$puts(check,%artist%)$loopend()
+		$loop(%_path%)$puts(check,$if($eql($get(check),%artist%),%artist%,Various))$loopend()
+		$loop(%_filename_ext%%discnumber%)
+			<tr>
+			<td$if($odd(%_counter%), class="odd",) align="middle">
+
+			$if($eql($get(cd),%discnumber%),,$puts(nr,$add($get(nr),1)))
+			$puts(divider,<td></tr><td><fieldset class="title"></fieldset></td><td><fieldset class="title"><legend>$upper(%_directory%)</legend></fieldset></td><td><fieldset class="title"></fieldset></td><td><fieldset class="title"></fieldset></td><td><fieldset class="title"></fieldset></td><td><fieldset class="title"></fieldset></td><tr><td$if($odd(%_counter%), class="odd",) align="middle">)
+			$if($eql($get(nr),1),,$if($eql($get(cd),%discnumber%),,$get(divider)))
+			$if($eql($get(nr),1),$if($eql($get(cd),%discnumber%),,$if($neql($left(%_directory%,2),CD),,$get(divider))),)
+			$if($eql($get(cd),%discnumber%),,$puts(cd,%discnumber%))
+
+			$if(%discnumber%,,1.)$if(%discnumber%,$num(%discnumber%,1).,)$num(%track%,2)</td>
+			<td$if($odd(%_counter%), class="odd",)>
+			<a href="%_folderpath%%_filename_ext%" target="_blank">$if($eql($get(check),%artist%),<b></b>,<b>%artist%</b> - )%title%</a>
+			</td>
+			<td$if($odd(%_counter%), class="odd",) align="right">%_length%</td>
+			<td$if($odd(%_counter%), class="odd",) align="right">%genre%</td>
+			<td$if($odd(%_counter%), class="odd",) align="right">%_bitrate%</td>
+			<td$if($odd(%_counter%), class="odd",) align="right">%_codec%</td>
+			</tr>
+		$loopend()
+		</table>
+		</td>
+		</table>
+	$loopend()
+	</td>
+	</table>
+	<object data="$get(fldr)Info.txt" type="text/plain" width="100%%" height="200" border="0"> 
+	<center>No biography available.</center> <br />
+	</object> 
+	</div>
+
+	</table>
+	</td>
+	</table>
+$loopend()
+
+</body>
+</html>

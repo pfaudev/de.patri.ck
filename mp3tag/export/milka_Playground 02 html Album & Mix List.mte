@@ -1,0 +1,725 @@
+$filename(%_workingpath%%_workingdir% ---- Music Playground ----.html,utf-8)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="Author" CONTENT="milka (amilino@gmail.com)">
+<META NAME="Generator" CONTENT="%_app% - http://www.mp3tag.de">
+<META NAME="Date" CONTENT="%_date%">
+<TITLE>%_workingdir% Music Playground</TITLE>
+<STYLE TYPE="TEXT/CSS"><!--
+BODY { BACKGROUND-COLOR: black; FONT-FAMILY: tahoma; COLOR: white; }
+A { FONT-SIZE: 11px; FONT-FAMILY: tahoma; COLOR: #1CA6EB; TEXT-DECORATION: none }
+A:visited { COLOR: #0E74A7 }
+A:hover { COLOR: #91D8FB }
+.bluetext { FONT-SIZE: 11px; FONT-FAMILY: tahoma; COLOR: #77C9F2 }
+.title1 { FONT-SIZE: 14px; FONT-FAMILY: tahoma; COLOR: white; FONT-WEIGHT: bold }
+.title2 { FONT-SIZE: 13px; FONT-FAMILY: tahoma; COLOR: white; TEXT-ALIGN: right }
+-->
+</STYLE>
+
+<SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"><!--
+// All functions are created by milka.                   //
+// Functions can be used when credit is given. It        //
+// should look like this:                                //
+/* +++ script name by milka +++ */                       //
+
+// When you classify it in such a way, you are free to   //
+// use the script.                                       //
+// this export script was last modified: 14.10.2007      //
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+// ++++++++++++++++++ DEFINE THE NAMES ++++++++++++++++++ //
+// Here you can define the names of the covers & reviews. //
+// You can even define the whole name of the file!!!      //
+
+// Defines names for covers & reviews:
+var cover = "cover.jpg";
+var review = "review.txt";
+
+
+var al_c = $loop(%_folderpath%,1)$puts(alb,$add($get(alb),1))$loopend()$sub($get(alb),1);
+var al_c_r = $get(alb);
+var mix_c = $loop(%_filename_ext%)$puts(mix,$if($eql($folderdepth(%_folderpath%),$folderdepth(%_workingpath%)),$add($get(mix),1),$add($get(mix),0)))$loopend()$get(mix);
+
+/* +++ Dynamic preview by milka +++ */
+function misc(){
+	if(mix_c == 0){
+		document.getElementById("no_mixes").style.display = "none";
+	}
+	if(al_c_r == 1 && mix_c){
+		show_alpanel();
+		show_cover_panel();
+		show_coverlist();
+		show_mixlist();
+		document.getElementById("no_albums").style.display = "";
+		document.getElementById("no_covers").style.display = "";
+		document.getElementById("no_coverlist").style.display = "";
+	}
+}
+function hide_expend_all(){
+	if((mix_c == 0 && al_c_r == 1) || al_c){ document.write("<DIV align=\"center\"><B><A href=\"javascript:show_all()\" id=\"a\">SHOW ALL TRACKS (IN ALBUMS)<\/A><\/B><\/DIV>"); }
+}
+/* +++ Smart counters by milka +++ */
+function al_counter() {
+		if(mix_c) { document.write(al_c); }
+		else { document.write(al_c_r); }
+}
+function al_track_counter() {
+	var album_track_count = %_total_files%-mix_c;
+	document.write(album_track_count);
+}
+function mix_counter() {
+	document.write(mix_c);
+}
+/* +++ Show/hide by milka +++ */
+function show_album(id) {
+	if(document.getElementById("al" + id).style.display == "none") {
+		var arry = document.getElementById("infoform").value;
+		var amount = arry.split(";");
+			for (var i = 0; i< (amount.length-1); i++) {
+				document.getElementById("al" + amount'['i']').style.display = "none";
+				document.getElementById("cover" + amount'['i']').style.display = "none";
+				document.getElementById("panel" + amount'['i']').style.color = "";
+				document.getElementById("enqueue" + amount'['i']').innerText = "ENQUEUE ";
+				document.getElementById("p" + amount'['i']').src = "_Music_Playground_Files_/w_dot.gif";
+			}
+		document.getElementById("al" + id).style.display = "";
+		document.getElementById("cover" + id).style.display = "";
+		document.getElementById("panel" + id).style.color = "#FFFFFF";
+		document.getElementById("enqueue" + id).innerText = "CLOSE ";
+		document.getElementById("p" + id).src = "_Music_Playground_Files_/o_dot.gif";
+		document.getElementById("infoform").value = id + ";";
+	}else{
+		document.getElementById("al" + id).style.display = "none";
+		document.getElementById("cover" + id).style.display = "none";
+		document.getElementById("panel" + id).style.color = "";
+		document.getElementById("enqueue" + id).innerText = "ENQUEUE ";
+		document.getElementById("p" + id).src = "_Music_Playground_Files_/w_dot.gif";
+	}
+}
+function show_enque_al(id) {
+	if(document.getElementById("al" + id).style.display == "none") {
+		document.getElementById("al" + id).style.display = "";
+		document.getElementById("cover" + id).style.display = "";
+		document.getElementById("panel" + id).style.color = "#FFFFFF";
+		document.getElementById("enqueue" + id).innerText = "CLOSE ";
+		document.getElementById("p" + id).src = "_Music_Playground_Files_/o_dot.gif";
+		document.getElementById("infoform").value += id + ";";
+	}else{
+		document.getElementById("al" + id).style.display = "none";
+		document.getElementById("cover" + id).style.display = "none";
+		document.getElementById("panel" + id).style.color = "";
+		document.getElementById("enqueue" + id).innerText = "ENQUEUE ";
+		document.getElementById("p" + id).src = "_Music_Playground_Files_/w_dot.gif";
+	}
+}
+function show_mixlist() {
+	if(document.getElementById("mixlist").style.display == "none") {
+		document.getElementById("mixlist").style.display = "";
+		document.getElementById("mix").innerText = "Mix List »";
+		document.getElementById("mix").style.color = "#FFFFFF";
+	}else{
+		document.getElementById("mixlist").style.display = "none";
+		document.getElementById("mix").innerText = "Mix List";
+		document.getElementById("mix").style.color = "";
+	}
+	if(mix_c == 0){
+		document.getElementById("no_mixes2").style.display = "none";
+	}
+}
+function show_tracklist() {
+	if(document.getElementById("tracklist").style.display == "none") {
+		document.getElementById("tracklist").style.display = "";
+		document.getElementById("t").src = "_Music_Playground_Files_/o_dot.gif";
+	}else{
+		document.getElementById("tracklist").style.display = "none";
+		document.getElementById("t").src = "_Music_Playground_Files_/w_dot.gif";
+	}
+}
+function show_alpanel() {
+	if(document.getElementById("alpanel").style.display == "none") {
+		document.getElementById("alpanel").style.display = "";
+		document.getElementById("l").src = "_Music_Playground_Files_/o_dot.gif";
+	}else{
+		document.getElementById("alpanel").style.display = "none";
+		document.getElementById("l").src = "_Music_Playground_Files_/w_dot.gif";
+	}
+}
+function show_coverlist() {
+	if(document.getElementById("coverlist").style.display == "none") {
+		document.getElementById("coverlist").style.display = "";
+		document.getElementById("c").src = "_Music_Playground_Files_/o_dot.gif";
+	}else{
+		document.getElementById("coverlist").style.display = "none";
+		document.getElementById("c").src = "_Music_Playground_Files_/w_dot.gif";
+	}
+}
+function show_cover_panel() {
+	if(document.getElementById("cover_panel").style.display == "none") {
+		document.getElementById("cover_panel").style.display = "";
+		document.getElementById("e").src = "_Music_Playground_Files_/o_dot.gif";
+	}else{
+		document.getElementById("cover_panel").style.display = "none";
+		document.getElementById("e").src = "_Music_Playground_Files_/w_dot.gif";
+	}
+}
+function show_all() {
+	if(mix_c) i=1; else i=0;
+		for (i; i<=al_c; i++) {
+			document.getElementById("al" + i).style.display = "";
+			document.getElementById("cover" + i).style.display = "";
+			document.getElementById("panel" + i).style.color = "#FFFFFF";
+			document.getElementById("enqueue" + i).innerText = "CLOSE ";
+			document.getElementById("p" + i).src = "_Music_Playground_Files_/o_dot.gif";
+		}
+	document.getElementById("a").innerText = "CLOSE ALL TRACKS (IN ALBUMS)";
+	document.getElementById("a").href = "javascript:close_all()";
+}
+function close_all() {
+	if(mix_c) i=1; else i=0;
+		for (i; i<=al_c; i++) {
+			document.getElementById("al" + i).style.display = "none";
+			document.getElementById("cover" + i).style.display = "none";
+			document.getElementById("panel" + i).style.color = "";
+			document.getElementById("enqueue" + i).innerText = "ENQUEUE ";
+			document.getElementById("p" + i).src = "_Music_Playground_Files_/w_dot.gif";
+		}
+	document.getElementById("a").innerText = "SHOW ALL TRACKS (IN ALBUMS)";
+	document.getElementById("a").href = "javascript:show_all()";
+}
+function dyncover_show(id) {
+		document.getElementById("dyacover" + id).style.display = "";
+}
+function dynacover_hide(id) {
+		document.getElementById("dyacover" + id).style.display = "none";
+}
+// +++ Play functions by milka +++ //
+function play_file(c,i) {
+	document.mediaPlayer.autostart = true;
+	document.mediaPlayer.fileName = a'['c']''['1']' + s'['i']''['1']';
+}
+function play_mix(mix_nr) {
+	document.mediaPlayer.autostart = true;
+	document.mediaPlayer.fileName = s'['mix_nr']''['1']';
+}
+function open_file(c,i) {
+	window.location = a'['c']''['1']' + s'['i']''['1']';
+}
+function open_mix(mix_nr) {
+	window.location = s'['mix_nr']''['1']';
+}
+/* +++ PreLoad Wait +++ */
+function waitPreloadPage() { //DOM
+	if (document.getElementById){
+		document.getElementById("prepage").style.visibility="hidden";
+	}else{
+		if (document.layers){ //NS4
+			document.prepage.visibility = "hidden";
+		}
+		else { //IE4
+			document.all.prepage.style.visibility = "hidden";
+		}
+	}
+}
+
+// +++ outtime_alb-function by SquallLeonhart38 +++ //
+function outtime_alb(field) {
+	var h = Math.floor(field / 3600);
+	var m = Math.floor((field - 3600 * h) / 60);
+	var s = field %% 60;
+	if(s < 10) {s = "0" + s;}
+	if(field > 3599) {
+		if(m < 10) {m = "0" + m;}
+		output = "(" + h + ":" + m + ":" + s + ")";
+	}else{
+		output = "(" + m + ":" + s + ")";
+	}
+return output;
+}
+
+// +++ outtime_song-function by SquallLeonhart38 +++ //
+function outtime_song(field) {
+	var m = Math.floor(field / 60);
+	var s = field %% 60;
+	if(s < 10) {s = "0" + s;}
+	output = "(" + m + ":" + s + ")";
+return output;
+}
+
+/* +++ Auto-Sizing Image Popup Window +++ */
+/* +++ script by SquallLeonhart38 +++ */
+/* +++ Edited by milka +++ */
+
+// Set the horizontal and vertical position for the popup
+var Start_X = 100;
+var Start_Y = 100;
+
+// Set these value approximately 20 pixels greater than the
+// size of the largest image to be used (needed for Netscape)
+var img_Width  = 500;
+var img_Height = 500;
+
+// Do not edit below this line...
+// ================================
+if(navigator.userAgent.indexOf("Opera") != -1) {defaultWidth = screen.availWidth;defaultHeight = screen.availHeight;}
+var img_option = "scrollbars=no, status=no, toolbar=no, menubar=no, dependent=yes, location=no, resizable=no, width=" + img_Width + ", height=" + img_Height + ", left=" + Start_X + ", top=" + Start_Y;
+function popImage(id) {
+	var imageURL = a'['id']''['1']' + cover;
+	var imageTitle = a'['id']''['0']';
+	var image_window=window.open("about:blank","Albumcover",img_option);
+	with(image_window.document) {
+		writeln("<html><head><title>" + imageTitle + "<\/title><script><!--");
+		writeln("var isNN,isIE,isOO;");
+			writeln("isNN = (navigator.appName == \"Netscape\" && navigator.userAgent.indexOf(\"Opera\") == -1)?1:0;");
+			writeln("isOO = (navigator.userAgent.indexOf(\"Opera\") != -1)?1:0;");
+			writeln("isIE = (navigator.appName.indexOf(\"Microsoft\") != -1 && navigator.userAgent.indexOf(\"Opera\") == -1)?1:0;");
+		writeln("function resizepopup() {");
+			writeln("if(isIE) {");
+				writeln("window.resizeTo(100,100);");
+				writeln("width = 100-(document.body.clientWidth-document.images'['0']'.width);");
+				writeln("height = 100-(document.body.clientHeight-document.images'['0']'.height);");
+				writeln("window.resizeTo(width,height);}");
+			writeln("if(isNN) {");       
+				writeln("window.innerWidth=document.images'['0']'.width;");
+				writeln("window.innerHeight=document.images'['0']'.height;}");
+			writeln("if(isOO) {");
+				writeln("window.resizeTo(100,100);");
+				writeln("width = 100-(document.body.clientWidth-document.images'['0']'.width)+12;");
+				writeln("height = 100-(document.body.clientHeight-document.images'['0']'.height)-16;");
+				writeln("window.resizeTo(width,height);}}");
+		writeln("//--><\/script><\/head>");
+		writeln("<body style=\"margin: 0px; padding: 0px\" onload=\"resizepopup();self.focus()\">");
+		writeln("<img name=\"cover\" src=\"" + imageURL + "\"><\/body><\/html>");
+	close();
+	}
+}
+
+/* +++ PopUp-Window for Reviews +++ */
+/* +++ script by SquallLeonhart38 +++ */
+/* +++ Edited by milka +++ */
+
+// this values specify the width and the height of the review
+// popup. You can change them or leave them as they are.
+var rev_Width  = 550;
+var rev_Height = 500;
+
+var rev_option = "resizable=no, menubar=no, status=no, scrollbars=no, toolbar=no, location=no, dependent=yes, width=" + rev_Width + ", height=" + rev_Height;
+function popReview(id) {
+	var reviewURL = a'['id']''['1']' + review;
+	var review_window = window.open("about:blank", "Review",rev_option);
+	with(review_window.document) {
+		writeln("<html><head><title>Review of: " + a'['id']''['0']' + "<\/title><\/head>");
+		writeln("<body style=\"margin: 0px; padding: 0px\">");
+		writeln("<iframe src=\"" + reviewURL + "\" scrolling=\"yes\" width=\"" + rev_Width + "\" height=\"" + rev_Height + "\" frameborder=\"0\">");
+		writeln("<\/body><\/html>");
+	close();
+	}
+}
+
+// +++ Arrayed Java Export by nickless +++ //
+// +++ Edited by milka & SquallLeonhart38 +++ //
+
+var a = new Array($get(alb));	//main export array for folders
+var s = new Array(%_total_files%);   //main export array for songs
+
+/* history of subarray fields usage
+a'['n']'=new Array(5);	//creates a new subarray in the n-th line of table
+a'['n']''['0']'= name of directory
+a'['n']''['1']'= folderpath without workingpath
+a'['n']''['2']'= total playing time in seconds
+a'['n']''['3']'= total files
+a'['n']''['4']'= genre of directory
+
+s'['n']'=new Array(3);	//creates a new subarray in the n-th line of table
+s'['n']''['0']'= name of file
+s'['n']''['1']'= filename with extension
+s'['n']''['2']'= playing time in seconds
+*/
+$loop(%_folderpath%)$puts(albcnt,$add($get(albcnt),1))
+a'['$sub($get(albcnt),1)']'=new Array(5);
+a'['$sub($get(albcnt),1)']''['0']'="%_directory%";
+a'['$sub($get(albcnt),1)']''['1']'="$replace($replace($replace(%_folderpath%,%_workingpath%,),\,/),#,%%23)";
+a'['$sub($get(albcnt),1)']''['2']'=%_total_time_raw%;
+a'['$sub($get(albcnt),1)']''['3']'=%_total_files%;
+a'['$sub($get(albcnt),1)']''['4']'="%genre%";$loop(%_filename_ext%)$puts(songcnt,$add($get(songcnt),1))
+s'['$sub($get(songcnt),1)']'=new Array(3);
+s'['$sub($get(songcnt),1)']''['0']'="%_filename%";
+s'['$sub($get(songcnt),1)']''['1']'="$replace($replace(%_filename_ext%,\,/),#,%%23)";
+s'['$sub($get(songcnt),1)']''['2']'="%_length_seconds%";$loopend()$loopend()
+a'['$get(albcnt)']'=new Array(5);
+a'['$get(albcnt)']''['0']'="";
+a'['$get(albcnt)']''['1']'="";
+a'['$get(albcnt)']''['2']'="";
+a'['$get(albcnt)']''['3']'="";
+a'['$get(albcnt)']''['4']'="";
+
+if(navigator.appName == "Microsoft Internet Explorer" && navigator.userAgent.indexOf("Opera") == -1) {
+   var coverlist = "";
+   var tracklist = "";
+   var albumpanel = "";
+   var coverpreview = "";
+   var coverpanel = "";
+}else{
+   coverlist = "";
+   tracklist = "";
+   albumpanel = "";
+   coverpreview = "";
+   coverpanel = "";
+   loop_s = $get(mix);
+   end_s = $get(mix) + a'['$if($eql($get(mix),0),0,1)']''['3']';
+   for(var c = $if($eql($get(mix),0),0,1); c < al_c_r; c++) {
+      coverlist += "<TABLE id=\"cover" + c + "\" style=\"display: none\"><TR><TD>";
+        coverlist += "<A href=\"javascript:popImage(''" + c + "'')\">";
+          coverlist += "<IMG src=\"" + a'['c']''['1']' + cover + "\" width=\"75\" align=\"left\" style=\"border: solid 1px #1CA6EB\"><\/A><\/TD><\/TR>";
+      coverlist += "<TR><TD align=\"center\">";
+        coverlist += "<A href=\"javascript:show_enque_al(''" + c + "'')\">Close Album<\/A><\/TD><\/TR><\/TABLE>";
+
+      tracklist += "<TR id=\"al" + c + "\" style=\"display: none\">";
+        tracklist += "<TD style=\"BORDER-BOTTOM: #1CA6EB 1px solid\">";
+          tracklist += "<DIV align=\"center\"><B><A href=\"" + a'['c']''['1']' + a'['c']''['0']' + ".m3u\">" + a'['c']''['0']' + "<\/A><\/B> " + outtime_alb(a'['c']''['2']') + "<\/DIV><BR>";
+          for(var i = loop_s; i < end_s; i++) {
+             tracklist += "<A href=\"" + a'['c']''['1']' + s'['i']''['1']' + "\">" + s'['i']''['0']' + "<\/A> " + outtime_song(s'['i']''['2']') + "<BR>";
+          }
+        tracklist += "<TD valign=\"top\" align=\"right\" style=\"BORDER-BOTTOM: #1CA6EB 1px solid\" width=\"10\">";
+          tracklist += "<A href=\"javascript:show_enque_al(''" + c + "'')\">Close&nbsp;Album<\/A><BR>";
+          tracklist += "<A href=\"javascript:popImage(''" + c + "'')\">";
+            tracklist += "<IMG src=\"" + a'['c']''['1']' + cover + "\" width=\"55\" style=\"border: solid 1px #1CA6EB\"><\/A><BR>";
+          tracklist += "<A href=\"javascript:popReview(''" + c + "'')\" style=\"padding-right: 10px\">Review<\/A><\/TD><\/TR>";
+      loop_s += a'['c']''['3']';
+      end_s += a'['(c+1)']''['3']';
+
+      albumpanel += "<TABLE class=\"bluetext\" id=\"a" + c + "\" style=\"BORDER-BOTTOM: #1CA6EB 1px solid\" cellspacing=\"0\" cellpadding=\"0\" width=\"98%%\">";
+        albumpanel += "<TR height=\"5\"><TD><\/TD><\/TR>";
+      albumpanel += "<TR><TD>";
+        albumpanel += "<IMG src=\"_Music_Playground_Files_/w_dot.gif\" border=\"0\" id=\"p" + c + "\">";
+        albumpanel += "<A href=\"javascript:show_album(''" + c +"'')\" onMouseover=\"dyncover_show(" + c + ")\" onMouseOut=\"dynacover_hide(" + c + ")\"> " + a'['c']''['0']' + "<BR><\/A><\/TD><\/TR>";
+      albumpanel += "<TR><TD colspan=\"2\" align=\"right\">" + outtime_alb(a'['c']''['2']') + "<\/TD><\/TR>";
+      albumpanel += "<TR><TD colspan=\"2\" align=\"left\">" + a'['c']''['4']' + "<\/TD><\/TR>";
+      albumpanel += "<TR><TD align=\"right\" colspan=\"2\">";
+            albumpanel += "<A href=\"javascript:show_enque_al(''" + c + "'')\" id=\"enqueue" + c + "\">ENQUEUE <\/A> |";
+            albumpanel += "<A href=\"" + a'['c']''['1']' + a'['c']''['0']' + ".m3u\">PLAY»<\/A><\/TD><\/TR>";
+      albumpanel += "<TR height=\"5\"><TD><\/TD><\/TR>";
+      albumpanel += "<\/TABLE>";
+
+      coverpreview += "<IMG id=\"dyacover" + c + "\" style=\"display: none\" src=\"" + a'['c']''['1']' + cover + "\" width=\"100\">";
+
+      coverpanel += "<TR><TD align=\"center\">";
+        coverpanel += "<A href=\"javascript:show_enque_al(''" + c + "'')\">";
+          coverpanel += "<IMG src=\"" + a'['c']''['1']' + cover + "\" width=\"100\" /*height=\"100\"*/ style=\"border: solid 1px #1CA6EB\"><\/A><\/TD><\/TR>";
+      coverpanel += "<TR><TD align=\"center\">";
+        coverpanel += "<A id=\"panel" + c + "\" href=\"javascript:popImage(''" + c + "'')\">" + a'['c']''['0']' + "<\/A><\/TD><\/TR>";
+   }
+}
+//--></SCRIPT>
+</HEAD>
+<BODY onload="misc();waitPreloadPage()">
+<!-- Loading Page Message //-->
+<DIV id="prepage">
+<TABLE align="center"><TR><TD><B>LOADING PAGE... PLEASE WAIT!</B></TD></TR></TABLE>
+</DIV>
+<!-- Loading Page Message End //-->
+
+<!-- field used for show_album(id)-function -->
+<INPUT type="text" id="infoform" value="" style="display: none">
+<!-- field used for show_album(id)-function End -->
+
+<TABLE width="980" align="center">
+  <TR>
+    <TD colSpan="2"><P align="center"><IMG src="_Music_Playground_Files_/PGM_weblogo.jpg"></P></TD></TR>
+<!-- Player Menu //-->
+<SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"><!--
+if(navigator.appName == "Microsoft Internet Explorer" && navigator.userAgent.indexOf("Opera") == -1) {
+  document.writeln("<TR><TD colSpan=\"2\"><TABLE width=\"980\" height=\"30px\" cellSpacing=\"0\" cellPadding=\"0\" align=\"center\">");
+    document.writeln("<TR><TD background=\"_Music_Playground_Files_/left-top.jpg\"><\/TD>");
+        document.writeln("<TD height=\"9\" background=\"_Music_Playground_Files_/top.jpg\"><\/TD>");
+        document.writeln("<TD background=\"_Music_Playground_Files_/right-top.jpg\"><\/TD><\/TR>");
+    document.writeln("<TR><TD background=\"_Music_Playground_Files_/left.jpg\"><\/TD>");
+        document.writeln("<TD>");
+         document.writeln("<OBJECT height=\"45px\" width=\"965\" align=\"center\"");
+          document.writeln("ID=\"mediaPlayer\"");
+          document.writeln("CLASSID=\"CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95\"");
+          document.writeln("CODEBASE=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701\"");
+          document.writeln("STANDBY=\"Loading Microsoft Windows Media Player components...\"");
+          document.writeln("TYPE=\"application/x-oleobject\">");
+          document.writeln("<PARAM NAME=\"fileName\" VALUE=\"http://msdn.microsoft.com/downloads/samples/Internet/imedia/netshow/smedia/NS3/JavaScript/Buttons/control.asx\">");
+          document.writeln("<PARAM NAME=\"animationatStart\" VALUE=\"true\">");
+          document.writeln("<PARAM NAME=\"transparentatStart\" VALUE=\"true\">");
+          document.writeln("<PARAM NAME=\"autoStart\" VALUE=\"false\">");
+          document.writeln("<PARAM NAME=\"showControls\" VALUE=\"true\">");
+         document.writeln("<\/OBJECT><\/TD>");
+        document.writeln("<TD background=\"_Music_Playground_Files_/right.jpg\"><\/TD><\/TR>");
+    document.writeln("<TR><TD width=\"9\" background=\"_Music_Playground_Files_/left-bottom.jpg\"><\/TD>");
+        document.writeln("<TD height=\"9\" background=\"_Music_Playground_Files_/bottom.jpg\"><\/TD>");
+        document.writeln("<TD width=\"9\" background=\"_Music_Playground_Files_/right-bottom.jpg\"><\/TD><\/TR>");
+  document.writeln("<\/TD><\/TR><\/TABLE>");
+}
+//--></SCRIPT>
+<!-- Player Menu End //-->
+  <TR>
+<!-- First Part (Main, Mix List, Info & Coverlist) //-->
+    <TD width="120" height="582">
+      <TABLE height="100%%" cellSpacing="0" cellPadding="0">
+        <TR><TD>
+  <!-- Main Menu //-->
+          <TABLE width="130" cellSpacing="0" cellPadding="0">
+            <TR><TD background="_Music_Playground_Files_/left-top.jpg"></TD>
+                <TD height="9" background="_Music_Playground_Files_/top.jpg"></TD>
+                <TD background="_Music_Playground_Files_/right-top.jpg"></TD></TR>
+            <TR><TD background="_Music_Playground_Files_/left.jpg"></TD>
+                <TD align="left">
+                  <TABLE height="80" cellSpacing="0" cellPadding="0">
+                    <TR><TD><IMG src="_Music_Playground_Files_/o_dot.gif" id="t"><A href="javascript:show_tracklist()">Tracklist</A></TD></TR>
+                    <TR><TD><IMG src="_Music_Playground_Files_/o_dot.gif" id="l"><A href="javascript:show_alpanel()">Albumpanel</A></TD></TR>
+                    <TR><TD><IMG src="_Music_Playground_Files_/o_dot.gif" id="e"><A href="javascript:show_cover_panel()">Coverpanel</A></TD></TR>
+                    <TR><TD><IMG src="_Music_Playground_Files_/o_dot.gif" id="c"><A href="javascript:show_coverlist()">Coverlist</A></TD></TR>
+                  </TABLE>
+                </TD>
+                <TD background="_Music_Playground_Files_/right.jpg"></TD></TR>
+            <TR><TD width="9" background="_Music_Playground_Files_/left-bottom.jpg"></TD>
+                <TD height="9" background="_Music_Playground_Files_/bottom.jpg"></TD>
+                <TD width="9" background="_Music_Playground_Files_/right-bottom.jpg"></TD></TR>
+          </TABLE>
+  <!-- Main Menu End //-->
+        </TD></TR>
+        <TR><TD>
+  <!-- Mix List Menu //-->
+          <TABLE id="no_mixes" width="120" cellSpacing="0" cellPadding="0">
+            <TR><TD background="_Music_Playground_Files_/left-top.jpg"></TD>
+                <TD height="9" background="_Music_Playground_Files_/top.jpg"></TD>
+                <TD background="_Music_Playground_Files_/right-top.jpg"></TD></TR>
+            <TR><TD background="_Music_Playground_Files_/left.jpg"></TD>
+                <TD align="left">
+                  <A id="mix" href="javascript:show_mixlist()">Mix List</A></TD>
+                <TD background="_Music_Playground_Files_/right.jpg"></TD></TR>
+            <TR><TD width="9" background="_Music_Playground_Files_/left-bottom.jpg"></TD>
+                <TD height="9" background="_Music_Playground_Files_/bottom.jpg"></TD>
+                <TD width="9" background="_Music_Playground_Files_/right-bottom.jpg"></TD></TR>
+          </TABLE>
+  <!-- Mix List Menu End //-->
+        </TD></TR>
+        <TR><TD>
+  <!-- Info Menu //-->
+          <TABLE width="120" cellSpacing="0" cellPadding="0">
+            <TR><TD background="_Music_Playground_Files_/left-top.jpg"></TD>
+                <TD height="9" background="_Music_Playground_Files_/top.jpg"></TD>
+                <TD background="_Music_Playground_Files_/right-top.jpg"></TD></TR>
+            <TR><TD background="_Music_Playground_Files_/left.jpg"></TD>
+                <TD><TABLE class="bluetext" cellSpacing="0" cellPadding="0">
+                      <TR><TD class="title1" align="center">INFO</TD></TR>
+                      <TR><TD><B><SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT">al_counter()</SCRIPT></B> Albums
+                      (#<SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT">al_track_counter()</SCRIPT>)</TD></TR>
+                      <TR><TD><B><SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT">mix_counter()</SCRIPT></B> Mixes</TD></TR>
+                      <TR><TD>Total:<B> %_total_files%</B> Tracks</TD></TR>
+                      <TR align="right"><TD><B>$replace($replace($replace($replace($replace(-%_total_time2%,-00:00,0),-00:0,),-00:,),-0,),-,)</B></TD></TR>
+                      <TR align="right"><TD><B>%_total_size%</B></TD></TR></TABLE></TD>
+                <TD background="_Music_Playground_Files_/right.jpg"></TD></TR>
+            <TR><TD width="9" background="_Music_Playground_Files_/left-bottom.jpg"></TD>
+                <TD height="9" background="_Music_Playground_Files_/bottom.jpg"></TD>
+                <TD width="9" background="_Music_Playground_Files_/right-bottom.jpg"></TD></TR>
+          </TABLE>
+  <!-- Info Menu End //-->
+        </TD></TR>
+        <TR style="height: 100%%"><TD></TD></TR>
+        <TR><TD>
+  <!-- Coverlist Menu //-->
+          <TABLE id="coverlist" width="130" cellSpacing="0" cellPadding="0">
+            <TR><TD background="_Music_Playground_Files_/left-top.jpg"></TD>
+                <TD height="9" background="_Music_Playground_Files_/top.jpg"></TD>
+                <TD background="_Music_Playground_Files_/right-top.jpg"></TD></TR>
+            <TR><TD background="_Music_Playground_Files_/left.jpg"></TD>
+                <TD><TABLE cellSpacing="0" cellPadding="0">
+                      <TR><TD class="title2" style="padding-left: 45px;">COVERLIST</TD></TR></TABLE>
+                      <DIV style="SCROLLBAR-FACE-COLOR: #000000; SCROLLBAR-HIGHLIGHT-COLOR: #1CA6EB; OVERFLOW: auto; SCROLLBAR-SHADOW-COLOR: #1CA6EB; SCROLLBAR-3DLIGHT-COLOR: #1CA6EB; SCROLLBAR-ARROW-COLOR: #1CA6EB; SCROLLBAR-TRACK-COLOR: #000000; SCROLLBAR-DARKSHADOW-COLOR: #000000; HEIGHT: 115px; BACKGROUND-COLOR: #000000">
+                        <TABLE id="no_coverlist" style="display: none"><TD class="bluetext">NO COVERS AVAILABLE !</TD></TABLE>
+                        <SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"><!--
+                        if(navigator.appName == "Microsoft Internet Explorer" && navigator.userAgent.indexOf("Opera") == -1) {
+                           for(var c = $if($eql($get(mix),0),0,1); c < al_c_r; c++) {
+                              document.writeln("<TABLE id=\"cover" + c + "\" style=\"display: none\"><TR><TD>");
+                                document.writeln("<A href=\"javascript:popImage(''" + c + "'')\">");
+                                  document.writeln("<IMG src=\"" + a'['c']''['1']' + cover + "\" width=\"75\" align=\"left\" style=\"border: solid 1px #1CA6EB\"><\/A><\/TD><\/TR>");
+                              document.writeln("<TR><TD align=\"center\">");
+                                document.writeln("<A href=\"javascript:show_enque_al(''" + c + "'')\">Close Album<\/A><\/TD><\/TR><\/TABLE>");
+                           }
+                        }else{
+                           document.write(coverlist);
+                        }
+                        //--></SCRIPT></DIV></TD>
+                <TD background="_Music_Playground_Files_/right.jpg"></TD></TR>
+            <TR><TD width="9" background="_Music_Playground_Files_/left-bottom.jpg"></TD>
+                <TD height="9" background="_Music_Playground_Files_/bottom.jpg"></TD>
+                <TD width="9" background="_Music_Playground_Files_/right-bottom.jpg"></TD></TR>
+          </TABLE>
+  <!-- Coverlist Menu End //-->
+        </TD></TR>
+      </TABLE>
+    </TD>
+<!-- First Part End //-->
+<!-- Second Part (Tracklist, Albumpanel & Coverpanel) //-->
+    <TD width="860" height="582">
+      <TABLE cellSpacing="0" cellPadding="0">
+        <TR>
+          <TD id="tracklist" width="100%%">
+  <!-- Tracklist Menu //-->
+            <TABLE width="100%%" height="580" cellSpacing="0" cellPadding="0">
+              <TR><TD background="_Music_Playground_Files_/left-top.jpg"></TD>
+                  <TD height="9" background="_Music_Playground_Files_/top.jpg"></TD>
+                  <TD background="_Music_Playground_Files_/right-top.jpg"></TD></TR>
+              <TR><TD background="_Music_Playground_Files_/left.jpg"></TD>
+                  <TD align="left">
+                    <TABLE cellSpacing="5" cellPadding="0">
+                      <TR><TD>
+                        <TABLE cellSpacing="0" cellPadding="0">
+                          <TR><TD background="_Music_Playground_Files_/left-top.jpg"></TD>
+                              <TD height="9" background="_Music_Playground_Files_/top.jpg"></TD>
+                              <TD background="_Music_Playground_Files_/right-top.jpg"></TD></TR>
+                          <TR><TD background="_Music_Playground_Files_/left.jpg"></TD>
+                              <TD>
+                                <TABLE cellSpacing="0" cellPadding="0">
+                                  <TR><TD>
+                                    <TABLE class="bluetext" cellSpacing="0" cellPadding="0"><TD>_- <B>%_workingdir%</B> -_</TD></TABLE></TD></TR></TABLE></TD>
+                              <TD background="_Music_Playground_Files_/right.jpg"></TD></TR>
+                          <TR><TD width="9" background="_Music_Playground_Files_/left-bottom.jpg"></TD>
+                              <TD height="9" background="_Music_Playground_Files_/bottom.jpg"></TD>
+                              <TD width="9" background="_Music_Playground_Files_/right-bottom.jpg"></TD></TR>
+                        </TABLE>
+                      </TD></TR>
+                      <TR><TD class="title1" align="left" height="10">TRACKLIST</TD></TR>
+                      <TR><TD></TD></TR>
+                    </TABLE>
+                    <DIV style="SCROLLBAR-FACE-COLOR: #000000; SCROLLBAR-HIGHLIGHT-COLOR: #1CA6EB; OVERFLOW: auto; WIDTH: 100%%; SCROLLBAR-SHADOW-COLOR: #1CA6EB; SCROLLBAR-3DLIGHT-COLOR: #1CA6EB; SCROLLBAR-ARROW-COLOR: #1CA6EB; SCROLLBAR-TRACK-COLOR: #000000; SCROLLBAR-DARKSHADOW-COLOR: #000000; HEIGHT: 458px; BACKGROUND-COLOR: #000000">
+                      <TABLE class="bluetext" cellspacing="0" cellpadding="0" width="99%%"><SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"><!--
+                      if(navigator.appName == "Microsoft Internet Explorer" && navigator.userAgent.indexOf("Opera") == -1) {
+                         loop_s = $get(mix);
+                         end_s = $get(mix) + a'['$if($eql($get(mix),0),0,1)']''['3']';
+                         for(var c = $if($eql($get(mix),0),0,1); c < al_c_r; c++) {
+                            document.writeln("<TR id=\"al" + c + "\" style=\"display: none\">");
+                              document.writeln("<TD style=\"BORDER-BOTTOM: #1CA6EB 1px solid\">");
+                                document.writeln("<DIV align=\"center\"><B><A href=\"" + a'['c']''['1']' + a'['c']''['0']' + ".m3u\">" + a'['c']''['0']' + "<\/A><\/B> " + outtime_alb(a'['c']''['2']') + "<\/DIV><BR>");
+                                for(var i = loop_s; i < end_s; i++) {
+                                   document.writeln("<A href=\"javascript:play_file(''" + c + "'',''" + i + "'')\" onDblClick=\"javascript:open_file(''" + c + "'',''" + i + "'')\">" + s'['i']''['0']' + "<\/A> " + outtime_song(s'['i']''['2']') + "<BR>");
+                                }
+                              document.writeln("<TD valign=\"top\" align=\"right\" style=\"BORDER-BOTTOM: #1CA6EB 1px solid\" width=\"10\">");
+                                document.writeln("<A href=\"javascript:show_enque_al(''" + c + "'')\">Close&nbsp;Album<\/A><BR>");
+                                document.writeln("<A href=\"javascript:popImage(''" + c + "'')\">");
+                                  document.writeln("<IMG src=\"" + a'['c']''['1']' + cover + "\" width=\"55\" style=\"border: solid 1px #1CA6EB\"><\/A><BR>");
+                                document.writeln("<A href=\"javascript:popReview(''" + c + "'')\" style=\"padding-left: 10px\">Review<\/A><\/TD><\/TR>");
+                            loop_s += a'['c']''['3']';
+                            end_s += a'['(c+1)']''['3']';
+                         }
+                      }else{
+                         document.write(tracklist);
+                      }
+                         document.writeln("<TR id=\"mixlist\" style=\"display: none\">");
+                           document.writeln("<TD>");
+                             document.writeln("<DIV align=\"center\" style=\"BORDER-BOTTOM: #1CA6EB 1px solid\"><B><A href=\"" + a'['0']''['0']' + ".m3u\">Mix List<\/A><\/B><\/DIV><BR>");
+                             for(var m = 0; m < $get(mix); m++) {
+                                document.writeln("<A href=\"javascript:play_mix(''" + m + "'')\" onDblClick=\"javascript:open_mix(''" + m + "'')\">" + s'['m']''['0']' + "<\/A> " + outtime_song(s'['m']''['2']') + "<BR>");
+                             }
+                             document.writeln("<\/TD><TD id=\"no_mixes2\" valign=\"top\" align=\"right\" width=\"10\">");
+                               document.writeln("<A href=\"javascript:show_mixlist()\" style=\"BORDER-BOTTOM: #1CA6EB 1px solid\">Close&nbsp;Mixes<\/A><\/TD><\/TR>");
+                      //--></SCRIPT></TABLE>
+                    </DIV><BR>
+                    <SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT">hide_expend_all()</SCRIPT></TD>
+                  <TD background="_Music_Playground_Files_/right.jpg"></TD></TR>
+              <TR><TD width="9" background="_Music_Playground_Files_/left-bottom.jpg"></TD>
+                  <TD height="9" background="_Music_Playground_Files_/bottom.jpg"></TD>
+                  <TD width="9" background="_Music_Playground_Files_/right-bottom.jpg"></TD></TR>
+            </TABLE>
+  <!-- Tracklist Menu End //-->
+          </TD><TD>
+            <TABLE cellSpacing="0" cellPadding="0">
+              <TR><TD>
+  <!-- Albumpanel Menu //-->
+                  <TABLE id="alpanel" width="220" height="580" cellSpacing="0" cellPadding="0">
+                    <TR><TD background="_Music_Playground_Files_/left-top.jpg"></TD>
+                        <TD height="9" background="_Music_Playground_Files_/top.jpg"></TD>
+                        <TD background="_Music_Playground_Files_/right-top.jpg"></TD></TR>
+                    <TR><TD background="_Music_Playground_Files_/left.jpg"></TD>
+                        <TD align="left">
+                          <TABLE cellSpacing="5" cellPadding="0">
+                            <TR><TD class="title1" align="left" height="10">ALBUMPANEL</TD></TR></TABLE>
+                          <DIV style="SCROLLBAR-FACE-COLOR: #000000; SCROLLBAR-HIGHLIGHT-COLOR: #1CA6EB; OVERFLOW: auto; WIDTH: 205; SCROLLBAR-SHADOW-COLOR: #1CA6EB; SCROLLBAR-3DLIGHT-COLOR: #1CA6EB; SCROLLBAR-ARROW-COLOR: #1CA6EB; SCROLLBAR-TRACK-COLOR: #000000; SCROLLBAR-DARKSHADOW-COLOR: #000000; HEIGHT: 367px; BACKGROUND-COLOR: #000000">
+                            <TABLE><TR id="no_albums" style="display: none"><TD class="bluetext">NO ALBUMS AVAILABLE !</TD></TR></TABLE>
+                            <SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"><!--
+                            if(navigator.appName == "Microsoft Internet Explorer" && navigator.userAgent.indexOf("Opera") == -1) {
+                               for(var c = $if($eql($get(mix),0),0,1); c < al_c_r; c++) {
+                                  document.writeln("<TABLE class=\"bluetext\" id=\"a" + c + "\" style=\"BORDER-BOTTOM: #1CA6EB 1px solid\" cellspacing=\"0\" cellpadding=\"0\" width=\"98%%\">");
+                                    document.writeln("<TR height=\"5\"><TD><\/TD><\/TR>");
+                                  document.writeln("<TR><TD>");
+                                    document.writeln("<IMG src=\"_Music_Playground_Files_/w_dot.gif\" border=\"0\" id=\"p" + c + "\">");
+                                    document.writeln("<A href=\"javascript:show_album(''" + c +"'')\" onMouseover=\"dyncover_show(" + c + ")\" onMouseOut=\"dynacover_hide(" + c + ")\"> " + a'['c']''['0']' + "<BR><\/A><\/TD><\/TR>");
+                                  document.writeln("<TR><TD colspan=\"2\" align=\"right\">" + outtime_alb(a'['c']''['2']') + "<\/TD><\/TR>");
+                                  document.writeln("<TR><TD colspan=\"2\" align=\"left\">" + a'['c']''['4']' + "<\/TD><\/TR>");
+                                  document.writeln("<TR><TD align=\"right\" colspan=\"2\">");
+                                        document.writeln("<A href=\"javascript:show_enque_al(''" + c + "'')\" id=\"enqueue" + c + "\">ENQUEUE <\/A> |");
+                                        document.writeln("<A href=\"" + a'['c']''['1']' + a'['c']''['0']' + ".m3u\">PLAY»<\/A><\/TD><\/TR>");
+                                  document.writeln("<TR height=\"5\"><TD><\/TD><\/TR>");
+                                  document.writeln("<\/TABLE>");
+                               }
+                            }else{
+                               document.write(albumpanel);
+                            }
+                            //--></SCRIPT></DIV><BR>
+                          <TABLE cellSpacing="0" cellPadding="0" align="center">
+                             <TR><TD class="title2">COVER PREVIEW</TD></TR>
+                             <TR><TD>
+                               <TABLE id="dya_preview" style="border: solid 1px #1CA6EB" width="118" height="127" align="left">
+                                 <TD align="center"><SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"><!--
+                                 if(navigator.appName == "Microsoft Internet Explorer" && navigator.userAgent.indexOf("Opera") == -1) {
+                                     for(var c = $if($eql($get(mix),0),0,1); c < al_c_r; c++) {document.writeln("<IMG id=\"dyacover" + c + "\" style=\"display: none\" src=\"" + a'['c']''['1']' + cover + "\" width=\"100\">");}
+                                 }else{
+                                     document.write(coverpreview);
+                                 }
+                                 //--></SCRIPT></TD></TABLE></TD></TR></TABLE></TD>
+                        <TD background="_Music_Playground_Files_/right.jpg"></TD></TR>
+                    <TR><TD width="9" background="_Music_Playground_Files_/left-bottom.jpg"></TD>
+                        <TD height="9" background="_Music_Playground_Files_/bottom.jpg"></TD>
+                        <TD width="9" background="_Music_Playground_Files_/right-bottom.jpg"></TD></TR>
+                  </TABLE>
+  <!-- Albumpanel Menu End //-->
+                  </TD><TD>
+                    <TABLE cellSpacing="0" cellPadding="2">
+                      <TR><TD>
+  <!-- Coverpanel Menu //-->
+                        <TABLE id="cover_panel" width="190" cellSpacing="0" cellPadding="0">
+                          <TR><TD background="_Music_Playground_Files_/left-top.jpg"></TD>
+                              <TD height="9" background="_Music_Playground_Files_/top.jpg"></TD>
+                              <TD background="_Music_Playground_Files_/right-top.jpg"></TD></TR>
+                          <TR><TD background="_Music_Playground_Files_/left.jpg"></TD>
+                              <TD>
+                                <TABLE cellSpacing="0" cellPadding="0">
+                                  <TR><TD class="title2" style="padding-left: 95px;">COVERPANEL</TD></TR></TABLE>
+                              <DIV style="SCROLLBAR-FACE-COLOR: #000000; SCROLLBAR-HIGHLIGHT-COLOR: #1CA6EB; OVERFLOW: auto; WIDTH: 175; SCROLLBAR-SHADOW-COLOR: #1CA6EB; SCROLLBAR-3DLIGHT-COLOR: #1CA6EB; SCROLLBAR-ARROW-COLOR: #1CA6EB; SCROLLBAR-TRACK-COLOR: #000000; SCROLLBAR-DARKSHADOW-COLOR: #000000; HEIGHT: 538px; BACKGROUND-COLOR: #000000">
+                                <TABLE><TR id="no_covers" style="display: none"><TD class="bluetext">NO COVERS AVAILABLE !</TD></TR></TABLE>
+                                <TABLE><SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"><!--
+                                if(navigator.appName == "Microsoft Internet Explorer" && navigator.userAgent.indexOf("Opera") == -1) {
+                                   for(var c = $if($eql($get(mix),0),0,1); c < al_c_r; c++) {
+                                     document.writeln("<TR><TD align=\"center\">");
+                                       document.writeln("<A href=\"javascript:show_enque_al(''" + c + "'')\">");
+                                         document.writeln("<IMG src=\"" + a'['c']''['1']' + cover + "\" width=\"100\" /*height=\"100\"*/ style=\"border: solid 1px #1CA6EB\"><\/A><\/TD><\/TR>");
+                                     document.writeln("<TR><TD align=\"center\">");
+                                       document.writeln("<A id=\"panel" + c + "\" href=\"javascript:popImage(''" + c + "'')\">" + a'['c']''['0']' + "<\/A><\/TD><\/TR>");
+                                   }
+                                }else{
+                                   document.write(coverpanel);
+                                }
+                                //--></SCRIPT></TABLE></DIV></TD>
+                              <TD background="_Music_Playground_Files_/right.jpg"></TD></TR>
+                          <TR><TD width="9" background="_Music_Playground_Files_/left-bottom.jpg"></TD>
+                              <TD height="9" background="_Music_Playground_Files_/bottom.jpg"></TD>
+                              <TD width="9" background="_Music_Playground_Files_/right-bottom.jpg"></TD></TR>
+                        </TABLE>
+  <!-- Coverpanel Menu End //-->
+                      </TD></TR>
+                    </TABLE>
+                  </TD>
+              </TR>
+            </TABLE>
+          </TD>
+        </TR>
+      </TABLE>
+    </TD>
+<!-- Second Part End //-->
+  </TR>
+</TABLE>
+</BODY>
+</HTML>

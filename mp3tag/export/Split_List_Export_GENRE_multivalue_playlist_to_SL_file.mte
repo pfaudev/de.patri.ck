@@ -1,0 +1,49 @@
+$filename($getEnv('USERPROFILE')'\Desktop\Playlist.Genre.mv.SL.txt',UTF-8)$loop(1,1)$puts(crlf,$char(13)$char(10))$puts(br,'{br}')$loopend()$replace(
+$loop(%artist%'|'%album%)$replace(
+$if($neql($meta(GENRE,0),),
+$get(br)
+'$$$FILEAPPEND='$getEnv('USERPROFILE')'\Desktop\Playlists\Genre\Playlist.Genre.'$validate($meta(GENRE,0),'_')'.m3u8'$get(br)
+'#EXTM3U'$get(br)
+'###GENRE='$meta(GENRE,0)$get(br)
+'#EXTINF:'%_length_seconds%','%ARTIST%' - '%TITLE%$get(br)
+%_path%$get(br)
+'$$$END'$get(br),)
+
+$if($neql($meta(GENRE,1),),
+$get(br)
+'$$$FILEAPPEND='$getEnv('USERPROFILE')'\Desktop\Playlists\Genre\Playlist.Genre.'$validate($meta(GENRE,1),'_')'.m3u8'$get(br)
+'#EXTM3U'$get(br)
+'###GENRE='$meta(GENRE,1)$get(br)
+'#EXTINF:'%_length_seconds%','%ARTIST%' - '%TITLE%$get(br)
+%_path%$get(br)
+'$$$END'$get(br),)
+
+$if($neql($meta(GENRE,2),),
+$get(br)
+'$$$FILEAPPEND='$getEnv('USERPROFILE')'\Desktop\Playlists\Genre\Playlist.Genre.'$validate($meta(GENRE,2),'_')'.m3u8'$get(br)
+'#EXTM3U'$get(br)
+'###GENRE='$meta(GENRE,2)$get(br)
+'#EXTINF:'%_length_seconds%','%ARTIST%' - '%TITLE%$get(br)
+%_path%$get(br)
+'$$$END'$get(br),)
+
+$if($neql($meta(GENRE,3),),
+$get(br)
+'$$$FILEAPPEND='$getEnv('USERPROFILE')'\Desktop\Playlists\Genre\Playlist.Genre.'$validate($meta(GENRE,3),'_')'.m3u8'$get(br)
+'#EXTM3U'$get(br)
+'###GENRE='$meta(GENRE,3)$get(br)
+'#EXTINF:'%_length_seconds%','%ARTIST%' - '%TITLE%$get(br)
+%_path%$get(br)
+'$$$END'$get(br),)
+
+$if($neql($meta(GENRE,4),),
+$get(br)
+'$$$FILEAPPEND='$getEnv('USERPROFILE')'\Desktop\Playlists\Genre\Playlist.Genre.'$validate($meta(GENRE,4),'_')'.m3u8'$get(br)
+'#EXTM3U'$get(br)
+'###GENRE='$meta(GENRE,4)$get(br)
+'#EXTINF:'%_length_seconds%','%ARTIST%' - '%TITLE%$get(br)
+%_path%$get(br)
+'$$$END'$get(br),)
+
+,$get(crlf),,$get(br),$get(crlf))$loopend()
+,$get(crlf),,$get(br),$get(crlf))

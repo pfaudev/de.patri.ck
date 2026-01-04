@@ -1,0 +1,103 @@
+$filename$replace(List.html)<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<title>..:: %_workingdir% Album, Compilation & Set List ::..</title>
+<META http-equiv=Content-Type content="text/html; charset=windows-1250">
+<STYLE type=text/css>
+A:visited {
+	COLOR: #787058
+}
+A:hover {
+	COLOR: #a8a080; text-decoration: none
+}
+A:active {
+	COLOR: #bfbfbf
+}
+A {
+	COLOR: #989068; text-decoration: none
+}
+IMG.cover {
+	BORDER-RIGHT: #787058 1px solid; BORDER-TOP: #787058 1px solid; BORDER-LEFT: #787058 1px solid; BORDER-BOTTOM: #787058 1px solid
+}
+TD.valshade {
+	BORDER-RIGHT: #787058 1px solid; BORDER-TOP: #787058 1px solid; BORDER-LEFT: #787058 1px solid; BORDER-BOTTOM: #787058 1px solid
+}
+BODY {
+	FONT: x-small Verdana
+}
+TD {
+	FONT: x-small Verdana
+}
+P {
+	FONT: x-small Verdana
+}
+.title1 {
+	FONT: large Times New Roman; LETTER-SPACING: 3px
+}
+.title2 {
+	FONT: medium Verdana; LETTER-SPACING: 3px
+}
+.catno {
+	FONT: x-small Verdana; COLOR: #787058
+}
+.cattitle {
+	FONT: xx-small Verdana; COLOR: #707070
+}
+.catstatus {
+	FONT: x-small Verdana; COLOR: #707070
+}
+.count {
+	FONT: x-small Verdana; COLOR: #a8a080
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2800.1498" name=GENERATOR>
+
+</HEAD>
+
+<BODY text=#707070 vLink=#787058 link=#989068 bgColor=#222E44><A name=top></A>
+<TABLE height="100%%" width="100%%"><TBODY>
+   <TR><TD vAlign=top align=middle><BR>
+<TABLE cellSpacing=5 cellPadding=2 width="60%%" border=0><TBODY>
+   <TR><TD class=valshade vAlign=center width="100%%" bgColor=#1e1c2c colSpan=2>
+      <DIV align=center><FONT class=title1 color=#787058><B>Album, Compilation & Set List</B></FONT></DIV>
+   </TD></TR>
+   <TR><TD class=valshade vAlign=center width="50%%" bgColor=#1e1c2c>
+      <DIV align=center><FONT class=title2 color=#787058>%_workingdir%</FONT></DIV>
+   </TD>
+   <TD class=valshade vAlign=center width="50%%" bgColor=#1e1c2c>
+      <DIV align=center><FONT class=catno>Total: <B>%_total_time2%</B> Hours | <B>%_total_files%</B> Tracks</FONT></DIV>
+   </TD></TR>
+</TBODY></TABLE><BR>
+$loop(%_folderpath%)$if($eql($len(%_directory%),$len(%_workingdir%)),,$replace(
+<TABLE cellSpacing=0 cellPadding=3 width="50%%" border=0><TBODY>
+   <TR><TD vAlign=top align=middle><A href="$replace(%_folderpath%%_directory%.html,%_workingpath%,)"><IMG class=cover src="$replace(%_folderpath%cover.jpg,%_workingpath%,)" width=80></A></TD>
+   <TD vAlign=top align=left width="100%%">
+      <P class=catno><B><A href="$replace(%_folderpath%%_directory%.m3u,%_workingpath%,)">%_directory%</A></B>
+      <BR><SPAN class=cattitle>%genre%</SPAN><BR>
+       <S>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</S>
+       <BR><SPAN class=catstatus>Lenght: %_total_time2%<SPAN class=catstatus> | %_total_files% Tacks
+       </SPAN></SPAN></P>
+   </TD></TR>
+</TBODY></TABLE><BR>,,))$loop(%_directory%)$loopend()$loopend()</TD></TR>
+
+   <TR><TD vAlign=bottom><DIV align=center><BR>
+      <P class=catno>Album / Compilation Count: <SPAN class=count><B>$loop(%_folderpath%,1)$loopend()$sub(%_max_counter%,1)</B></SPAN>
+   <BR><BR><BR></P></DIV></TD></TR>
+
+<TABLE class="table" align="center">$loop(%_filename_ext%) $if($eql($len(%_filename_ext%),$len(%_workingdir%)),,$replace(
+   $if($eql($len(%_folderpath%),$len(%_workingpath%)),<TR><TD><A href="%_filename_ext%">%_filename%</A></TD>
+      <TD>%_total_time2%</TD>
+      <TD>%_file_size_mb%</TD>
+      <TD>%genre%</TD>
+      <TD>%encodedby%</TD>
+      <TD>%_total_files%</TD>
+   </TR>,) ,,))$loopend()
+</TABLE>
+
+   <TR><TD vAlign=bottom><DIV align=center>
+   <BR><BR><BR><SPAN class=catstatus><A href="#top"><B>Back On Top</B></A> - <A href="Album, Compilation & Set.m3u"><B>Play All</B></A>
+   <BR></DIV></TD></TR>
+</TBODY></TABLE>
+</BODY>
+</HTML>

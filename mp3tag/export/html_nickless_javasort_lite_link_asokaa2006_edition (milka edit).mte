@@ -1,0 +1,389 @@
+$filename(%_workingdir%.htm)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Change charset in above line to iso-8859-1 if you don''t use unicode -->
+<meta name="GENERATOR" content="Mp3tag - http://www.mp3tag.de">
+
+<title>Directory listing of "%_workingdir%"</title>
+<!--
+Mp3Tag export configuration by nickless, last modified on 2006-04-15
+
+Thanks a lot to
+dano for the visual style
+and
+ctnchris for the tooltip
+-->
+
+<style type="text/css"><!--
+/*Visual Design by dano*/
+
+body { background: #404142; color: white; font-family: Verdana,Arial; font-size: 9pt; }
+h1 { font-family: tahoma, "helvetica"; font-size: 29pt; color: #d9e2e4; text-align: center; }
+
+.table1 { background: #7b8279; font-size: 8pt; color: white; font-family: Tahoma,Verdana,Arial; text-align: center; }
+.table2 { background: #2c2d2e; font-size: 8pt; color: #b9c2c4; font-family: Tahoma,Verdana,Arial; text-align: center; }
+.table3 { background: #111112; font-size: 8pt; color: #b9c2c4; font-family: Tahoma,Verdana,Arial; text-align: center; }
+
+a:link, a:visited { text-decoration: none;color: #d9e2e4; }
+a:active { text-decoration: none;color: #b9c2c4; }
+a:hover { text-decoration: underline;color: #b9c2c4; }
+--></style>
+<script type="text/javascript"><!--
+// +++ coded by nickless +++ //
+
+// +++ Browser Checks +++ //
+
+var nav = navigator.appVersion.indexOf("MSIE");
+
+var ie5 = ((nav>0) && (parseInt(navigator.appVersion.substring(nav+5, nav+6)) >= 5));  //Internet Explorer 5++
+var ns5 = ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion.substring(0, 1)) >= 5)) || (navigator.appName == "Konqueror");  //Mozilla Family 5++ = Netscape 6++, FireFox etc.; Konqueror works similar :-)
+var op7 = ((navigator.appName == "Opera") && (parseInt(navigator.appVersion.substring(0, 1)) >= 7));  //Opera 7++
+
+if (!(ie5||ns5||op7)) alert("Warning!!!\nYour browser (" + navigator.appName + ") couldn''t be detected as a supported one (IE5++/Mozilla5++/Opera7++)\nSome functions may not work properly");
+
+// +++ Cookie Functions +++ //
+
+function ReadCookie(name) {
+	var _cookie = document.cookie;
+	var _name = name + "=";
+	var _len = _cookie.length;
+	var i = 0;
+
+	while (i < _len) {
+		var _val_from = i + _name.length;
+		if (_cookie.substring(i, _val_from) == _name) {
+			var _val_to = _cookie.indexOf (";", _val_from);
+			if (_val_to == -1) {_val_to = _len};
+			return unescape(_cookie.substring(_val_from, _val_to));
+		}
+		i = _cookie.indexOf(" ", i) + 1;
+		if (i == 0) break;
+	}
+	return null;
+}
+
+function WriteCookie(name, value, expire_time) {  //expire_time in hours
+	_expire_date =  new Date();
+	_expire_date.setTime(_expire_date.getTime() + expire_time * 1000 * 3600);
+
+	document.cookie = name + "=" + escape(value) + "; expires=" + _expire_date.toGMTString() + "; path=/";
+}
+
+function DeleteCookie(name) { document.cookie = name + "=; expires=Thu, 01-Jan-80 00:00:01 GMT; path=/"; }
+
+// +++ Formatting Functions +++ //
+
+function fmtNull(number, n) {
+	var _result = new String("");
+	var _l = n-Math.ceil(Math.log(number+1)/Math.LN10);
+	if (number==0) _l = n-1;
+	for (var _j=0;_j<_l;_j++) { _result +="0"; }
+
+	return _result += number;
+}
+
+function fmtTime(seconds) {
+	var _result = "";
+	if (seconds > 3600) {
+		_result = fmtNull(Math.floor(seconds / 3600), 2) + ":";
+		seconds %%= 3600;
+	}
+	_result += fmtNull(Math.floor(seconds / 60), 2) + ":";
+
+	return _result + fmtNull(seconds %% 60, 2);
+}
+
+// +++ Arrayed Java Export by nickless +++ //
+
+var table_length = %_total_files%;  //length of the table
+
+var a = new Array(table_length);  //main export array
+
+/* history of subarray fields usage
+a'['n']' = new Array(18);  //creates a new subarray in the n-th line of table
+a'['n']''['0']' = artist
+a'['n']''['1']' = album #
+a'['n']''['2']' = track
+a'['n']''['3']' = title
+a'['n']''['4']' = length in seconds (digits only)
+a'['n']''['5']' = year #
+a'['n']''['6']' = genre
+a'['n']''['7']' = bitrate (digits only)
+a'['n']''['8']' = bitrate information ( kbps VBR/CBR) #
+a'['n']''['9']' = codec #
+a'['n']''['10']' = comment
+a'['n']''['11']' = size of file
+a'['n']''['12']' = samplerate
+a'['n']''['13']' = mode
+a'['n']''['14']' = written tags
+a'['n']''['15']' = relative folderpath
+a'['n']''['16']' = filename
+a'['n']''['17']' = file size in bytes (for sorting)
+*/
+
+//you can delete fields you don''t need (memory & performance), but delete ALL cases where they are used everywhere in the file!
+$loop(%_filename_ext%)
+a'['$sub(%_counter%,1)']' = new Array(18);
+a'['$sub(%_counter%,1)']''['0']'="$replace($replace($replace($replace(%artist%,\,\\),$char(10),<br>),$char(13), ),",\")";
+a'['$sub(%_counter%,1)']''['2']'="$num(%track%,2)";
+a'['$sub(%_counter%,1)']''['3']'="$replace($replace($replace($replace(%title%,\,\\),$char(10),<br>),$char(13), ),",\")";
+a'['$sub(%_counter%,1)']''['4']'=%_length_seconds%;
+a'['$sub(%_counter%,1)']''['6']'="%genre%";
+a'['$sub(%_counter%,1)']''['7']'=%_bitrate%;
+a'['$sub(%_counter%,1)']''['16']'="$replace($replace($replace(%_filename_rel%,\,/),#,%%23),",\")";
+$loopend()
+
+// +++ Average Bitrate Calculations +++ //
+
+var avg_btr_file = 0;
+var avg_btr_second = 0;
+var avg_length = 0;
+
+for (i=0; i<table_length;i++) {
+	avg_btr_file += a'['i']''['7']';
+	avg_btr_second += a'['i']''['4']'*a'['i']''['7']';
+	avg_length += a'['i']''['4']';
+}
+avg_btr_file /= table_length;
+avg_btr_second /= avg_length;
+avg_length = Math.round(avg_length/table_length);
+
+// +++ Array Object Extension +++ //
+
+//public functions
+Array.prototype.sortBy = sortBySubarrayNr;  //call name_of_the_array.sortBy() to sort the array by nr. in subarray in alphabetical (A->Z or Z-A) order (optionally)
+Array.prototype.sortByStack = sortByStack;  //call name_of_the_array.sortBy() to sort the array by settings setted with push_stack
+Array.prototype.push_stack = push_stack;  //add subarray nr and order to sorting history, array will be sorted my all this (up to 5) criteria
+
+//internal functions & properties
+Array.prototype.multisort = multisort;
+Array.prototype.xchange = xchange;
+Array.prototype.compare = compare;
+Array.prototype.quicksort = quicksort;
+Array.prototype.sort_stack = new Array(-1,-1,-1,-1,-1);  //contains history of sorting for sorting by multiple criteria; -1=not sorted, 0++=sorted by subarray nr; internal use, don''t change directly!!!
+Array.prototype.order_stack = new Array(true,true,true,true,true);  //contains history of sorting order; true = A->Z, false = Z->A; internal use, don''t change directly!!!
+
+// +++ Quick Sort +++ //
+
+function sortBySubarrayNr(sub_nr, order) {  //sorts array by entry nr. sub_nr in (alphabetical or not) order; internal use, don''t call directly!!!
+	this.push_stack(sub_nr,order);
+	this.multisort(0,this.length-1,0);
+}
+
+function sortByStack() { this.multisort(0,this.length-1,0) }  //internal use, don''t call directly!!!
+
+function multisort(from_a, to_b, stack_level) {  //sorts by multiple criteria; internal use, don''t call directly!!!
+	if ((stack_level>=this.sort_stack.length)||(this.sort_stack'['stack_level']'<0)) { return }
+	this.quicksort(from_a,to_b,stack_level);
+	if ((stack_level+1>=this.sort_stack.length)||(this.sort_stack'['stack_level+1']'<0)) { return }
+	var a = from_a+1;
+	var b = from_a;
+	while (a<=to_b) {
+		while ((a<=to_b)&&(this'['a-1']''['this.sort_stack'['stack_level']'']'!=this'['a']''['this.sort_stack'['stack_level']'']')) { a++ }
+		b = a+1;
+		while ((b<=to_b)&&(this'['a']''['this.sort_stack'['stack_level']'']'==this'['b']''['this.sort_stack'['stack_level']'']')) { b++ }
+		if (a>to_b) { return }
+		this.multisort(a-1,b-1,stack_level+1);
+		a = b+1;
+	}
+}
+
+function push_stack(last_sort, last_order) {  //internal use, don''t call directly!!!
+	if (last_sort < 0) return;
+	if (this.sort_stack'['0']' == last_sort) {  //prevent sorting multiple times by the same criterion
+		if (!last_order) { this.order_stack'['0']' = !(this.order_stack'['0']') }  //reverse order if not defined
+		else { this.order_stack'['0']' = last_order }
+		return;
+	}
+	for (var i=this.sort_stack.length-1;i>0;i--) {
+		this.sort_stack'['i']' = this.sort_stack'['i-1']';
+		this.order_stack'['i']' = this.order_stack'['i-1']';
+	}
+	if (!last_order) { last_order = true }
+	this.sort_stack'['0']' = last_sort;
+	this.order_stack'['0']' = last_order;
+}
+
+function xchange(nr1, nr2) {  //internal use, don''t call directly!!!
+	var temp = this'['nr1']';
+	this'['nr1']' = this'['nr2']';
+	this'['nr2']' = temp;
+}
+
+function compare(n1, n2, stack_nr) {  //internal use, don''t call directly!!!
+	if (this.order_stack'['stack_nr']') { return(this'['n1']''['this.sort_stack'['stack_nr']'']' < this'['n2']''['this.sort_stack'['stack_nr']'']') }
+	else { return(this'['n1']''['this.sort_stack'['stack_nr']'']' > this'['n2']''['this.sort_stack'['stack_nr']'']') };
+}
+
+function quicksort(left, right, stack_pos) {  //internal use, don''t call directly!!!
+	var l, r, x;
+
+	l = left;
+	r = right;
+	x = (left + right)>>>1;
+
+	do {
+		while(this.compare(l, x, stack_pos)) { l++ };
+		while(this.compare(x, r, stack_pos)) { r-- };
+		if(l <= r) {
+			this.xchange(l, r);
+
+			if(x == l) { x = r }
+			else { if(x == r) {x = l} }
+
+			l++;
+			r--;
+		}
+	} while(l < r);
+
+	if (r > left) { this.quicksort(left, r, stack_pos) };
+	if (l < right) { this.quicksort(l, right, stack_pos) };
+}
+
+// +++ Custom Functions +++ //
+
+function do_sort(criterion, link_nr) {  //set cookies and reload to sort; criterion=nr of subarray
+	a.push_stack(criterion);
+	WriteCookie("sorting_stack",a.sort_stack.join(),24*14);
+	WriteCookie("sort_order_stack",a.order_stack.join(),24*14);
+	WriteCookie("sorted_link",link_nr,24*14);
+	window.location.reload();
+}
+
+function play_file(file_nr) {
+	var _file = new String("");
+	if (a'['file_nr']''['16']'.charAt(1)==":") { _file = "file://" };
+	var new_win = window.open(_file + a'['file_nr']''['16']',"Playing", "");
+}
+
+function read_settings() {
+	var sort_st = ReadCookie("sorting_stack");
+	var order_st = ReadCookie("sort_order_stack");
+	if (sort_st) { a.sort_stack = eval(''Array('' + sort_st + '')'') };
+	if (order_st) { a.order_stack = eval(''Array('' + order_st + '')'') };
+	a.sortByStack();
+}
+
+function write_dots()  //writes dots to the General Information Table
+{
+  document.write(''<td width="1%%"><br></td>'');
+  for (i=0; i<19; i++) { document.write(''<td width="2%%">&middot;</td>'') };
+  document.write(''<td width="1%%"><br></td>'');
+}
+
+function write_dir() {  //writes the arrow that shows the direction of sorting
+	var last_sorted_link = "h_link_" + ReadCookie("sorted_link");
+	var _arrow = " " + String.fromCharCode(8593);
+
+	if (a.order_stack'['0']') { _arrow = " " + String.fromCharCode(8595) };
+
+	var _new_dir = document.createTextNode(_arrow);
+	var _obj = document.getElementById(last_sorted_link);
+	if (_obj) { _obj.appendChild(_new_dir) };
+}
+//--></script>
+</head>
+<body>
+<script type="text/javascript"><!--
+	read_settings();
+--></script>
+<div align="center">
+<h1>Directory listing of "%_workingdir%"</h1>
+
+<!-- General information Table begin -->
+
+<table class="table1" border="0" cellpadding="2" cellspacing="1" width="800">
+<tbody>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%%">Export file creation date: </td>
+<script>write_dots();</script>
+<td align="left" width="30%%">%_datetime%</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%%">Total Tracks: </td>
+<script>write_dots();</script>
+<td align="left" width="30%%">%_total_files%</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%%">Total Length: </td>
+<script>write_dots();</script>
+<td align="left" width="30%%">%_total_time%</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%%">Total Size: </td>
+<script>write_dots();</script>
+<td align="left" width="30%%">%_total_size%</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%%">Average track length: </td>
+<script>write_dots();</script>
+<td align="left" width="30%%"><script>document.write(fmtTime(avg_length))</script></td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%%">Average bitrate per file: </td>
+<script>write_dots();</script>
+<td align="left" width="30%%"><script>document.write(avg_btr_file.toFixed(1))</script> kbps</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%%">Average bitrate per second: </td>
+<script>write_dots();</script>
+<td align="left" width="30%%"><script>document.write(avg_btr_second.toFixed(1))</script> kbps</td>
+</tr>
+</tbody>
+</table>
+<br>
+
+<!-- General information Table end -->
+
+<!-- Main Export Table begin -->
+
+<table class="table1" border="0" cellpadding="1" cellspacing="1" width="98%%">
+<tbody>
+<tr class="table3" style="font-weight: bold;">
+<td width="30px">Nr.</td>
+<td style="width:auto; text-align:left"><a id="h_link_0" href="javascript:do_sort(0,0)" title="Sort table by Artist">Artist</a></td>
+<td style="width:auto; text-align:left"><a id="h_link_2" href="javascript:do_sort(2,2)" title="Sort table by Track">Track</a> - <a id="h_link_3" href="javascript:do_sort(3,3)" title="Sort table by Title">Title</a></td>
+<td width="55px"><a id="h_link_4" href="javascript:do_sort(4,4)" title="Sort table by Length">Length</a></td>
+<td style="text-align:center"><a id="h_link_6" href="javascript:do_sort(6,6)" title="Sort table by Genre">Genre</a></td>
+</tr>
+<script><!--
+//write output table
+var s = new String("");
+for (i = 0; i<table_length; i++) {
+	s += ''<tr class="table'' + Number(i%%2+2) + ''"><td>'' + Number(i+1) + ''</td>'';
+	s += ''<td align="left">'' + a'['i']''['0']' + ''</td><td align="left">'';
+	if (a'['i']''['2']'!=''00'') { s += a'['i']''['2']' + '' - '' }
+	s += ''<a id="link_'' + i + ''" href="javascript:play_file('' + i + '')" title="Play file">'' + a'['i']''['3']' + ''</a></td>'';
+	s += ''<td>'' + fmtTime(a'['i']''['4']') + ''</td>'';
+	s += ''<td>'' + a'['i']''['6']' + ''</td></tr>'';
+	if (ie5 || (i%%20==19)) {  //I don''t want make IE worse that it is, but my IE6SP2 is really faster by writing each line than each 20th !!!
+		document.write(s);
+		s = "";
+	}
+}
+document.write(s);
+s = "";
+write_dir();  //write sorting direction arrow
+//--></script>
+</tbody>
+</table>
+<br>
+
+<!-- Main Export Table end -->
+
+<!-- Info Table begin -->
+
+<table class="table1" border="0" cellpadding="2" cellspacing="1" width="600">
+<tbody>
+<tr>
+<td>Created on %_date% with <a id="ab_0" style="color: #000000" href="http://www.mp3tag.de/" target="_blank" title="visit home page of Mp3Tag"><b>%_app%</b></a> - the <b>universal</b> Tag Editor</td>
+</tr>
+</tbody>
+</table>
+
+<!-- Info Table end -->
+
+</div>
+</body>
+</html>

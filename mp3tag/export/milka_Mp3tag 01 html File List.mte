@@ -1,0 +1,437 @@
+$filename(%_workingpath%%_workingdir% '['Mp3tag']'.html,utf-8)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="Author" CONTENT="milka (amilino@gmail.com)">
+<META NAME="Generator" CONTENT="%_app% - http://www.mp3tag.de">
+<META NAME="Date" CONTENT="%_date%">
+<TITLE>%_workingdir% '['Mp3tag']'</TITLE>
+<STYLE TYPE="TEXT/CSS"><!--
+	body{
+	background-color: #333333;
+	margin-top: 5px; margin-left: 5px;
+	scrollbar-face-color: #636363;
+	scrollbar-shadow-color: #535353;
+	scrollbar-highlight-color: #737373;
+	scrollbar-3dlight-color: #737373;
+	scrollbar-darkshadow-color: #535353;
+	scrollbar-track-color: #333333;
+	scrollbar-arrow-color: #FFFFFF;}
+	a:link, a:visited {text-decoration: none; color: #C4C4C4;}
+	a:hover {color:#888888;}
+	hr {height: 1px; color: #666666;}
+	table {font-family: Tahoma; font-size: 8pt; font-weight: normal; text-align: left; color: #FFFFFF;}
+	input, textarea {font-family: Tahoma; font-size: 8pt; font-weight: normal; text-align: left; color: #9A9A9A; background-color: #333333; border-style:ridge}
+	span {color: #9A9A9A;}
+	.desc {color: #C4C4C4;}
+	span.example {color: #555555;}
+	img {border: #9A9A9A 1px solid}
+	.tab1 {background-color: #333333;}
+	.tab2 {background-color: #222222;}
+	.tab3 {background-color: #4A4A4A;}
+-->
+</STYLE>
+<SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT"><!--
+// All functions are created by milka.                   //
+// Functions can be used when credit is given. It        //
+// should look like this:                                //
+/* +++ script name by milka +++ */                       //
+
+// When you classify it in such a way, you are free to   //
+// use the script.                                       //
+// this export script was last modified: 26.08.2006      //
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+// ++++++++++++++++++ DEFINE THE NAMES ++++++++++++++++++ //
+// Here you can define the names of the covers & reviews. //
+// You can even define the whole name of the file!!!      //
+
+// Define names for covers & reviews:
+var cover = "cover.jpg";
+var review = "review.txt";
+
+
+/* +++ Play by milka */
+function play(id) {
+	window.location = a'['id']''['14']' + a'['id']''['12']';
+}
+
+/* +++ Show/hide by milka +++ */
+function show(id) {
+	var workingpath = "$replace(%_workingpath%,\,/)";
+	highlight(id);
+	document.getElementById("Title").value = a'['id']''['0']';
+	document.getElementById("Artist").value = a'['id']''['1']';
+	document.getElementById("Album").value = a'['id']''['2']';
+	document.getElementById("Year").value = a'['id']''['3']';
+	document.getElementById("Track").value = a'['id']''['4']';
+	document.getElementById("Genre").value = a'['id']''['5']';
+	document.getElementById("Tech").value = a'['id']''['8']' + "\n" + a'['id']''['9']' + "\n" + a'['id']''['10']' + "\n" + a'['id']''['11']' ;
+	document.getElementById("Comment").value = a'['id']''['6']';
+	document.getElementById("Lyric").value = a'['id']''['7']';
+	document.getElementById("Folder").value = workingpath;
+
+	if(a'['id']''['15']' == 1){
+		document.getElementById("Cover").src = a'['id']''['14']' + cover;
+		document.getElementById("Coverlink").href = "javascript:popImage(''" + id + "'')";
+		document.getElementById("hide").style.display = '''';
+		document.getElementById("Albumplay").href = a'['id']''['14']' + a'['id']''['13']' + ".m3u";
+		document.getElementById("Reviewread").href = "javascript:popReview(''" +id + "'')";
+	}else{
+		document.getElementById("hide").style.display = ''none'';
+		document.getElementById("Cover").src = "#";
+		document.getElementById("Coverlink").href = "#";
+	}
+
+	document.getElementById("Size").value = "1 (" + a'['id']''['17']' + " | " + a'['id']''['16']' + "MB)";
+}
+function show_tag_panel() {
+	if(document.getElementById("tag_panel").style.display == ''none'') {
+		document.getElementById("tag_panel").style.display = '''';
+		document.getElementById("show_panel").style.display = ''none'';
+	}else{
+		document.getElementById("tag_panel").style.display = ''none'';
+		document.getElementById("show_panel").style.display = '''';
+	}
+}
+function show_play_tip(){
+	if(document.getElementById("play_tip").value == "Ready") {
+		document.getElementById("play_tip").value = "Click to see track info. Double click to play.";
+	}else{
+		document.getElementById("play_tip").value = "Ready";
+	}
+}
+function reset() {
+	document.getElementById("Title").value = "";
+	document.getElementById("Artist").value = "";
+	document.getElementById("Album").value = "";
+	document.getElementById("Year").value = "";
+	document.getElementById("Track").value = "";
+	document.getElementById("Genre").value = "";
+	document.getElementById("Tech").value = "";
+	document.getElementById("Comment").value = "";
+	document.getElementById("Lyric").value = "";
+	document.getElementById("Folder").value = "";
+
+	document.getElementById("Albumplay").href = "";
+	document.getElementById("Reviewread").href = "";
+	document.getElementById("hide").style.display = ''none'';
+
+	document.getElementById("Cover").src = "";
+	document.getElementById("Coverlink").href = "#";
+
+	document.getElementById("Size").value = "0 (00:00:00 | 0 Bytes)";
+}
+/* +++ Highlight effect by milka & SquallLeonhart38 +++ */
+var old,old_c;
+function highlight(id) {
+	if(old) {document.getElementById("tr" + old).className = old_c;}
+	old_c = document.getElementById("tr" + id).className;
+	old = id;
+	document.getElementById("tr" + id).className = "tab3";
+}
+
+/* +++ PreLoad Wait +++ */
+/* +++ Edited by milka +++ */
+function waitPreloadPage() { //DOM
+	if (document.getElementById){
+		document.getElementById(''play_tip'').style.visibility='''';
+		document.getElementById(''prepage'').style.visibility=''hidden'';
+	}else{
+		if (document.layers){ //NS4
+			document.play_tip.visibility = ''hidden'';
+			document.prepage.visibility = ''hidden'';
+		}
+		else { //IE4
+			document.all.play_tip.style.visibility = ''hidden'';
+			document.all.prepage.style.visibility = ''hidden'';
+		}
+	}
+	document.getElementById(''play_tip'').value=''Ready'';
+}
+
+/* +++ Auto-Sizing Image Popup Window +++ */
+/* +++ script by SquallLeonhart38 +++ */
+/* +++ Edited by milka +++ */
+
+// Set the horizontal and vertical position for the popup
+var Start_X = 100;
+var Start_Y = 100;
+
+// Set these value approximately 20 pixels greater than the
+// size of the largest image to be used (needed for Netscape)
+var img_Width  = 500;
+var img_Height = 500;
+
+// Do not edit below this line...
+// ================================
+if(navigator.userAgent.indexOf("Opera") != -1) {defaultWidth = screen.availWidth;defaultHeight = screen.availHeight;}
+var img_option = "scrollbars=no, status=no, toolbar=no, menubar=no, dependent=yes, location=no, resizable=no, width=" + img_Width + ", height=" + img_Height + ", left=" + Start_X + ", top=" + Start_Y;
+function popImage(id) {
+	var imageURL = a'['id']''['14']' + cover;
+	var imageTitle = a'['id']''['13']';
+	var image_window=window.open("about:blank","Albumcover",img_option);
+	with(image_window.document) {
+		writeln("<html><head><title>" + imageTitle + "<\/title><script><!--");
+		writeln("var isNN,isIE,isOO;");
+			writeln("isNN = (navigator.appName == \"Netscape\" && navigator.userAgent.indexOf(\"Opera\") == -1)?1:0;");
+			writeln("isOO = (navigator.userAgent.indexOf(\"Opera\") != -1)?1:0;");
+			writeln("isIE = (navigator.appName.indexOf(\"Microsoft\") != -1 && navigator.userAgent.indexOf(\"Opera\") == -1)?1:0;");
+		writeln("function resizepopup() {");
+			writeln("if(isIE) {");
+				writeln("window.resizeTo(100,100);");
+				writeln("width = 100-(document.body.clientWidth-document.images'['0']'.width);");
+				writeln("height = 100-(document.body.clientHeight-document.images'['0']'.height);");
+				writeln("window.resizeTo(width,height);}");
+			writeln("if(isNN) {");       
+				writeln("window.innerWidth=document.images'['0']'.width;");
+				writeln("window.innerHeight=document.images'['0']'.height;}");
+			writeln("if(isOO) {");
+				writeln("window.resizeTo(100,100);");
+				writeln("width = 100-(document.body.clientWidth-document.images'['0']'.width)+12;");
+				writeln("height = 100-(document.body.clientHeight-document.images'['0']'.height)-16;");
+				writeln("window.resizeTo(width,height);}}");
+		writeln("//--><\/script><\/head>");
+		writeln("<body style=\"margin: 0px; padding: 0px\" onload=\"resizepopup();self.focus()\">");
+		writeln("<img name=\"cover\" src=\"" + imageURL + "\"><\/body><\/html>");
+	close();
+	}
+}
+
+/* +++ PopUp-Window for Reviews +++ */
+/* +++ script by SquallLeonhart38 +++ */
+/* +++ Edited by milka +++ */
+
+// this values specify the width and the height of the review
+// popup. You can change them or leave them as they are.
+var rev_Width  = 550;
+var rev_Height = 500;
+
+var rev_option = "resizable=no, menubar=no, status=no, scrollbars=no, toolbar=no, location=no, dependent=yes, width=" + rev_Width + ", height=" + rev_Height;
+function popReview(id) {
+	var reviewURL = a'['id']''['14']' + review;
+	var review_window = window.open("about:blank", "Review",rev_option);
+	with(review_window.document) {
+		writeln("<html><head><title>Review of: " + a'['id']''['13']' + "<\/title><\/head>");
+		writeln("<body style=\"margin: 0px; padding: 0px\">");
+		writeln("<iframe src=\"" + reviewURL + "\" scrolling=\"yes\" width=\"" + rev_Width + "\" height=\"" + rev_Height + "\" frameborder=\"0\">");
+		writeln("<\/body><\/html>");
+	close();
+	}
+}
+// +++ Arrayed Java Export by nickless +++ //
+// +++ Edited by SquallLeonhart38 & milka +++ //
+
+var a = new Array(%_total_files%);	//main export array for songs
+
+/* history of subarray fields usage
+a'['n']' = new Array(18);	//creates a new subarray in the n-th line of table
+a'['n']''['0']' = title
+a'['n']''['1']' = artist
+a'['n']''['2']' = album
+a'['n']''['3']' = year
+a'['n']''['4']' = track number
+a'['n']''['5']' = genre
+a'['n']''['6']' = comment
+a'['n']''['7']' = lyrics
+a'['n']''['8']' = codec
+a'['n']''['9']' = samplerate
+a'['n']''['10']' = mode
+a'['n']''['11']' = tags
+a'['n']''['12']' = filename
+a'['n']''['13']' = name of directory
+a'['n']''['14']' = folderpath without workingpath
+a'['n']''['15']' = check if file is mix or album
+a'['n']''['16']' = file size in megabytes
+a'['n']''['17']' = length in hours
+*/
+$loop(%_folderpath%,%_filename_ext%)
+a'['$sub(%_counter%,1)']' = new Array(18);
+a'['$sub(%_counter%,1)']''['0']' = "$if(%title%,$replace(%title%,",''''),)";
+a'['$sub(%_counter%,1)']''['1']' = "$if(%artist%,$replace(%artist%,",''''),)";
+a'['$sub(%_counter%,1)']''['2']' = "$if(%album%,$replace(%album%,",''''),)";
+a'['$sub(%_counter%,1)']''['3']' = "$if(%year%,%year%,)";
+a'['$sub(%_counter%,1)']''['4']' = "$if(%track%,%track%,)";
+a'['$sub(%_counter%,1)']''['5']' = "$if(%genre%,$replace(%genre%,",''''),)";
+a'['$sub(%_counter%,1)']''['6']' = "$replace($replace($replace(%comment%,",''''),$char(13)," + "\n" + "),$char(10),)";
+a'['$sub(%_counter%,1)']''['7']' = "$replace($replace($replace(%unsyncedlyrics%,",''''),$char(13)," + "\n" + "),$char(10),)";
+a'['$sub(%_counter%,1)']''['8']' = "%_codec%";
+a'['$sub(%_counter%,1)']''['9']' = "%_samplerate%";
+a'['$sub(%_counter%,1)']''['10']' = "%_mode%";
+a'['$sub(%_counter%,1)']''['11']' = "%_tag%";
+a'['$sub(%_counter%,1)']''['12']' = "%_filename_ext%";
+a'['$sub(%_counter%,1)']''['13']' = "%_directory%";
+a'['$sub(%_counter%,1)']''['14']' = "$replace($replace($replace(%_folderpath%,%_workingpath%,),\,/),#,%%23)";
+a'['$sub(%_counter%,1)']''['15']' = "$if($eql($folderdepth(%_folderpath%),$folderdepth(%_workingpath%)),0,1)";
+a'['$sub(%_counter%,1)']''['16']' = "%_file_size_mb%";
+a'['$sub(%_counter%,1)']''['17']' = "$if($eql($len(%_length%),5),00:%_length%,%_length%)";
+$loopend()
+//--></SCRIPT>
+</HEAD>
+
+<!-- ---------- -->
+
+<body onload="waitPreloadPage();reset()">
+
+<!-- Loading Page Message //-->
+<DIV id="prepage" align="center" style="position: absolute; right: 50%%; top: 50%%;">
+<TABLE border="1" bordercolor="#666666" bgcolor="#555555" cellspacing="0" cellpadding="0">
+<TR style="color: #9A9A9A"><TD><B>Reading directory</B></TD></TR>
+<TR bgcolor="#333333"><TD>Reading tag-data ... of %_total_files%</TD></TR>
+<TR bgcolor="#333333"><TD><table border="0" cellspacing="0" cellpadding="0" width="0">
+  <tr>
+  <td>
+<B><font color=''#FFD350''><div style=''font-size:5pt;padding:1px;border:solid silver 2px;width=100%%;''>
+<span id=''progress1''>&nbsp;&nbsp;</span>
+<span id=''progress2''>&nbsp;&nbsp;</span>
+<span id=''progress3''>&nbsp;&nbsp;</span>
+<span id=''progress4''>&nbsp;&nbsp;</span>
+<span id=''progress5''>&nbsp;&nbsp;</span>
+<span id=''progress6''>&nbsp;&nbsp;</span>
+<span id=''progress7''>&nbsp;&nbsp;</span>
+<span id=''progress8''>&nbsp;&nbsp;</span>
+<span id=''progress9''>&nbsp;&nbsp;</span>
+<span id=''progress10''>&nbsp;&nbsp;</span>
+<span id=''progress11''>&nbsp;&nbsp;</span>
+<span id=''progress12''>&nbsp;&nbsp;</span>
+<span id=''progress13''>&nbsp;&nbsp;</span>
+<span id=''progress14''>&nbsp;&nbsp;</span>
+<span id=''progress15''>&nbsp;&nbsp;</span>
+<span id=''progress16''>&nbsp;&nbsp;</span>
+<span id=''progress17''>&nbsp;&nbsp;</span>
+<span id=''progress18''>&nbsp;&nbsp;</span>
+<span id=''progress19''>&nbsp;&nbsp;</span>
+<span id=''progress20''>&nbsp;&nbsp;</span>
+<span id=''progress21''>&nbsp;&nbsp;</span>
+<span id=''progress22''>&nbsp;&nbsp;</span>
+<span id=''progress23''>&nbsp;&nbsp;</span>
+<span id=''progress24''>&nbsp;&nbsp;</span>
+<span id=''progress25''>&nbsp;&nbsp;</span>
+</div></font></B></td>
+</tr></table>
+</font>
+
+<script language="javascript">
+var progressEnd = 25;	// set to number of progress <span>''s.
+var progressColor = ''#ffffff'';	// set to progress bar color
+var progressInterval = 100;	// set to time between updates (milli-seconds)
+
+var progressAt = progressEnd;
+var progressTimer;
+function progress_clear() {
+	for (var i = 1; i <= progressEnd; i++) document.getElementById(''progress''+i).style.backgroundColor = ''transparent'';
+	progressAt = 0;
+}
+function progress_update() {
+	progressAt++;
+	if (progressAt > progressEnd) progress_clear();
+	else document.getElementById(''progress''+progressAt).style.backgroundColor = progressColor;
+	progressTimer = setTimeout(''progress_update()'',progressInterval);
+}
+function progress_stop() {
+	clearTimeout(progressTimer);
+	progress_clear();
+}
+progress_update();	// start progress bar
+</script>
+
+</TR></TD></TABLE>
+</DIV>
+<!-- Loading Page Message End //-->
+
+<table width="80%%" border="0" cellpadding="0" cellspacing="2" align="center">
+
+<!-- ---------- -->
+
+<tr><td colspan="2">
+<table cellpadding="10" cellspacing="0" width="100%%" border="1" bordercolor="#666666"><tr bgcolor="#555555"><td>
+Mp3tag <span>- %_workingpath%</span>
+</td></tr></table>
+</td></tr>
+
+<tr><td width="50%%" valign="top" id="tag_panel">
+
+<!-- ---------- -->
+
+<table width="502" height="714px" cellspacing="5" border="1" bordercolor="#555555" style="border-style:solid">
+
+<tr>
+	<td bgcolor="#444444"><center><font color="#9A9A9A"><b>Tag Panel</b></font></center></td><th align="center"><A href="javascript:show_tag_panel()">x</A></th></tr>
+<tr valign="top"><td width="100%%">
+<table>
+<tr><td>Title:</td></tr>
+<tr><td><input type="text" id="Title" style="width:365" readonly></td></tr>
+<tr><td>Artist:</td></tr>
+<tr><td><input type="text" id="Artist" style="width:365" readonly></td></tr>
+<tr><td>Album:</td></tr>
+<tr><td><input type="text" id="Album" style="width:365" readonly></td></tr>
+<tr><td>
+	<input type="text" value="Year:" style="width:110; border-style:none; color: #FFFFFF" readonly>
+	<input type="text" value="Track:" style="width:100; border-style:none; color: #FFFFFF" readonly>
+	<input type="text" value="Genre:" style="width:146; border-style:none; color: #FFFFFF" readonly></td></tr>
+<tr><td>
+	<input type="text" id="Year" style="width:110" readonly>
+	<input type="text" id="Track" style="width:100" readonly>
+	<input type="text" id="Genre" style="width:146" readonly></td><tr>
+<tr><td>Comment:</td></tr>
+<tr><td><textarea rows="5" id="Comment" style="height:72; width:365" readonly></textarea></td></tr>
+<tr><td>Folder:</td></tr>
+<tr><td><input type="text" id="Folder" style="width:365" readonly></td></tr>
+<td><hr></td>
+<tr><td>Unsynced lyrics:</td></tr>
+<tr><td><textarea rows="5" id="Lyric" style="height:72; width:365" readonly></textarea></td></tr>
+<tr><td>Cover:<br><a id="Coverlink" href=""><img id="Cover" src="" width="132" height="143"></a></td>
+<tr><td align="right" valign="top">Codec:&nbsp;<br>
+Samplerate:&nbsp;<br>
+Mode:&nbsp;<br>
+Tag(s):&nbsp;</td>
+<td rowspan="2"><textarea id="Tech" rows="4" wrap="OFF" style="height:80; width:99" readonly></textarea></td></tr>
+<tr><td valign="top" id="hide"><a id="Albumplay" href="">Play Album</a> | <a id="Reviewread" href="">Read Review</a></td></tr>
+</table>
+
+</td></tr>
+
+</table>
+
+<!-- ---------- -->
+
+</td><td valign="top">
+
+<!-- ---------- -->
+
+<table width="100%%" height="714px" cellpadding="10" cellspacing="0" border="1" bordercolor="#555555">
+<tr><td class="tab2">
+
+<table width="100%%"><tr class="tab1"><td align="left" width="20" id="show_panel" style="display: none"><A href="javascript:show_tag_panel()"><--</A></td><td align="center"><span class="desc">File List</span></td></tr></table>
+
+<TABLE class="desc" width="100%%">
+<tr><td width="6%%" align="center" style="border: #555555 1px solid">kbit</td><td width="81%%" border="1" style="border: #555555 1px solid">Filename</td><td width="13%%" align="right" style="border: #555555 1px solid">Length</td>$if($leql(%_total_files%,38),,<td><input type="text" style="width:12; height:0; border:0; background-color: #222222" readonly></td>)</tr>
+</TABLE>
+
+<div style="SCROLLBAR-FACE-COLOR: #636363; SCROLLBAR-HIGHLIGHT-COLOR: #737373; OVERFLOW: auto; WIDTH: 100%%; SCROLLBAR-SHADOW-COLOR: #535353; SCROLLBAR-3DLIGHT-COLOR: #737373; SCROLLBAR-ARROW-COLOR: #FFFFFF; SCROLLBAR-TRACK-COLOR: #333333; SCROLLBAR-DARKSHADOW-COLOR: #535353; HEIGHT: 648px;">
+<TABLE class="desc" width="100%%">
+$loop(%_folderpath%,%_filename_ext%)<tr $if($odd(%_counter%),class="tab1",class="tab2") id="tr$sub(%_counter%,1)"><td width="6%%" align="center">%_bitrate%</td><td width="81%%"><a href="javascript:show(''$sub(%_counter%,1)'')" onDblClick="javascript:play(''$sub(%_counter%,1)'')" onMouseOver="javascript:show_play_tip()" onMouseOut="javascript:show_play_tip()">%_filename_ext%</a></td><td align="right" width="13%%">$div(%_length_seconds%,60):$num($sub(%_length_seconds%,$mul($div(%_length_seconds%,60),60)),2)</td></tr>
+$loopend()</TABLE>
+</div>
+
+</td></tr>
+
+<!-- ---------- -->
+
+</table>
+
+</td></tr></table>
+
+<!-- ---------- -->
+
+<table width="80%%" cellspacing="0" border="1" bordercolor="#555555" style="border-style:solid" align="center">
+
+<tr><td>
+<table align="right" width="100%%">
+<tr><td width="10%%"><input type="text" id="play_tip" value="Reading directory" style="width:204; border-style:none; color:#ffffff" readonly></td><td width="90%%" align="right"><input type="text" id="Size" value="0 Bytes" style="width:200; border-style:none; text-align:right" readonly> | %_total_files% (%_total_time% | %_total_size%) |</td></tr>
+</table>
+
+</td></tr>
+
+</table>
+</BODY>
+</HTML>

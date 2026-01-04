@@ -1,0 +1,52 @@
+$filename(List of Tags %_workingdir%.txt,utf-8)$puts(dummy,'
+# ###############################################################################
+# 
+# Extract list of all used tags to a Text file (one row per tag).
+# 
+# Author Victor KOSTAS
+# 
+# Step1. Select files.
+# Step2. Execute this script from the export menu.
+# Step3. Enjoy
+#  
+# ###############################################################################
+# 
+# [2020-12-12] v1.00
+# 
+# ###############################################################################
+
+
+')$loop(,1)$puts(dummy,
+	)$puts(TagBeg,'TagBeg')$puts(dummy,
+	)$puts(TagEnd,'TagEnd')$puts(dummy,
+	)$puts(ValBeg,'ValBeg')$puts(dummy,
+	)$puts(ValEnd,'ValEnd')$puts(dummy,
+	)$puts(TagBegList,$char(13)'TagBeg'$char(10))$puts(dummy,
+	)$puts(TagEndList,$char(13)'TagEnd'$char(10))$puts(dummy,
+	)$puts(ValBegList,$char(13)'ValBeg'$char(10))$puts(dummy,
+	)$puts(ValEndList,$char(13)'ValEnd'$char(10))$puts(dummy,
+	)$puts(ValPatt,'\r'$get(ValBeg)'\n(.*?)\r'$get(ValEnd)'\n')$puts(dummy,
+	)$puts(TagPatt,'\r'$get(TagBeg)'\n(.*?)\r'$get(TagEnd)'\n')$puts(dummy,
+)$loopend()$puts(dummy,
+
+)$loop(%_path%)$puts(dummy,
+	)$puts(tagsTrack,$list($get(TagBegList),$get(TagEndList)$get(ValBegList),$get(ValEndList)))$puts(dummy,
+	)$puts(tagsTrack,$replace($get(tagsTrack),\r\n,'U+000DU+000A','«','U+00AB','»','U+00BB'))$puts(dummy,
+	)$puts(tagsTrack,$regexp($get(tagsTrack),$get(ValPatt),))$puts(dummy,
+	)$puts(tagsTrack,$regexp($get(tagsTrack),$get(TagPatt),'«\1»'))$puts(dummy,
+	)$puts(tagsTrack,$upper($get(tagsTrack)))$puts(dummy,
+	)$puts(tags,$get(tagsTrack)»»««$get(tags))$puts(dummy,
+	)$puts(tags,$regexp($get(tags),'(«[^«»]+?»)(?=.*?»»««.*?\1)',))$puts(dummy,
+	)$puts(tags1,$regexp($get(tags),'^(.*?)»»««(.*?)$','\1'))$puts(dummy,
+	)$puts(tags2,$regexp($get(tags),'^(.*?)»»««(.*?)$','\2'))$puts(dummy,
+	)$puts(tags,$get(tags1)$get(tags2))$puts(dummy,
+	)$puts(dummy,
+)$loopend()$puts(dummy,
+
+)$loop(,1)$puts(dummy,
+	)$puts(tags,$regexp($get(tags),'(?<=»)(?=«)',\r\n))$puts(dummy,
+	)$puts(tags,$regexp($get(tags),'[«»]',))$puts(dummy,
+	)$puts(tags,$replace($get(tags),'U+00AB','«','U+00BB','»'))$puts(dummy,
+	)$get(tags)$char(13)$char(10)$puts(dummy,
+)$loopend()$puts(dummy,
+)

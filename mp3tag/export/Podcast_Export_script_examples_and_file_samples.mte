@@ -1,0 +1,49 @@
+$filename(PodcastFeed.xml,utf-8)<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+<channel>
+    <title>YOUR PODCAST CHANNEL TITLE HERE</title>
+    <link>http://YOURWEBSITELINKHERE.com</link>
+    <atom:link href="http://LINKTOTHISXML.xml" rel="self" type="application/rss+xml"/>
+    <generator>%_app%</generator>
+    <pubDate>$loop($sub(999999999,%_counter%))$puts(intOutputMax,1)$puts(intOutputCount,$if($eql(%_counter%,1),0,$get(intOutputCount)))$puts(blnExcludeFileExt,$if($eql(%_counter%,1),0,$get(blnExcludeFileExt)))$puts(blnExcludeFolder,$if($eql(%_counter%,1),0,$get(blnExcludeFolder)))$puts(blnExcludeOutput,$if($eql(%_counter%,1),0,$get(blnExcludeOutput)))$puts(strOutputText,$left($regexp(%releasetime%,(\d\d\d\d)-(\d\d)-(\d\d)(\w)(\d+)*'[:]+'(\d+)*'[:]+'(\d+)(\w),$3 $2 $1 $5:$6:$7 GMT),3)$replace($mid($regexp(%releasetime%,(\d\d\d\d)-(\d\d)-(\d\d)(\w)(\d+)*'[:]+'(\d+)*'[:]+'(\d+)(\w),$3 $2 $1 $5:$6:$7 GMT),4,2),'01','Jan','02','Feb','03','Mar','04','Apr','05','May','06','Jun','07','Jul','08','Aug','09','Sep','10','Oct','11','Nov','12','Dec')$right($regexp(%releasetime%,(\d\d\d\d)-(\d\d)-(\d\d)(\w)(\d+)*'[:]+'(\d+)*'[:]+'(\d+)(\w),$3 $2 $1 $5:$6:$7 GMT),18))$puts(intOutputCount,$add(1,$get(intOutputCount)))$puts(blnExcludeOutput,$ifgreater($get(intOutputCount),$get(intOutputMax),1,0))$puts(blnExcludeFolder,$ifgreater($strstr('|Edit|Edits|edit|edits|','|'%_directory%'|'),0,1,0))$puts(blnExcludeFileExt,$ifgreater($strstr('|mp3|m4a|','|'%_extension%'|'),0,0,1))$puts(blnCountDown,$ifgreater($add($get(blnExcludeFolder),$get(blnExcludeFileExt),$get(blnExcludeOutput)),0,1,0))$puts(intOutputCount,$ifgreater($get(blnCountDown),0,$sub($get(intOutputCount),1),$get(intOutputCount)))$ifgreater($get(blnExcludeFileExt),0,%dummy%,$ifgreater($get(blnExcludeFolder),0,%dummy%,$ifgreater($get(blnExcludeOutput),0,%dummy%,$get(strOutputText))))$loopend()</pubDate>
+    <ttl>720</ttl>
+    <itunes:author>NAME OF THE ARTIST OF THE PODCAST CHANNEL</itunes:author>
+    <itunes:subtitle>SHORT DESCRIPTION OF YOUR PODCAST CHANNEL</itunes:subtitle>
+    <itunes:summary>LONGER DESCRIPTION OF YOUR PODCAST CHANNEL</itunes:summary>
+    <description>SAME LONGER DESCRIPTION AS ABOVE BUT FOR NON-iTUNES READERS</description>
+    <language>en</language>
+    <itunes:category text="YOUR iTUNES CATEGORY HERE">
+		<itunes:category text="YOUR iTUNES SUB-CATEGORY HERE" />
+    </itunes:category>
+    <itunes:image href="http://YOUR PODCAST CHANNEL IMAGE URL.jpg" />
+    <image>
+		<url>http://YOUR PODCAST CHANNEL IMAGE URL.jpg</url>
+		<title>YOUR PODCAST CHANNEL TITLE HERE</title>
+		<link>http://YOURWEBSITELINKHERE.com</link>
+		<width>WIDTH OF CHANNEL IMAGE</width>
+		<height>HEIGHT OF CHANNEL IMAGE</height>
+	</image>
+    <managingEditor>PODCAST MANAGER EMAIL</managingEditor>
+    <webMaster>PODCAST WEBMASTER EMAIL</webMaster>
+    <itunes:owner>
+		<itunes:name>PODCAST OWNER NAME</itunes:name>
+		<itunes:email>PODCAST OWNER EMAIL</itunes:email>
+    </itunes:owner>
+    <copyright>YOUR COPYRIGHT INFO HERE</copyright>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:block>no</itunes:block>
+$loop(%_counter%)
+$puts(intOutputMax,3)$puts(intOutputCount,$if($eql(%_counter%,1),0,$get(intOutputCount)))$puts(blnExcludeFileExt,$if($eql(%_counter%,1),0,$get(blnExcludeFileExt)))$puts(blnExcludeFolder,$if($eql(%_counter%,1),0,$get(blnExcludeFolder)))$puts(blnExcludeOutput,$if($eql(%_counter%,1),0,$get(blnExcludeOutput)))$puts(strOutputText,<item>
+    <title>$if($and(%artist%,%title%),%artist% - %title%,$if2(%artist%,%title%))</title>
+    <pubDate>$left($regexp(%releasetime%,(\d\d\d\d)-(\d\d)-(\d\d)(\w)(\d+)*'[:]+'(\d+)*'[:]+'(\d+)(\w),$3 $2 $1 $5:$6:$7 GMT),3)$replace($mid($regexp(%releasetime%,(\d\d\d\d)-(\d\d)-(\d\d)(\w)(\d+)*'[:]+'(\d+)*'[:]+'(\d+)(\w),$3 $2 $1 $5:$6:$7 GMT),4,2),'01','Jan','02','Feb','03','Mar','04','Apr','05','May','06','Jun','07','Jul','08','Aug','09','Sep','10','Oct','11','Nov','12','Dec')$right($regexp(%releasetime%,(\d\d\d\d)-(\d\d)-(\d\d)(\w)(\d+)*'[:]+'(\d+)*'[:]+'(\d+)(\w),$3 $2 $1 $5:$6:$7 GMT),18)</pubDate>
+    <itunes:author>%artist%</itunes:author>$if(%subtitle%,$char(13)    <itunes:subtitle>%subtitle%</itunes:subtitle>,%dummy%)$if(%comment%,$char(13)    <itunes:summary>%comment%</itunes:summary>$char(13)    <description>'<![CDATA[''<p>'$regexp($regexp($regexp(%comment%,'^\A[\s\r\n]+|[\s\r\n]+\Z',%dummy%),'(\r\n){2}','</p><p>'),'(\r\n)','<br/>')'</p>'']]>'</description>,%dummy%)
+    <itunes:duration>%_length%</itunes:duration>
+    <itunes:explicit>no</itunes:explicit>
+    <guid isPermaLink="false">%guid%</guid>
+    <link>http://LINKTOTHEPODCASTITEM/%_filename_ext%</link>
+    <enclosure url="http://LINKTOTHEPODCASTITEM/%_filename_ext%" length="%_file_size_bytes%" type="audio/mpeg"/>
+</item>)$puts(intOutputCount,$add(1,$get(intOutputCount)))$puts(blnExcludeOutput,$ifgreater($get(intOutputCount),$get(intOutputMax),1,0))$puts(blnExcludeFolder,$ifgreater($strstr('|Edit|Edits|edit|edits|','|'%_directory%'|'),0,1,0))$puts(blnExcludeFileExt,$ifgreater($strstr('|mp3|m4a|','|'%_extension%'|'),0,0,1))$puts(blnCountDown,$ifgreater($add($get(blnExcludeFolder),$get(blnExcludeFileExt),$get(blnExcludeOutput)),0,1,0))$puts(intOutputCount,$ifgreater($get(blnCountDown),0,$sub($get(intOutputCount),1),$get(intOutputCount)))$ifgreater($get(blnExcludeFileExt),0,%dummy%,$ifgreater($get(blnExcludeFolder),0,%dummy%,$ifgreater($get(blnExcludeOutput),0,%dummy%,$get(strOutputText))))
+$loopend()
+
+</channel>
+</rss>

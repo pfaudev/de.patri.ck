@@ -1,0 +1,172 @@
+$filename($getenv(MP3TAGAPP)\\export\\--List of tagsUsed+Informations.mte,utf-8)$put(dummy,'$filename(-- Full tags + info of %_workingdir%.csv,utf-8)$puts(dummy,
+# ###############################################################################
+# 
+# Export all used tags + info fields to a CSV file.
+# 
+# Author Victor KOSTAS
+# 
+# Step1. Select files. Execute (Generate script)
+# Step2. Keep same selection. Execute Generated script
+# Step3. Enjoy
+# 
+# Row 1. One of below categories is populated on each column: 
+#   a. Standard. Each of fields available in https://help.mp3tag.de/main_tags.html
+#   b. User. Fields created from user (non-Standard)
+#   c. Info. Placeholders available in https://help.mp3tag.de/options_export.html
+#			Placeholders are listed under Section `Placeholders for export configurations`.
+#			Only Placeholders under Technical info, File name / path info, File properties are included.
+#			System and Global placeholders are excluded.
+#			Following File properties are excluded as well, due to very poor performance:
+#           	%_crc%	CRC32 value of file content
+#				%_md5%	MD5-Hash of the file (slow!)
+#				%_md5audio%	MD5-Hash of the audio part of the file (slow and only supported for ID3- and/or APE-only tagged files)
+# 
+# Row 2. The name of Standard/User tag or Info placeholder.
+# 
+# Row 3..N. The value extracted from each audio file.
+# 
+# Each value is wrapped between double quotes (") and separated by semicolon (;)
+# Double quotes inside the value are extracted as twin double-quotes ("").
+# Semicolon inside the value is extracted unchanged.
+# Multiline fields will be displayed correctly when opening CSV file in Excel.
+# 
+# To upload the file back to mp3tag few characters present in the tag value must be escaped first:
+# 	Twin Double-quotes (between ;" and ";)	"" 			--> 	U+0022
+# 	Semicolon 								;			--> 	U+003B
+# 	Carriage Return 						$char(13)	--> 	U+000D
+# 	Line feed 								$char(10)	--> 	U+000A
+# 
+# Update list of standard fields should it ever change in Mp3Tag official page (see below line UPDATE 1)
+# Update list of info fields as per your need(see below line UPDATE 2)
+# 
+# ###############################################################################
+# 
+# [2020-12-12] v1.00
+# 
+# ###############################################################################
+)')$puts(dummy,
+
+# Prepare variables
+)$loop(,1)$puts(dummy,
+	)$puts(sep,;)$puts(dummy,
+	# Update List of standard (if ever changes) 					<<<<<<<<<<<<<<<<<<<<<<<<< UPDATE 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	)$puts(tagsStnd0,'ALBUM\r\nALBUMARTIST\r\nALBUMARTISTSORT\r\nALBUMSORT\r\nARTIST\r\nARTISTSORT\r\nBPM\r\nCOMMENT\r\nCOMPILATION\r\nCOMPOSER\r\nCOMPOSERSORT\r\nCONDUCTOR\r\nCONTENTGROUP\r\nCOPYRIGHT\r\nDESCRIPTION\r\nDIRECTOR\r\nDISCNUMBER\r\nENCODEDBY\r\nENCODERSETTINGS\r\nENCODINGTIME\r\nFILEOWNER\r\nFILETYPE\r\nGENRE\r\nGROUPING\r\nINITIALKEY\r\nINVOLVEDPEOPLE\r\nISRC\r\nITUNESACCOUNT\r\nITUNESADVISORY\r\nITUNESCATALOGID\r\nITUNESGAPLESS\r\nITUNESHDVIDEO\r\nITUNESMEDIATYPE\r\nITUNESOWNER\r\nITUNESPURCHASEDATE\r\nLANGUAGE\r\nLENGTH\r\nLYRICIST\r\nMEDIATYPE\r\nMIXARTIST\r\nMOOD\r\nMOVEMENT\r\nMOVEMENTNAME\r\nMOVEMENTTOTAL\r\nMUSICIANCREDITS\r\nNETRADIOOWNER\r\nNETRADIOSTATION\r\nORIGALBUM\r\nORIGARTIST\r\nORIGFILENAME\r\nORIGLYRICIST\r\nORIGYEAR\r\nPODCAST\r\nPODCASTCATEGORY\r\nPODCASTDESC\r\nPODCASTID\r\nPODCASTKEYWORDS\r\nPODCASTURL\r\nPOPULARIMETER\r\nPUBLISHER\r\nRATING MM\r\nRATING WMP\r\nRELEASETIME\r\nSETSUBTITLE\r\nSHOWMOVEMENT\r\nSUBTITLE\r\nTAGGINGTIME\r\nTITLE\r\nTITLESORT\r\nTRACK\r\nTVEPISODE\r\nTVEPISODEID\r\nTVNETWORK\r\nTVSEASON\r\nTVSHOW\r\nTVSHOWSORT\r\nUNSYNCEDLYRICS\r\nWORK\r\nWWW\r\nWWWARTIST\r\nWWWAUDIOFILE\r\nWWWAUDIOSOURCE\r\nWWWCOMMERCIALINFO\r\nWWWCOPYRIGHT\r\nWWWPAYMENT\r\nWWWPUBLISHER\r\nWWWRADIOPAGE\r\nYEAR')$puts(dummy,
+	)$puts(tagsStnd0,$regexp($get(tagsStnd0),'\\r\\n',\r\n))$puts(dummy,
+	# Update List of Info fields (if ever changes) 					<<<<<<<<<<<<<<<<<<<<<<<<< UPDATE 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	)$puts(tagsInfo0,'_bitrate\r\n_bitspersample\r\n_codec\r\n_cover_height\r\n_cover_mimetype\r\n_cover_size\r\n_cover_type\r\n_cover_width\r\n_covers\r\n_directory\r\n_extension\r\n_file_create_date\r\n_file_create_datetime\r\n_file_create_datetime_raw\r\n_file_mod_date\r\n_file_mod_datetime\r\n_file_mod_datetime_raw\r\n_file_size\r\n_file_size_bytes\r\n_file_size_kb\r\n_file_size_mb\r\n_filename\r\n_filename_ext\r\n_filename_rel\r\n_folderpath\r\n_folderpath_rel\r\n_id3v2_character_encoding\r\n_length\r\n_length_seconds\r\n_mode\r\n_parent_directory\r\n_playlist_filename\r\n_playlist_filename_ext\r\n_playlist_folderpath\r\n_samplerate\r\n_tag\r\n_tag_read\r\n_tag_size\r\n_tag_size_appended\r\n_tag_size_prepended\r\n_tool\r\n_vbr\r\n_volume\r\n_workingdir\r\n_workingpath')$puts(dummy,
+	)$puts(tagsInfo0,$regexp($get(tagsInfo0),'\\r\\n',\r\n))$puts(dummy,
+	)$puts(dummy,
+	# Wrap Standard tags between «»
+	)$puts(tagsStnd0,$regexp($get(tagsStnd0),'['$char(13)$char(10)']+','»«'))$puts(dummy,
+	)$puts(tagsStnd0,$regexp($get(tagsStnd0),'^(?=.)','«'))$puts(dummy,
+	)$puts(tagsStnd0,$regexp($get(tagsStnd0),'.\K$','»'))$puts(dummy,
+	# Wrap Info tags between «»
+	)$puts(tagsInfo0,$regexp($get(tagsInfo0),'['$char(13)$char(10)']+','»«'))$puts(dummy,
+	)$puts(tagsInfo0,$regexp($get(tagsInfo0),'^(?=.)','«'))$puts(dummy,
+	)$puts(tagsInfo0,$regexp($get(tagsInfo0),'.\K$','»'))$puts(dummy,
+	# Auxiliary variables
+	)$puts(TagBeg,'TagBeg')$puts(dummy,
+	)$puts(TagEnd,'TagEnd')$puts(dummy,
+	)$puts(ValBeg,'ValBeg')$puts(dummy,
+	)$puts(ValEnd,'ValEnd')$puts(dummy,
+	)$puts(TagOpen,$char(13)$get(TagBeg)$char(10))$puts(dummy,
+	)$puts(TagClose,$char(13)$get(TagEnd)$char(10))$puts(dummy,
+	)$puts(ValOpen,$char(13)$get(ValBeg)$char(10))$puts(dummy,
+	)$puts(ValClose,$char(13)$get(ValEnd)$char(10))$puts(dummy,
+	)$puts(ValPatt,'\r'$get(ValBeg)'\n(.*?)\r'$get(ValEnd)'\n')$puts(dummy,
+	)$puts(TagPatt,'\r'$get(TagBeg)'\n(.*?)\r'$get(TagEnd)'\n')$puts(dummy,
+	)$puts(SectionSep,»»««)$puts(dummy,
+)$loopend()$puts(dummy,
+
+# Get list of used tagsUsed (Standard + User). First in, First in the final list.
+)$loop(%_path%)$puts(dummy,
+	)$puts(tagsTrack,$list($get(TagOpen),$get(TagClose)$get(ValOpen),$get(ValClose)))$puts(dummy,
+	)$puts(tagsTrack,$replace($get(tagsTrack),\r\n,'U+000DU+000A','«','U+00AB','»','U+00BB'))$puts(dummy,
+	)$puts(tagsTrack,$regexp($get(tagsTrack),$get(ValPatt),))$puts(dummy,
+	)$puts(tagsTrack,$regexp($get(tagsTrack),$get(TagPatt),'«${1}»'))$puts(dummy,
+	)$puts(tagsTrack,$upper($get(tagsTrack)))$puts(dummy,
+	)$puts(tagsUsed,$get(tagsTrack)$get(SectionSep)$get(tagsUsed))$puts(dummy,
+	)$puts(tagsUsed,$regexp($get(tagsUsed),'(«[^«»]+?»)(?=.*?'$get(SectionSep)'.*?\1)',))$puts(dummy,
+	)$puts(tagsUse1,$regexp($get(tagsUsed),'^(.*?)'$get(SectionSep)'(.*?)$','${1}'))$puts(dummy,
+	)$puts(tagsUse2,$regexp($get(tagsUsed),'^(.*?)'$get(SectionSep)'(.*?)$','${2}'))$puts(dummy,
+	)$puts(tagsUsed,$get(tagsUse1)$get(tagsUse2))$puts(dummy,
+	)$puts(quote,'')$puts(dummy,
+	)$puts(perc,'%')$puts(dummy,
+	)$puts(dummy,
+)$loopend()$puts(dummy,
+
+)$loop(,1)$puts(dummy,
+	)$puts(OK,$get(ValOpen)'OK'$get(ValClose))$puts(dummy,
+	# Keep only used Standard tags (tagsStnd).
+	)$puts(tagsStnd,$get(tagsStnd0)$get(SectionSep)$get(tagsUsed))$puts(dummy,										# Concatenate Standard Tags »»«« Used Tags
+	)$puts(tagsStnd,$replace($get(tagsStnd),$char(9),'U+0009'))$puts(dummy,											# Escape TAB
+	)$puts(tagsStnd,$regexp($get(tagsStnd),'(«[^«»]+?»)\K(?=.*?'$get(SectionSep)'.*?\1)',$get(OK)))$puts(dummy,		# Add OK after used Standard Tags
+	)$puts(tagsStnd,$regexp($get(tagsStnd),$get(SectionSep)'.*$',))$puts(dummy,										# Remove auxiliary tags (after »»««)
+	)$puts(tagsStnd,$regexp($get(tagsStnd),'(«[^«»]+?»)(?!'$get(OK)')',))$puts(dummy,								# Delete unused tags
+	)$puts(tagsStnd,$regexp($get(tagsStnd),$get(OK),))$puts(dummy,													# Remove OK marks
+	)$puts(tagsStnd,$regexp($get(tagsStnd),'(?<=»)(?=«)',\t))$puts(dummy,											# Add column separator
+	)$puts(tagsStnd,$regexp($get(tagsStnd),'[\t\r\n]+$',))$puts(dummy,												# Remove trailing Tab/Line feed
+	)$puts(tagsStnd,$regexp($get(tagsStnd),'[«»]',))$puts(dummy,													# Remove auxiliary characters «»
+	)$puts(tagsStnd,$regexp($get(tagsStnd),'.+\K$',\t))$puts(dummy,													# Add Trailing TAB
+	)$puts(hdrsStnd,$regexp($get(tagsStnd),'[^\t]+','Standard'))$puts(dummy,										# Label Standard for each Standard field
+	)$puts(tagsStnd,$regexp($get(tagsStnd),'^',$get(perc)'_path'$get(perc)'\t'))$puts(dummy,						# Add %_path% as first column
+	)$puts(hdrsStnd,$regexp($get(hdrsStnd),'^','Info\t'))$puts(dummy,												# Add %_path% as first column
+
+	# Keep only used used User tags (tagsUser).
+	)$puts(tagsUser,$get(tagsUsed)$get(SectionSep)$get(tagsStnd0))$puts(dummy,										# Concatenate Used Tags »»«« Standard Tags
+	)$puts(tagsUser,$replace($get(tagsUser),$char(9),'U+0009'))$puts(dummy,											# Escape TAB
+	)$puts(tagsUser,$regexp($get(tagsUser),'(«[^«»]+?»)(?=.*?'$get(SectionSep)'.*?\1)',))$puts(dummy,				# Keep only non-Standard Tags in Used Tags List
+	)$puts(tagsUser,$regexp($get(tagsUser),$get(SectionSep)'.*$',))$puts(dummy,										# Remove auxiliary tags (after »»««)
+	)$puts(tagsUser,$regexp($get(tagsUser),'(?<=»)(?=«)',\t))$puts(dummy,											# Add column separator
+	)$puts(tagsUser,$regexp($get(tagsUser),'[\t\r\n]+$',))$puts(dummy,												# Remove trailing Tab/Line feed
+	)$puts(tagsUser,$regexp($get(tagsUser),'[«»]',))$puts(dummy,													# Remove auxiliary characters «»
+	)$puts(tagsUser,$regexp($get(tagsUser),'.\K$',\t))$puts(dummy,													# Add Trailing TAB
+	)$puts(hdrsUser,$regexp($get(tagsUser),'[^\t]+','User'))$puts(dummy,											# Label 'User' for each User field
+
+	)$puts(tagsInfo,$get(tagsInfo0))$puts(dummy,
+	)$puts(tagsInfo,$replace($get(tagsInfo),$char(9),'U+0009'))$puts(dummy,											# Escape TAB
+	)$puts(tagsInfo,$regexp($get(tagsInfo),'(?<=»)(?=«)',\t))$puts(dummy,											# Add column separator
+	)$puts(tagsInfo,$regexp($get(tagsInfo),'[«»]','%'))$puts(dummy,													# Remove auxiliary characters «», replace by % <-----------------
+	)$puts(tagsInfo,$regexp($get(tagsInfo),'[\t\r\n]+$',))$puts(dummy,												# Remove trailing Tab/Line feed
+	)$puts(hdrsInfo,$regexp($get(tagsInfo),'[^\t]+','Info'))$puts(dummy,											# Label 'Info' for each Info field
+
+	)$puts(tags,$get(tagsStnd)$get(tagsUser)$get(tagsInfo))$puts(dummy,												# Concatenate Standard, User, Info fields
+	)$puts(tags,$regexp($get(tags),'(\t){2,}','$1'))$puts(dummy,													# Remove orphan separators
+	)$puts(tags,$regexp($get(tags),'[\t\r\n]*$',))$puts(dummy,														# Remove trailing TAB and line feeds
+	)$puts(tags,$regexp($get(tags),'(\t)','"$1"'))$puts(dummy,														# Add quotes (end of previous, beginning of next)
+	)$puts(tags,$regexp($get(tags),'^|$','"'))$puts(dummy,															# Add leading/trailing quote
+	)$puts(tags,$regexp($get(tags),\t,$get(sep)))$puts(dummy,														# Replace TAB by semicolon
+	
+	)$puts(hdrs,$get(hdrsStnd)$get(hdrsUser)$get(hdrsInfo))$puts(dummy,												# Concatenate Standard, User, Info fields
+	)$puts(hdrs,$regexp($get(hdrs),'(\t){2,}','$1'))$puts(dummy,													# Remove orphan separators
+	)$puts(hdrs,$regexp($get(hdrs),'[\t\r\n]*$',))$puts(dummy,														# Remove trailing TAB and line feeds
+	)$puts(hdrs,$regexp($get(hdrs),'(\t)','"$1"'))$puts(dummy,														# Add quotes (end of previous, beginning of next)
+	)$puts(hdrs,$regexp($get(hdrs),'^(?!")','"'))$puts(dummy,														# Add leading quote
+	)$puts(hdrs,$regexp($get(hdrs),'(?<!")$','"'))$puts(dummy,														# Add trailing quote
+	)$puts(hdrs,$regexp($get(hdrs),\t,$get(sep)))$puts(dummy,														# Replace TAB by semicolon
+	)$put(dummy,$get(header))$puts(dummy,
+
+	# Build final file
+	)$puts(dollar,'$')$puts(dummy,	# mte code for single fields (standard or user)
+	)$puts(codeTag,')<q>"<q>$replace($meta_sep(<tag>,\\),<q>"<q>,<q>""<q>)<q>"<q><sep>$puts(dummy,	# Escape semicolon, double quotes')$puts(dummy,				# mte code for single field (standard or user)
+	)$puts(codeTag,')<q>"<q>$replace($meta_sep(<tag>,\\),<q>"<q>,<q>""<q>)<q>"<q><sep>$puts(dummy,	# Escape semicolon, double quotes')$puts(dummy,				# mte code for single field (standard or user)
+	)$puts(codeTag,$regexp($get(codeTag),'([\\$()\[\]])','\\$1'))$puts(dummy,																					# Escape special regexp characters
+	)$puts(codeTag,$replace($get(codeTag),'<tag>','$+{tag}','<sep>','$+{sep}','<q>','')\r\n)$puts(dummy,														# replace placeholders, add line feed
+	)$puts(codeInfo,')<q>"<q>$replace(<tag>,<q>;<q>,U+003B,<q>"<q>,U+0022)<q>"<q><sep>$puts(dummy,	# Escape semicolon, double quotes')$puts(dummy,				# mte code single Info field
+	)$puts(codeInfo,')<q>"<q>$replace(<tag>,<q>"<q>,<q>""<q>)<q>"<q><sep>$puts(dummy,	# Escape semicolon, double quotes')$puts(dummy,							# mte code single Info field
+	)$puts(codeInfo,$regexp($get(codeInfo),'([\\$()\[\]])','\\$1'))$puts(dummy,																					# Escape special regexp characters
+	)$puts(codeInfo,$replace($get(codeInfo),'<tag>','$+{tag}','<sep>','$+{sep}','<q>','')\r\n)$puts(dummy,														# replace placeholders, add line feed
+	)$puts(codeTags,$get(tags))$puts(dummy,																			# Standard/user fields mte
+	)$puts(codeTags,$regexp($get(codeTags),'"(?<tag>[^"%]+?)"(?<sep>'$get(sep)'|$)',$get(codeTag)))$puts(dummy,		# Info fields mte
+	)$puts(codeTags,$regexp($get(codeTags),'"(?<tag>%[^"]+?%)"(?<sep>'$get(sep)'|$)',$get(codeInfo)))$puts(dummy,	# Info field mte
+	)$puts(codeTags,$regexp($get(codeTags),'U\+0009',\t))$puts(dummy,												# Unescape Tab
+	)$puts(codeTags,$regexp($get(codeTags),'[\r\n]+$',\r\n))$puts(dummy,											# Remove trailing line feed
+	)$puts(tags,$regexp($get(tags),'(%)','''$1'''))$puts(dummy,														# Remove trailing line feed
+)$put(dummy,$get(hdrs)'$char(13)$char(10)$puts(dummy,')
+$put(dummy,')'$get(tags)'$char(13)$char(10)$puts(dummy,')
+$put(dummy,')'$get(dollar)'loop(%_path%)$puts(dummy,')
+$put(dummy,$get(codeTags))$put(dummy,')$char(13)$char(10)$puts(dummy,')
+$put(dummy,')'$get(dollar)'loopend()$puts(dummy,')
+$put(dummy,')')$puts(dummy,
+)$loopend()$puts(dummy,
+)

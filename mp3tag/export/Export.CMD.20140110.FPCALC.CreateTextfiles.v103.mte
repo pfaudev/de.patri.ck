@@ -1,0 +1,63 @@
+$filename($getEnv('USERPROFILE')'\Desktop\Mp3tag.FPCALC.create.cmd',ANSI)$puts(
+)$loop(%_path%)$puts(items,$add(1,$get(items)))$loopend()$puts(
+)'@ECHO OFF'
+'REM =============================================================================='
+'REM Purpose:'
+'REM Create AcoustID-Chromaprint-FPCALC Textfiles.'
+'REM ------------------------------------------------------------------------------'
+'REM Define here the fully qualified path to the "AcoustID-Chromaprint-FPCALC.EXE".'
+'REM SET FPCALC_EXE="P:\Program Files\Chromaprint\fpcalc.exe"'
+'SET FPCALC_EXE="D:\ProgMUSIC\Chromaprint\fpcalc.exe"'
+'REM =============================================================================='
+'SETLOCAL DisableDelayedExpansion'
+'CHCP 1252 1>NUL 2>NUL'
+'ECHO.[Mp3tag.FPCALC.create.cmd]'
+'ECHO.'
+'ECHO.Create AcoustID-Chromaprint-FPCALC Textfiles in subfolder.'
+'ECHO.'
+'ECHO.Using AcoustID-Chromaprint ...'
+'%FPCALC_EXE% -version'
+'ECHO.'
+'ECHO.Files to process: '$get(items)
+'ECHO.'
+'ECHO.Press [Enter] to continue or [Ctrl+C] to exit ...'
+'PAUSE 1>NUL 2>NUL'
+'ECHO.'
+$loop(%_path%)$puts(item,$add(1,$get(item)))
+'SET FOLDER="'%_folderpath%'"'
+'SET FILE_IN="'%_filename_ext%'"'
+'SET FILE_OUT="FP\'%_filename_ext%'.fp.txt"'
+'CD /D %FOLDER% 1>NUL 2>NUL'
+'MD FP 1>NUL 2>NUL'
+'ECHO.Working ...'
+'ECHO.Progress: '$div($mul(100,$get(item)),$get(items))'%%'
+'ECHO.Item    : '$get(items)'.'$get(item)
+'ECHO.Folder  : %FOLDER%'
+'ECHO.File In : %FILE_IN%'
+'ECHO.File Out: %FILE_OUT%'
+'ECHO.'
+'%FPCALC_EXE% %FILE_IN% >%FILE_OUT%'
+'IF ERRORLEVEL 1 ('
+'   ECHO.ErrorNr : %ERRORLEVEL%'
+')'
+'IF ERRORLEVEL 2 ('
+'   ECHO.'
+'   ECHO.There was an error with the last input file.'
+'   ECHO.Press [Enter] to continue or [Ctrl+C] to exit ...'
+'   PAUSE 1>NUL 2>NUL'
+')'
+'ECHO.'
+$loopend()
+'ECHO.Ready.'
+'ECHO.'
+'PAUSE'
+':EOB'
+$puts(Info,'Using the Mp3tag Export Script function $filename() you have to define the fully qualified path to the new command file, which will be created by this Mp3tag Export script.')
+$puts(Info,'For importing the FPCALC data create a Mp3tag action group like the following example ...'
+A1: FP_TEMP        <== %_filename_ext%'.fp.txt'
+A2: FP_FILE        <== $regexp(%FP_TEMP%,'\A(?:.*\n)?FILE=(.+?)\r.*\Z','$1',1)
+A3: FP_DURATION    <== $regexp(%FP_TEMP%,'\A(?:.*\n)?DURATION=(.+?)\r.*\Z','$1',1)
+A4: FP_FINGERPRINT <== $regexp(%FP_TEMP%,'\A(?:.*\n)?FINGERPRINT=(.+?)\r.*\Z','$1',1)
+A5: FP_TEMP        ==> remove tag field)
+$puts(Info,'By executing the action group the data from the file "%_filename_ext%.fp.txt" will be splitted and saved into the corresponding tag-fields.')
+$puts(Info,'Detlev Dalitz.20140215.v1.03')$puts(Info,)

@@ -1,0 +1,10 @@
+$filename(%_workingpath%%_workingdir% ---- Music Playground ----.bat,ansi)ECHO OFF
+
+:Creates "_Music_Playground_Files_" directory
+IF not EXIST "%_workingpath%_Music_Playground_Files_\" md "%_workingpath%_Music_Playground_Files_\"
+
+:Unpack files from "milkaPlayground 04 Music Playground Files.cab" to "_Music_Playground_Files_" directory
+EXPAND "'%'appdata'%'\Mp3tag\export\milkaPlayground 04 Music Playground Files.cab" -f:* "_Music_Playground_Files_"
+
+:Deletes created batch file
+DEL "%_workingpath%%_workingdir% ---- Music Playground ----.bat

@@ -1,0 +1,6 @@
+$filename$replace(Album, Compilation.m3u)#EXTM3U
+$loop(%_folderpath%)#EXTINF:-1,----- %_directory% (%_total_time2%) -------------------
+X:\----- %_directory% (%_total_time2%) -------------------.x$loop(%_directory%)$loopend()
+$loop(%_filename_ext%)#EXTINF:%_length_seconds%,$if($or(%artist%,%title%),$if($not(%track%),,$num(%track%,2). ),)$if(%artist%,%artist% - %title%,%title%)$if($or(%artist%,%title%),,%_filename%)
+$replace(%_folderpath%%_filename_ext%,%_workingpath%,)
+$loopend()$loopend()

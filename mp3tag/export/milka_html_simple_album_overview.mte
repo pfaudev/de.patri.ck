@@ -1,0 +1,115 @@
+$filename(%_workingdir%.html)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<title>.~ %_workingdir% ~. Overview</title>
+<META http-equiv=Content-Type content="text/html; charset=windows-1250">
+<STYLE type=text/css>A:visited {
+	COLOR: #787058
+}
+A:hover {
+	COLOR: #a8a080; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #bfbfbf
+}
+A {
+	COLOR: #989068; TEXT-DECORATION: none
+}
+BODY {
+	FONT: x-small Verdana
+}
+TD {
+	FONT: x-small Verdana
+}
+A {
+	FONT: x-small Verdana
+}
+H1 {
+	FONT: large Verdana
+}
+.title1 {
+	FONT: large Verdana; LETTER-SPACING: 3px
+}
+.title2 {
+	FONT: medium Verdana; LETTER-SPACING: 2px
+}
+.title3 {
+	FONT: medium Verdana; VERTICAL-ALIGN: middle; LETTER-SPACING: 3px
+}
+IMG.cover {
+	BORDER-RIGHT: #787058 1px solid; BORDER-TOP: #787058 1px solid; BORDER-LEFT: #787058 1px solid; BORDER-BOTTOM: #787058 1px solid
+}
+TD.valshade {
+	BORDER-RIGHT: #787058 1px solid; BORDER-TOP: #787058 1px solid; BORDER-LEFT: #787058 1px solid; BORDER-BOTTOM: #787058 1px solid
+}
+PRE  { 
+	FONT: x-small Verdana; VERTICAL-ALIGN: middle; LETTER-SPACING: 3px
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2800.1498" name=GENERATOR>
+</HEAD>
+
+<BODY text=#707070 vLink=#787058 link=#989068 bgColor=#222E44><P><A name=top></A></P>
+<DIV align=center>
+   <TABLE height="100%%" width="95%%"><TBODY>
+      <TR height=16><TD vAlign=top align=left><BR>
+      <TABLE cellPadding=2 width="100%%" border=0><TBODY>
+         <TR><TD vAlign=center width="100%%"><DIV align=left><FONT class=title2 color=#787058>%_directory%</FONT></DIV></TD></TR>
+      </TBODY></TABLE></TD></TR>
+      <TR><TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=3 width="100%%" border=0><TBODY>
+         <TR><TD vAlign=top align=left width=300 height=300><UL><A href="cover.jpg"><IMG class=cover src="cover.jpg" width=300></A></UL></TD>
+         <TD vAlign=top align=left width="100%%">
+       <TABLE cellPadding=2 width="100%%" border=0><TBODY>
+         <TR><TD noWrap align=right width="30%%"></TD>
+         <TD class=valshade width="70%%" bgColor=#1e1c2c><DIV align=center><FONT color=#787058><A href="$if($eql($strstr($replace(%_workingpath%,%_workingdir%,),XCD),0),../List.html,../../List.html)"><B>Back On Album, Compilation & Set List</B></A>
+ &nbsp; </FONT></DIV></TD></TR>
+          <TR>
+          <TD noWrap align=right width="30%%"></TD>
+          <TD class=valshade width="70%%" bgColor=#1e1c2c>
+          <DIV align=center><FONT color="#787058">Total: <B>%_total_time2%</B> Hours | <B>%_total_files%</B> Tracks | <B>%_total_size%</B></FONT></DIV></TD></TR>
+             <TR>
+                <TD noWrap align=right width="30%%"></TD>
+                <TD noWrap align=right width="70%%"></TD></TR>
+             <TR>
+                <TD noWrap align=right width="30%%"><B>Album: </B></TD>
+                <TD class=valshade width="70%%" bgColor=#1e1c2c>&nbsp;%album%&nbsp;</TD></TR>
+             <TR>
+                 <TD noWrap align=right width="30%%"><B>Title: </B></TD>
+                 <TD class=valshade width="70%%" bgColor=#1e1c2c>&nbsp;%title%</TD></TR>
+             <TR>
+                <TD noWrap align=right width="30%%"><B>Artist: </B></TD>
+                <TD class=valshade width="70%%" bgColor=#1e1c2c>&nbsp;%artist%</TD></TR>
+             <TR>
+                <TD noWrap align=right width="30%%"><B>Genre: </B></TD>
+                <TD class=valshade width="70%%" bgColor=#1e1c2c>&nbsp;%genre%</TD></TR>
+             <TR>
+                <TD noWrap align=right width="30%%"><B>&nbsp; Comment: </B></TD>
+                <TD class=valshade width="70%%" bgColor=#1e1c2c>&nbsp;%comment%</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+   <TR>
+      <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=3 width="100%%" border=0><TBODY>
+         <TR><TD vAlign=top width="100%%"><UL><FONT class=title3 color=#787058>Track Listing:</FONT></UL></TD></TR>
+         <TR><TD vAlign=top><UL><UL>
+      <TABLE cellPadding=2 width="100%%"><TBODY>$loop(%_filename_ext%)
+         <TR><TD vAlign=top width="100%%"><A href="%_filename_ext%"><B>%_filename%</B></A>&nbsp; &nbsp;%_length%</TR>
+         <TR>$loopend()
+      </TBODY></TABLE></UL></UL></TD></TR>
+      <TABLE cellSpacing=0 cellPadding=3 width="100%%" border=0><TBODY>
+         <TR><TD vAlign=top width="100%%"><UL><FONT class=title3 color=#787058>Review:</FONT></UL></TD></TR>
+         <TR><TD vAlign=top><UL><UL>
+      <TABLE cellPadding=2 width="100%%"><TBODY>
+         <TR><TD><PRE>
+<!-- ************************/////// REVIEW \\\\\\\************************ -->
+COPY, PASTE REVIEW HERE !
+<!-- ************************/////// END OF REVIEW \\\\\\\************************ -->
+          </PRE></TR>
+          <TR>
+      </TBODY></TABLE></UL></UL></TD></TR>
+</TBODY></TABLE></TD></TR>
+   <TR><TD vAlign=bottom align=middle><DIV align=center><A href="#top"><B>Back On Top</B></A> - 
+   <A href="%_directory%.m3u"><B>Play Album</B></A></DIV></TD></TR>
+</TBODY></TABLE></DIV>
+</BODY>
+</HTML>

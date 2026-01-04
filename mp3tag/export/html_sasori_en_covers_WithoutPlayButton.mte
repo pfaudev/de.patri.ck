@@ -1,0 +1,72 @@
+﻿$filename(html, utf-8)
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>My Music Library</title>
+	<style type="text/css"><!--
+		h1 { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 14pt; color: #000 }
+		body { font-family: Arial, Tahoma, Verdana, sans-serif; font-size: 12pt; background: #fff }
+		table, tr, td { font-family: Arial, Tahoma, Verdana, sans-serif; font-size: 9pt; color: #000; }
+		a:link, a:visited, a:active { text-decoration: none; color: #03f; }
+		a:hover { text-decoration: none; color: #f03; }
+		.title { font-weight: bold; padding: 7px; margin: 0px; color: #000; }
+		.odd { background-color: #ccc; }
+	--></style>
+</head>
+<body style="background-color: #DF7000">
+	<h1>MY MUSIC LIBRARY</h1>
+	<p>Created on %_date%</p>
+
+	<table>
+$loop(%album%)
+		<tr>
+		<td colspan="6"><hr noshade color="#000000" size="2"></td>
+		</tr>
+		<tr>
+		<td bgcolor="#000000" align="center"><p><img src="%_folderpath%cover.jpg" width="150"></p></td>
+
+
+		<td colspan="6" bordercolor="#000000" style="border-style: solid; border-width: 3">
+<h2 align="left"><font color="#000000"><p>&nbspAlbum: %album%</p></font></h2>
+<font color="#000000" size="2"><b>&nbspYear: %year%<br>&nbspGenre: %genre%<br>&nbspTotal Tracks: %_total_files%<br>&nbspTotal Length: %_total_time2%<br>&nbspTotal Size: %_total_size%
+
+</b>
+</font>
+</td>
+
+
+
+
+		</tr>
+			<th class="title" align="left" bgcolor="#FFCC66">Artist</th>
+			<th class="title" align="center" bgcolor="#FFCC66">#</th>
+			<th class="title" align="left" bgcolor="#FFCC66">Title</th>
+			<th class="title" align="center" bgcolor="#FFCC66">Length</th>
+			<th class="title" align="center" bgcolor="#FFCC66">Bitrate (Kbps)</th>
+
+			<th class="title" align="center" bgcolor="#FFCC66">Size</th>
+		$loop(%track%)
+		<tr>
+			<td$if($odd(%_counter%), class="odd",)><b>&nbsp%artist%</b></td>
+			<td align="center" $if($odd(%_counter%), class="odd",)><b>%track%</b></td>
+			<td$if($odd(%_counter%), class="odd",)><b>&nbsp%title%</b></td>
+			<td align="center" $if($odd(%_counter%), class="odd",)>%_length%</td>
+			<td align="center" $if($odd(%_counter%), class="odd",)>%_bitrate%</td>
+
+			<td align="center" $if($odd(%_counter%), class="odd",)>%_file_size_mb% MB</td>
+		</tr>
+		$loopend()
+$loopend()
+
+	</table>
+	<br>
+	<hr noshade color="#000000" size="2">
+	<div align="center">
+	<tr>
+	Generated with <b>%_app%</b> - the universal Tag Editor  (<a href="http://www.mp3tag.de/en/" title="Mp3tag Website">www.mp3tag.de</a>)
+	</tr>
+	</div>
+	<hr noshade color="#000000" size="2">
+</body>
+</html>

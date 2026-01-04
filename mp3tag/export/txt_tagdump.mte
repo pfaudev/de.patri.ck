@@ -1,0 +1,9 @@
+$filename(%_workingdir% tag dump $replace(%_datetime%,:,.).txt,utf-8)$loop(%_path%)$repeat(=,70)
+
+ Filename: %_filename_ext%
+     Tags: %_tag_read% '('%_tag%')'
+
+
+$list( ,: ,$char(13)$char(10)$char(13)$char(10))
+
+$loopend()

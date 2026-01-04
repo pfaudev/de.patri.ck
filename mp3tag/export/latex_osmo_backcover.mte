@@ -1,0 +1,107 @@
+$filename(%artist% - %album% - backcover.tex)
+'%' Generated with %_app%
+'%' http://www.mp3tag.de
+'%' export configuration by osmo
+
+\documentclass'['a4paper,oneside,10pt']'{article}
+
+\usepackage'['ansinew']'{inputenc}
+\usepackage'['T1']'{fontenc}
+\usepackage'['english']'{babel}
+\usepackage'['pdftex']'{graphicx}
+\frenchspacing
+\usepackage{multicol}
+\usepackage{ifthen}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\unitlength}{1mm}
+
+'%'=================================================================
+'%' changeable settings:
+'%'=================================================================
+
+'%' font
+\usepackage{cmbright}
+
+'%' paper margins 1 cm on all sides 
+\usepackage{fullpage}
+
+'%' 2 columns if more files than
+\newcommand{\columnfiles}{26}
+
+'%' font auto-sizing for spine
+'%' less than 58 characters in string "%artist% - %album%" => use large size
+'%' ...
+\newcommand{\spinefontsize}{
+	\ifthenelse{$len(%artist% - %album%)<58}{\large}{
+		\ifthenelse{$len(%artist% - %album%)<72}{\normalsize}{
+			\ifthenelse{$len(%artist% - %album%)<77}{\small}{
+				\ifthenelse{$len(%artist% - %album%)<83}{\footnotesize}{
+					\scriptsize}}}}
+}
+
+'%' font auto-sizing for tracklist
+'%' less than 11 files => use large size
+'%' ...
+\newcommand{\tracklistfontsize}{
+	\ifthenelse{%_total_files%<11}{\large}{
+		\ifthenelse{%_total_files%<17}{\normalsize}{
+			\ifthenelse{%_total_files%<21}{\small}{
+				\ifthenelse{%_total_files%<46}{\footnotesize}{
+					\scriptsize}}}}
+}
+
+'%'=================================================================
+'%' document:
+'%'=================================================================
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{picture}(155,121.5)(0,0) '%' (width,height)(x-offset,y-offset)
+
+'%' line drawing format:
+'%' \put(x-start,y-start){\line(x-direction,y-direction){line length}}
+'%' (0,0) is in the lower left hand corner of the created picture
+
+'%' left spine (3mm margins on sides)
+\put(0,0){\line(1,0){6.5}}
+\put(6.5,0){\line(0,1){121.5}}
+\put(6.5,121.5){\line(-1,0){6.5}}
+\put(0,121.5){\line(0,-1){121.5}}
+\put(0,3){\rotatebox{90}{\parbox'['c']''['6.5mm']''['c']'{115.5mm}{\spinefontsize $replace($replace($replace($replace($replace($replace($replace($replace($replace(%artist% - %album%,\,'$\backslash$'),#,\#),'$',\'$'),'%',\'%'),&,\&),_,\_),{,\{),},\}),",'''')}}}
+   
+'%' right spine (3mm margins on sides)
+\put(148.5,0){\line(1,0){6.5}}
+\put(155,0){\line(0,1){121.5}}
+\put(155,121.5){\line(-1,0){6.5}}
+\put(148.5,121.5){\line(0,-1){121.5}}
+\put(148.5,118.5){\rotatebox{-90}{\parbox'['c']''['6.5mm']''['c']'{115.5mm}{\spinefontsize $replace($replace($replace($replace($replace($replace($replace($replace($replace(%artist% - %album%,\,'$\backslash$'),#,\#),'$',\'$'),'%',\'%'),&,\&),_,\_),{,\{),},\}),",'''')}}}
+    
+'%' back (3mm margins on all sides)
+\put(6.5,0){\line(1,0){142}}
+\put(6.5,121.5){\line(1,0){142}}
+\put(9.5,3){\parbox'['b']''['115.5mm']''['t']'{136mm}{
+'%'
+	\begin{flushleft}
+	'%'
+  	'%' album info
+	\ifthenelse{%_total_files%>\columnfiles}{\begin{multicols}{2}}{}
+    {\LARGE $replace($replace($replace($replace($replace($replace($replace($replace($replace(%artist%,\,'$\backslash$'),#,\#),'$',\'$'),'%',\'%'),&,\&),_,\_),{,\{),},\}),",'''')} \\
+	{\huge \textbf{$replace($replace($replace($replace($replace($replace($replace($replace($replace(%album%,\,'$\backslash$'),#,\#),'$',\'$'),'%',\'%'),&,\&),_,\_),{,\{),},\}),",'''')}} \\
+	{\footnotesize %year%} \\
+	'%'
+	'%' tracklist
+	\tracklistfontsize
+	\begin{enumerate}
+		\setlength{\itemsep}{0pt}
+		\setlength{\parskip}{0pt}
+		$loop(%_path%)\item $replace($replace($replace($replace($replace($replace($replace($replace($replace(%title%,\,'$\backslash$'),#,\#),'$',\'$'),'%',\'%'),&,\&),_,\_),{,\{),},\}),",'''') %_length%
+		$loopend()\end{enumerate}
+	\ifthenelse{%_total_files%>\columnfiles}{\end{multicols}}{}
+	\end{flushleft}
+}}
+    
+\end{picture}
+
+\end{document}

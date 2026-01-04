@@ -1,0 +1,1135 @@
+$filename(Mixes.html)<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>..:: Mix / Set List ::..</title>
+<style type="text/css"><!--
+body { background: #ffffff; font-size: 9pt; SCROLLBAR-FACE-COLOR: #ffffff; SCROLLBAR-HIGHLIGHT-COLOR: #000000;
+SCROLLBAR-SHADOW-COLOR: #000000; SCROLLBAR-3DLIGHT-COLOR: #888888; SCROLLBAR-ARROW-COLOR: #888888;
+SCROLLBAR-TRACK-COLOR: #222222; SCROLLBAR-DARKSHADOW-COLOR: #888888 }
+
+.info_table {
+	background-color: #000000;
+	border-right: 1px solid #000000;
+	border-left: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	font-size: 8pt;
+	font-family: Tahoma,Verdana,Arial;
+}
+.info_table a { text-decoration: none; color: #ffffff; }
+.info_table a:hover { text-decoration: none; color: #000000; }
+.info_table img { height: 100px; border-width: 0px; margin: 0px; padding: 0px; border: 2px solid #B9C2C4;}
+.info_names { color: #ffffff; padding: 2px; font-weight:bold;}
+.info_values { color: #aaaaaa; padding: 2px; height: 17px; }
+.info_line { color: #aaaaaa; padding: 2px; height: 17px; width: auto; border-bottom: 1px solid #000000;}
+.info_themes  { color: #ffffff; text-align: center; padding: 2px; font-weight:bold; height: 17px; border-top: 1pt solid #000000; border-right: 1pt solid #000000;}
+nobr { color: #ffffff; padding: 2px; font-weight:bold; text-decoration: none; font-family: Tahoma,Verdana,Arial;}
+
+.main_title { font-size: 28pt; color: #aa0000; font-family: Tahoma,Verdana,Arial; font-weight:bold; margin: 0px; padding: 4px; }
+
+.export_table { 
+	background-color: #000000;
+	border: 0px solid #000000;
+	font-size: 8pt;
+	font-family: Tahoma,Verdana,Arial;
+	color: #ffffff;
+	text-align: center;
+	vertical-align: middle;
+	margin: 10px 4px 10px 4px;
+	padding: 0px;
+	border-collapse: separate;
+	border-spacing: 1px;
+	empty-cells: show;
+}
+.export_table a { text-decoration: none; color: #ffffff; }
+.export_table a:hover { text-decoration: none; color: #000000; }
+.export_header { background-color: #000000; color: #ffffff; font-weight: bold; height: 18px; }
+.export_header a { text-decoration: none; color: #ffffff; }
+.export_header a:hover { text-decoration: none; color: #ffffff; }
+
+.about_table {
+	background-color: #000000;
+	border-right: 1px solid #000000;
+	border-left: 1px solid #000000;
+	border-top: 1px solid #000000;
+	color: #ffffff;
+	font-size: 8pt;
+	font-family: Tahoma,Verdana,Arial;
+
+}
+.about_table a { text-decoration: none; color: #ffffff; font-weight: bold; }
+.about_table a:hover { text-decoration: none; color: #000000; font-weight: bold; }
+.tip_table {
+	border: 0px solid #000000;
+	font-size: 8pt;
+	font-family: Tahoma,Verdana,Arial;
+	text-align: left;
+	vertical-align: middle;
+	margin: 0px;
+	padding: 2px;
+}
+
+/* +++ Tooltip by ctnchris +++ */
+/* +++ edited by nickless +++ */
+/*
+	Tangering Structure CSS
+	Copyright wehnerj (jwehner@wehnerweb.com)
+	http://www.wehnerweb.com
+
+	LEAVE THIS COMMENT INTACT
+*/
+.dhtmltooltip {
+	border: 1px solid black;
+	background-color: #7B8279;
+	color: white;
+	font-family: Tahoma,Verdana,Arial;
+	font-size: 8pt;
+	text-align:left;
+	padding: 2px;
+}
+
+#dhtmltooltip {
+	position: absolute;
+	width: 300px;
+	visibility: hidden;
+	z-index: 100;
+	/*Remove following line to remove alpha blending. Below line should always appear last within this CSS*/
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=88); 
+}
+--></style>
+
+<table class="about_table" id="info_table" width="80%%" border="0" cellspacing="1" cellpadding="2" align="center">
+<tr class="info_table" id="info_table_l"><a id="info_names_0"><b>&nbsp;
+$loop(%_filename_ext%,1)$loopend()%_max_counter% Mixes / Sets | %_total_size% | %_total_time2% Hours</b></a>
+<td class="info_values" style="width:auto; text-align:left">
+<b><a id="h_link_0" href="javascript:do_sort(16,0)" onMouseOver="over_link(this,1,0)" onMouseOut="out_link(this,1,0)">Filename</a></b>
+ | <b><a id="h_link_1" href="javascript:do_sort(0,1)" onMouseOver="over_link(this,1,1)" onMouseOut="out_link(this,1,1)">Artist</a></b>
+ | <b><a id="h_link_2" href="javascript:do_sort(3,2)" onMouseOver="over_link(this,1,2)" onMouseOut="out_link(this,1,2)">Title</a></b>
+ | <b><a id="h_link_3" href="javascript:do_sort(6,3)" onMouseOver="over_link(this,1,3)" onMouseOut="out_link(this,1,3)">Genre</a></b>
+ | <b><a id="h_link_4" href="javascript:do_sort(4,4)" onMouseOver="over_link(this,1,4)" onMouseOut="out_link(this,1,4)">Length</a></b>
+ || <b><a id="other_0" href="" style="font-size:11px" onMouseOver="over_link(this,0,0)"onMouseOut="out_link(this,0,0)"><b>Explore All</b></a></b>
+ | <a id="other_1" href="Mix, Set.m3u" style="font-size:11px" onMouseOver="over_link(this,0,1)"onMouseOut="out_link(this,0,1)"><b>Play All</b></a>
+</b></td></tr>
+
+<script type="text/javascript"><!--
+// +++ coded by nickless +++ //
+// +++ Browser Checks +++ //
+
+var nav = navigator.appVersion.indexOf("MSIE");
+var ie5 = ((nav>0) && (parseInt(navigator.appVersion.substring(nav+5, nav+6)) >= 5));	//Internet Explorer 5++
+var ns5 = ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion.substring(0, 1)) >= 5));	//Mozilla Family 5++ = Netscape 6++, FireFox etc.
+var op7 = ((navigator.appName == "Opera") && (parseInt(navigator.appVersion.substring(0, 1)) >= 7));	//Opera 7++
+
+if (!(ie5||ns5||op7)) alert("Warning!!!\nYour browser couldn''t be detected as a supported one (IE5++/Mozilla5++/Opera7++)\nSome functions won''t work properly");
+
+// +++ Cookie Functions +++ //
+
+function ReadCookie(name) {
+	var _cookie_m = document.cookie; 
+	var _name = name + "=";
+	var _len = _cookie_m.length;
+	var i = 0;
+
+	while (i < _len) {
+		var _val_from = i + _name.length;
+		if (_cookie_m.substring(i, _val_from) == _name) { 
+			var _val_to = _cookie_m.indexOf (";", _val_from);
+			if (_val_to == -1) {_val_to = _len};
+			return unescape(_cookie_m.substring(_val_from, _val_to));
+		}
+		i = _cookie_m.indexOf(" ", i) + 1;
+		if (i == 0) break;
+	}
+	return null;
+}
+
+function WriteCookie(name, value, expire_time) { //expire_time in hours
+	_expire_date =  new Date();
+	_expire_date.setTime(_expire_date.getTime() + expire_time * 1000 * 3600);
+
+	document.cookie = name + "=" + escape(value) + "; expires=" + _expire_date.toGMTString() + "; path=/";
+}
+
+function DeleteCookie(name) { document.cookie = name + "=; expires=Thu, 01-Jan-80 00:00:01 GMT; path=/"; }
+
+// +++ Formatting Functions +++ //
+
+function fmtNull(number, n) {
+	var _result = new String("");
+	var _l = n-Math.ceil(Math.log(number+1)/Math.LN10);
+	if (number==0) _l = n-1;
+	for (var _j=0;_j<_l;_j++) { _result +="0"; }
+
+	return _result += number;
+}
+
+function fmtTime(seconds) {
+	var _result = "";
+	if (seconds > 3600) { 
+		_result = fmtNull(Math.floor(seconds / 3600), 2) + ":";
+		seconds %%= 3600;
+	}
+	_result += fmtNull(Math.floor(seconds / 60), 2) + ":";
+
+	return _result + fmtNull(seconds %% 60, 2);
+}
+
+// +++ Arrayed Java Export by nickless +++ //
+
+var table_length = %_total_files%;	//length of the table
+var a = new Array(table_length);	//main export array
+
+/* history of subarray fields usage
+a'['n']' = new Array(19);	//creates a new subarray in the n-th line of table
+a'['n']''['0']' = artist
+a'['n']''['1']' = album
+a'['n']''['2']' = track
+a'['n']''['3']' = title
+a'['n']''['4']' = length in seconds (digits only)
+a'['n']''['5']' = year
+a'['n']''['6']' = genre
+a'['n']''['7']' = bitrate (digits only)
+a'['n']''['8']' = bitrate information ( kbps VBR/CBR)
+a'['n']''['9']' = codec
+a'['n']''['10']' = comment
+a'['n']''['11']' = size of file
+a'['n']''['12']' = samplerate
+a'['n']''['13']' = mode
+a'['n']''['14']' = encoded by
+a'['n']''['15']' = directory
+a'['n']''['16']' = filename with extension
+a'['n']''['17']' = file size in bytes (for sorting)
+a'['n']''['18']' = filename without extension
+*/
+
+//you can delete fields you don''t need (memory & performance), but delete ALL cases where they are used everywhere in the file!
+$loop(%_filename_ext%)
+a'['$sub(%_counter%,1)']' = new Array(18);
+a'['$sub(%_counter%,1)']''['0']'="$replace($replace($replace($replace(%artist%,\,\\),$char(10),<br>),$char(13), ),",\")";
+a'['$sub(%_counter%,1)']''['1']'="$replace($replace($replace($replace(%album%,\,\\),$char(10),<br>),$char(13), ),",\")";
+a'['$sub(%_counter%,1)']''['2']'="$num(%track%,2)";
+a'['$sub(%_counter%,1)']''['3']'="$replace($replace($replace($replace(%title%,\,\\),$char(10),<br>),$char(13), ),",\")";
+a'['$sub(%_counter%,1)']''['4']'=%_length_seconds%;
+a'['$sub(%_counter%,1)']''['5']'="%year%";
+a'['$sub(%_counter%,1)']''['6']'="%genre%";
+a'['$sub(%_counter%,1)']''['7']'=%_bitrate%;
+a'['$sub(%_counter%,1)']''['8']'=" kbps$if($eql(%_vbr%,CBR),, %_vbr%)";
+a'['$sub(%_counter%,1)']''['9']'="$replace(%_codec%,",\")";
+a'['$sub(%_counter%,1)']''['10']'="$replace($replace($replace($replace(%comment%,\,\\),$char(10),<br>),$char(13), ),",\")";
+a'['$sub(%_counter%,1)']''['11']'="%_file_size%";
+a'['$sub(%_counter%,1)']''['12']'="%_samplerate%";
+a'['$sub(%_counter%,1)']''['13']'="%_mode%";
+a'['$sub(%_counter%,1)']''['14']'="%encodedby%";
+a'['$sub(%_counter%,1)']''['15']'="$replace(%_directory%,\,\\)";
+a'['$sub(%_counter%,1)']''['16']'="$replace(%_filename_rel%,\,/)";
+a'['$sub(%_counter%,1)']''['17']'=%_file_size_bytes%;
+a'['$sub(%_counter%,1)']''['18']'="$replace(%_filename%,\,/)";
+$loopend()
+
+// +++ Average Bitrate Calculations +++ //
+
+var avg_btr_file = 0;
+var avg_btr_second = 0;
+var avg_length = 0;
+
+for (i=0; i<table_length;i++) {
+	avg_btr_file += a'['i']''['7']';
+	avg_btr_second += a'['i']''['4']'*a'['i']''['7']';
+	avg_length += a'['i']''['4']';
+}
+avg_btr_file /= table_length;
+avg_btr_second /= avg_length;
+avg_length = Math.round(avg_length/table_length);
+
+// +++ Array Object Extension +++ //
+
+//public functions
+Array.prototype.sortBy = sortBySubarrayNr;	//call name_of_the_array.sortBy() to sort the array by nr. in subarray in alphabetical (A->Z or Z-A) order (optionally)
+Array.prototype.sortByStack = sortByStack;	//call name_of_the_array.sortBy() to sort the array by settings setted with push_stack_m
+Array.prototype.push_stack_m = push_stack_m;	//add subarray nr and order to sorting history, array will be sorted my all this (up to 5) criteria
+
+//internal functions & properties
+Array.prototype.multisort = multisort;
+Array.prototype.xchange = xchange;
+Array.prototype.compare = compare;
+Array.prototype.quicksort = quicksort;
+Array.prototype.sort_stack_m = new Array(-1,-1,-1,-1,-1);	//contains history of sorting for sorting by multiple criteria; -1=not sorted, 0++=sorted by subarray nr; internal use, don''t change directly!!!
+Array.prototype.order_stack_m = new Array(true,true,true,true,true);	//contains history of sorting order; true = A->Z, false = Z->A; internal use, don''t change directly!!!
+
+// +++ Quick Sort +++ //
+
+function sortBySubarrayNr(sub_nr, order) {	//sorts array by entry nr. sub_nr in (alphabetical or not) order; internal use, don''t call directly!!!
+	this.push_stack_m(sub_nr,order);
+	this.multisort(0,this.length-1,0);
+}
+
+function sortByStack() { this.multisort(0,this.length-1,0) }	//internal use, don''t call directly!!!
+
+function multisort(from_a, to_b, stack_level) {  //sorts by multiple criteria; internal use, don''t call directly!!!
+	if ((stack_level>=this.sort_stack_m.length)||(this.sort_stack_m'['stack_level']'<0)) { return }
+	this.quicksort(from_a,to_b,stack_level);
+	if ((stack_level+1>=this.sort_stack_m.length)||(this.sort_stack_m'['stack_level+1']'<0)) { return }
+	var a = from_a+1;
+	var b = from_a;
+	while (a<=to_b) {
+		while ((a<=to_b)&&(this'['a-1']''['this.sort_stack_m'['stack_level']'']'!=this'['a']''['this.sort_stack_m'['stack_level']'']')) { a++ }
+		b = a+1;
+		while ((b<=to_b)&&(this'['a']''['this.sort_stack_m'['stack_level']'']'==this'['b']''['this.sort_stack_m'['stack_level']'']')) { b++ }
+		if (a>to_b) { return }
+		this.multisort(a-1,b-1,stack_level+1);
+		a = b+1;
+	}
+}
+
+function push_stack_m(last_sort_m, last_order_m) {  //internal use, don''t call directly!!!
+	if (last_sort_m < 0) return;
+	if (this.sort_stack_m'['0']' == last_sort_m) {	//prevent sorting multiple times by the same criterion_m
+		if (!last_order_m) { this.order_stack_m'['0']' = !(this.order_stack_m'['0']') }	//reverse order if not defined
+		else { this.order_stack_m'['0']' = last_order_m }
+		return;
+	}
+	for (var i=this.sort_stack_m.length-1;i>0;i--) {
+		this.sort_stack_m'['i']' = this.sort_stack_m'['i-1']';
+		this.order_stack_m'['i']' = this.order_stack_m'['i-1']';
+	}
+	if (!last_order_m) { last_order_m = true }
+	this.sort_stack_m'['0']' = last_sort_m;
+	this.order_stack_m'['0']' = last_order_m;
+}
+
+function xchange(nr1, nr2) {  //internal use, don''t call directly!!!
+	var temp = this'['nr1']';
+	this'['nr1']' = this'['nr2']';
+	this'['nr2']' = temp;
+}
+
+function compare(n1, n2, stack_nr) {  //internal use, don''t call directly!!!
+	if (this.order_stack_m'['stack_nr']') { return(this'['n1']''['this.sort_stack_m'['stack_nr']'']' < this'['n2']''['this.sort_stack_m'['stack_nr']'']') }
+	else { return(this'['n1']''['this.sort_stack_m'['stack_nr']'']' > this'['n2']''['this.sort_stack_m'['stack_nr']'']') };
+}
+
+function quicksort(left, right, stack_pos) {  //internal use, don''t call directly!!!
+	var l, r, x;
+
+	l = left;
+	r = right;
+	x = (left + right)>>>1;
+
+	do { 
+		while(this.compare(l, x, stack_pos)) { l++ };
+		while(this.compare(x, r, stack_pos)) { r-- };
+		if(l <= r) { 
+			this.xchange(l, r);
+
+			//x==l? r : x==r? l : x;
+			if(x == l) { x = r }
+			else { if(x == r) {x = l} }
+
+			l++;
+			r--;
+		}
+	} while(l < r);
+
+	if (r > left) { this.quicksort(left, r, stack_pos) };
+	if (l < right) { this.quicksort(l, right, stack_pos) };
+}
+
+// +++ Gradient Colors Calculation by nickless +++ //
+
+function ToColor(r, g, b) {		//convert red, green & blue channels to html color
+	return ''#'' + (0x1000000+(r<<16)+(g<<8)+b).toString(16).substr(1,6);
+}
+
+var gcolor_1 =  new Array(''#000000'',0,0,0);	//first color + r,g,b-channels
+var gcolor_2 = new Array(''#ffffff'',255,255,255);	//second color + r,g,b-channels
+
+var glength = 1;	//current length of the gradient effect period (number of lines)
+var gdirection = 0;	//current direction of gradient effect 0 = up, 1 = down
+var gtype = 0;	//current type of gradient effect 0 = gradient, 1 = mirror, 2 = repeat
+
+function SetGradientColor(color_1, color_2) {	//set up gradient colors 1 & 2 so they can be used later in UpdateGradientTable() & GetCurrentColor()
+	gcolor_1'['0']' = color_1;
+	if (color_1.length == 7) { 
+		gcolor_1'['1']' = parseInt(color_1.substr(1,2), 16);
+		gcolor_1'['2']' = parseInt(color_1.substr(3,2), 16);
+		gcolor_1'['3']' = parseInt(color_1.substr(5,2), 16);
+	}
+	else {
+		gcolor_1'['1']' = 0;
+		gcolor_1'['2']' = 0;
+		gcolor_1'['3']' = 0;
+	};
+	
+	gcolor_2'['0']' = color_2;
+	if (color_2.length == 7) {
+		gcolor_2'['1']' = parseInt(color_2.substr(1,2), 16);
+		gcolor_2'['2']' = parseInt(color_2.substr(3,2), 16);
+		gcolor_2'['3']' = parseInt(color_2.substr(5,2), 16);
+	}
+	else {
+		gcolor_2'['1']' = 255;
+		gcolor_2'['2']' = 255;
+		gcolor_2'['3']' = 255;
+	};
+}
+
+function UpdateGradientTable() {	//recalculate colors in whole table according to current settings
+	var tr_obj = 0;
+	if (!document.getElementById("tab_lines")) { return }
+	tr_obj = document.getElementById("tab_lines").childNodes;
+	var curr_i = 0;
+	for (i=1;i<tr_obj.length;i++) {
+		if (tr_obj'['i']'.nodeName == ''TR'') {
+			tr_obj'['i']'.style.backgroundColor = GetCurrentColor(curr_i);
+			curr_i++;
+		}
+	}
+}
+
+function SetGradientLDTU(g_length, g_direction, g_type, update_now, link_nr) {	//set up length, direction and type of gradient calculations, update table if necessary
+	g_length < 1? glength = 1 : glength = g_length;
+	g_direction < 0? gdirection = 0 : g_direction > 1? gdirection = 1 : gdirection = g_direction;
+	g_type < 0? gtype = 0 : g_type > 2? gtype = 2 : gtype = g_type;
+	
+	if (curr_theme.length > 0) {
+		if (gdirection == 0) { SetGradientColor(curr_theme'['8']', curr_theme'['9']') }
+		if (gdirection == 1) { SetGradientColor(curr_theme'['9']', curr_theme'['8']') }
+	}
+	
+	UpdateLinks(-1,Number(link_nr));
+	//write current length, direction and type of gradient calculations to cookie 
+	if (update_now) { 
+		WriteCookie(''current_gradient_length'',glength,24*14);
+		WriteCookie(''current_gradient_direction'',gdirection,24*14);
+		WriteCookie(''current_gradient_type'',gtype,24*14);
+		if (Number(link_nr)>=0) { 
+			curr_link_nr = Number(link_nr); 
+			WriteCookie(''current_link_nr'',link_nr,24*14) 
+		}
+		UpdateGradientTable(); 
+	}
+}
+
+function GetCurrentColor(curr_position) {	//get color (html) of the gradient effect on the current position according to current settings
+	switch (gtype) {
+		case 0: {	//gradient
+			var m = (curr_position %% (glength+1)) / glength;
+			var r = gcolor_2'['1']' + Math.round((gcolor_1'['1']' - gcolor_2'['1']')*m);
+			var g = gcolor_2'['2']' + Math.round((gcolor_1'['2']' - gcolor_2'['2']')*m);
+			var b = gcolor_2'['3']' + Math.round((gcolor_1'['3']' - gcolor_2'['3']')*m);
+			return ToColor(r,g,b);  //''rgb('' + r + '', '' + g + '', '' + b + '')'';		//
+			break;
+		}
+		case 1: {	//mirror
+			var m = Math.cos((curr_position / glength) *2*Math.PI)/2+0.5;
+			var r = gcolor_1'['1']' + Math.round((gcolor_2'['1']' - gcolor_1'['1']')*m);
+			var g = gcolor_1'['2']' + Math.round((gcolor_2'['2']' - gcolor_1'['2']')*m);
+			var b = gcolor_1'['3']' + Math.round((gcolor_2'['3']' - gcolor_1'['3']')*m);
+			return ToColor(r,g,b);  //''rgb('' + r + '', '' + g + '', '' + b + '')'';		//
+			break;
+		}
+		case 2: {	//repeat
+			if ((Math.floor(curr_position / glength) & 0x00000001) == 1) { return gcolor_1'['0']' }
+			else { return gcolor_2'['0']' };
+			break;
+		}
+		default: {
+			return "#000000";
+		}
+	}
+}
+
+// +++ Color Themes by nickless +++ //
+// +++ Edit and added Themes by milka +++ //
+
+//you can add new themes or delete them by making/deleting such arrays of colors AND links in the info table (href="javascript:SetColorTheme(''theme_name'',true,0)" )
+/* History of colors in array:
+theme_name'['0']' = background
+theme_name'['1']' = main title
+
+theme_name'['2']' = info table background
+theme_name'['3']' = info table names
+theme_name'['4']' = info table values
+theme_name'['5']' = info table link
+theme_name'['6']' = info table link hover
+theme_name'['7']' = info table line
+
+theme_name'['8']' = export table background 1
+theme_name'['9']' = export table background 2
+theme_name'['10']' = export table header background
+theme_name'['11']' = export table names
+theme_name'['12']' = export table values
+theme_name'['13']' = export table link
+theme_name'['14']' = export table link hover
+theme_name'['15']' = export table border
+
+theme_name'['16']' = about table background
+theme_name'['17']' = about table text
+theme_name'['18']' = about table link
+theme_name'['19']' = about table link hover
+
+2, 8, 9 must be the same color
+*/
+
+//red theme
+ct_red = new  
+Array(''#8F4545'',''#840b00'',''#440000'',''#ffffff'',''#e9e9e9'',''#ffffff'',''#7C899C'',''#ffffff'',''#440000'',''#440000'',''#000000'',''#ffffff'',''#ffffff'',''#ffffff'',''#7c899c'',''#000000'',''#440000'',''#ffffff'',''#ffffff'',''#7c899c'');
+
+//blue theme
+ct_blue = new  
+Array(''#457D8F'',''#00339A'',''#00628C'',''#ffffff'',''#e9e9e9'',''#ffffff'',''#000000'',''#ffffff'',''#00628C'',''#00628C'',''#000000'',''#ffffff'',''#ffffff'',''#ffffff'',''#9c997c'',''#000000'',''#00628C'',''#ffffff'',''#ffffff'',''#000000'');
+
+//indigo theme
+ct_indigo = new  
+Array(''#D9D9D9'',''#6600A0'',''#5f7361'',''#ffffff'',''#e9e9e9'',''#ffffff'',''#000000'',''#ffffff'',''#5f7361'',''#5f7361'',''#000000'',''#ffffff'',''#ffffff'',''#ffffff'',''#799f7c'',''#000000'',''#5f7361'',''#ffffff'',''#ffffff'',''#000000'');
+
+//orange theme
+ct_orange = new  
+Array(''#907053'',''#9a3300'',''#995D11'',''#ffffff'',''#e9e9e9'',''#ffffff'',''#000000'',''#ffffff'',''#995D11'',''#995D11'',''#000000'',''#ffffff'',''#ffffff'',''#ffffff'',''#747796'',''#000000'',''#995D11'',''#ffffff'',''#ffffff'',''#000000'');
+
+//yellow theme
+ct_yellow = new  
+Array(''#CE9E4E'',''#A17C00'',''#655415'',''#ffffff'',''#e9e9e9'',''#ffffff'',''#000000'',''#ffffff'',''#655415'',''#655415'',''#000000'',''#ffffff'',''#ffffff'',''#ffffff'',''#897799'',''#000000'',''#655415'',''#ffffff'',''#ffffff'',''#000000'');
+
+//lime theme
+ct_lime = new  
+Array(''#458F6A'',''#317023'',''#377149'',''#ffffff'',''#e9e9e9'',''#ffffff'',''#000000'',''#ffffff'',''#377149'',''#377149'',''#000000'',''#ffffff'',''#ffffff'',''#ffffff'',''#000000'',''#000000'',''#377149'',''#ffffff'',''#ffffff'',''#000000'');
+
+//light theme
+ct_light = new  
+Array(''#D9D9D9'',''#646363'',''#ABB0B3'',''#ffffff'',''#F4F2F2'',''#ffffff'',''#000000'',''#ffffff'',''#ABB0B3'',''#ABB0B3'',''#8D8C8C'',''#ffffff'',''#ffffff'',''#ffffff'',''#000000'',''#000000'',''#ABB0B3'',''#ffffff'',''#ffffff'',''#000000'');
+
+//night theme
+ct_night = new  
+Array(''#000000'',''#cccccc'',''#a0a0a0'',''#000000'',''#404040'',''#000000'',''#ffffff'',''#ffffff'',''#a0a0a0'',''#a0a0a0'',''#000000'',''#ffffff'',''#ffffff'',''#ffffff'',''#7E8FAC'',''#8D8C8C'',''#a0a0a0'',''#000000'',''#000000'',''#ffffff'') 
+;
+
+//dano theme
+ct_dano = new  
+Array(''#404142'',''#d9e2e4'',''#7B8279'',''#ffffff'',''#ffffff'',''#ffffff'',''#B9C2C4'',''#ffffff'',''#7B8279'',''#7B8279'',''#111112'',''#ffffff'',''#B9C2C4'',''#ffffff'',''#B9C2C4'',''#7B8279'',''#7B8279'',''#ffffff'',''#000000'',''#ffffff'') 
+;
+
+//mp3tag theme
+ct_mp3tag = new  
+Array(''#ff9900'',''#960000'',''#ffefa0'',''#960000'',''#000000'',''#960000'',''#ff9900'',''#960000'',''#ffefa0'',''#ffefa0'',''#ffffee'',''#000000'',''#000000'',''#000000'',''#960000'',''#960000'',''#ffefa0'',''#000000'',''#960000'',''#ff9900'');
+
+//milka theme
+ct_milka = new  
+Array(''#2D2D2D'',''#0FCADB'',''#177582'',''#ffffff'',''#ffffff'',''#9ECCCC'',''#C1FAFA'',''#9ECCCC'',''#177582'',''#177582'',''#177582'',''#9ECCCC'',''#9ECCCC'',''#9ECCCC'',''#C1FAFA'',''#000000'',''#177582'',''#ffffff'',''#9ECCCC'',''#C1FAFA'');
+
+//sunset theme
+ct_sunset = new
+Array(''#2a0402'',''#e36d30'', ''#3A0503'',''#9e3508'',''#e36d30'',''#9e3508'',''#f6dc41'',''#9e3508'',''#3A0503'',''#3A0503'',''#3A0503'',''#9e3508'',''#e36d30'',''#9e3508'',''#f6dc41'',''#000000'',''#3A0503'',''#e36d30'',''#9e3508'',''#f6dc41'');
+
+//gold theme
+ct_gold = new
+Array(''#876736'',''#FFFFAE'', ''#6B522B'',''#FFFFE2'',''#FFE692'',''#FFFFE2'',''#FFFFAE'',''#FFE692'',''#6B522B'',''#6B522B'',''#6B522B'',''#FFE692'',''#000000'',''#000000'',''#ffffff'',''#000000'',''#6B522B'',''#FFFFE2'',''#FFFFE2'',''#FFE692'');
+
+//emerald theme
+ct_emerald = new
+Array(''#246E71'',''#94E2E7'', ''#1C5659'',''#5EC0D3'',''#A8E8FC'',''#5EC0D3'',''#A8E8FC'',''#A8E8FC'',''#1C5659'',''#1C5659'',''#6DBAC6'',''#A8E8FC'',''#5EC0D3'',''#5EC0D3'',''#A8E8FC'',''#57B1C3'',''#1C5659'',''#FFFFFF'',''#5EC0D3'',''#A8E8FC'');
+
+//arctica theme
+ct_arctica = new
+Array(''#AEB7C2'',''#FFFFFF'', ''#FFFFFF'',''#2F78BD'',''#2F78BD'',''#2F78BD'',''#4C5B6A'',''#2F78BD'',''#FFFFFF'',''#FFFFFF'',''#FFFFFF'',''#2F78BD'',''#2F78BD'',''#2F78BD'',''#4C5B6A'',''#FFFFFF'',''#FFFFFF'',''#2F78BD'',''#2F78BD'',''#4C5B6A'');
+
+//matrix theme
+ct_matrix = new
+Array(''#000000'',''#00a000'',''#000000'',''#00b000'',''#00b000'',''#00b000'',''#00e790'',''#00e850'',''#000000'',''#000000'',''#000000'',''#00e850'',''#009000'',''#00b000'',''#00e790'',''#000000'',''#000000'',''#00a000'',''#00e850'',''#00e790'');
+
+//red desert theme
+ct_red_desert = new
+Array(''#0f0a06'',''#ba1014'',''#300000'',''#ba1014'',''#a00808'',''#ba1014'',''#ff2b20'',''#800000'',''#300000'',''#300000'',''#5a0000'',''#ff2b20'',''#a00808'',''#ba1014'',''#ff2b20'',''#5a0000'',''#300000'',''#FF2B20'',''#ba1014'',''#ff2b20'');
+
+//deep blue theme
+ct_deep_blue = new
+Array(''#000020'',''#00aaee'',''#000020'',''#3030ff'',''#0080ff'',''#3030ff'',''#00ccee'',''#0080ff'',''#000020'',''#000020'',''#000020'',''#0000ff'',''#0060ff'',''#0080e0'',''#00ccee'',''#000020'',''#000020'',''#0080ff'',''#0000ff'',''#00ccee'');
+
+//red sky theme
+ct_red_sky = new
+Array(''#09aff4'',''#ffffff'',''#09aff4'',''#3030ff'',''#1050ff'',''#3030ff'',''#FF3D3D'',''#ddeeff'',''#09aff4'',''#09aff4'',''#09aff4'',''#0000ff'',''#3030ff'',''#ddeeff'',''#FFD43D'',''#09aff4'',''#09aff4'',''#1050ff'',''#3030ff'',''#FF3D3D'');
+
+
+var curr_theme = new Array();	//current theme
+var old_theme = 0;	//nr of link in info table to current theme
+var old_link = 0;	//nr of link in info table to old theme
+
+function UpdateLinks(theme_nr, link_nr) {	//updates colors of links to themes, direction and type of effect in the info table
+	//direction
+	var obj = document.getElementById("dir_" + Number(1-gdirection));	//clear color of old link
+	if (obj) { 
+		obj.style.color = '''';
+		if (!document.styleSheets) { obj.style.color = curr_theme'['5']' }
+	}
+	var obj = document.getElementById("dir_" + gdirection);	//set color of new link
+	if (obj) { obj.style.color = curr_theme'['6']' }
+	//color themes
+	if (Number(theme_nr)>=0) {
+		var obj = document.getElementById("ct_" + old_theme);
+		if (obj) { 
+			obj.style.color = '''';
+			if (!document.styleSheets) { obj.style.color = curr_theme'['5']' }
+		}
+		old_theme = Number(theme_nr);
+		var obj = document.getElementById("ct_" + theme_nr);
+		if (obj) { obj.style.color = curr_theme'['6']' }
+	}
+	//type
+	if (Number(link_nr)>=0) {
+		var obj = document.getElementById("type_" + old_link);
+		if (obj) { 
+			obj.style.color = '''';
+			if (!document.styleSheets) { obj.style.color = curr_theme'['5']' }
+		}
+		old_link = Number(link_nr);
+		var obj = document.getElementById("type_" + link_nr);
+		if (obj) { obj.style.color = curr_theme'['6']' }
+	}
+}
+
+function ChooseRules(rules_array) {	//makes an array with numbers of css rules which will be used in SetColorTheme()
+	var numbers = new Array(18);
+	for (i=0;i<18;i++) { numbers'['i']' = 0; }	//prevents exceptions if some class will not be found -> body background color will be changed instead
+	var s = new String("");
+	for (i=0;i<rules_array.length;i++) { 
+		s = rules_array'['i']'.selectorText.toLowerCase();	//IE css names are uppercase
+		switch (s) {
+			case ''body'': { numbers'['0']' = i; break; }				//0
+			case ''.main_title'': { numbers'['1']' = i; break; }		//1
+
+			case ''.info_table'': { numbers'['2']' = i; break; }		//2
+			case ''.info_names'': { numbers'['3']' = i; break; }		//3
+			case ''.info_values'': { numbers'['4']' = i; break; }		//4
+			case ''.info_table a'': { numbers'['5']' = i; break; }	//5
+			case ''.info_table a:hover'': { numbers'['6']' = i; break; }	//6
+			case ''.info_line'': { numbers'['7']' = i; break; }		//7
+
+			case ''.export_header'': { numbers'['8']' = i; break; }	//10 11
+			case ''.export_table'': { numbers'['9']' = i; break; }	//12 15
+			case ''.export_table a'': { numbers'['10']' = i; break; }	//13
+			case ''.export_table a:hover'': { numbers'['11']' = i; break; }//14
+
+			case ''.about_table'': { numbers'['12']' = i; break; }	//16 17
+			case ''.about_table a'': { numbers'['13']' = i; break; }	//18
+			case ''.about_table a:hover'': { numbers'['14']' = i; break; }//19
+
+			case ''.dhtmltooltip'': { numbers'['15']' = i; break; }	//16 17
+			case ''.export_header a'': { numbers'['16']' = i; break; }	//11
+			case ''.export_header a:hover'': { numbers'['17']' = i; break; }	//11
+		}
+	}
+	return numbers;
+}
+
+function SetColorTheme(name, update_now, theme_nr) {	//applies a color theme to document by it''s name and updates the table if necessary; name = name of the array with colors (s.th. like "ct_milka")
+	curr_theme = eval(name);
+	if (!curr_theme) { return };
+	var all_rules = new Array();
+	var all_nums = new Array();
+	
+	SetGradientColor(curr_theme'['8']', curr_theme'['9']');	//set up export table backgrounds 1 & 2
+	if (document.styleSheets) {	//mozilla/ie browsers allows change css rules
+		if (document.styleSheets'['0']'.rules) { all_rules =  document.styleSheets'['0']'.rules;}	//IE
+		if (document.styleSheets'['0']'.cssRules) { all_rules =  document.styleSheets'['0']'.cssRules;}	//Netscape
+	
+		if (!all_rules) {return};	//unknown browser that supports document.styleSheets but neither rules nor cssRules
+		all_nums = ChooseRules(all_rules);
+	
+		all_rules'['all_nums'['0']'']'.style.backgroundColor = curr_theme'['0']';	//background
+		all_rules'['all_nums'['1']'']'.style.color = curr_theme'['1']';	//main title
+
+		all_rules'['all_nums'['2']'']'.style.backgroundColor  = curr_theme'['2']';	//info table background
+		all_rules'['all_nums'['3']'']'.style.color = curr_theme'['3']';	//info table names
+		all_rules'['all_nums'['4']'']'.style.color = curr_theme'['4']';	//info table values
+		all_rules'['all_nums'['5']'']'.style.color = curr_theme'['5']';	//info table link
+		all_rules'['all_nums'['6']'']'.style.color = curr_theme'['6']';	//info table link hover
+		all_rules'['all_nums'['7']'']'.style.borderTopColor = curr_theme'['7']';	//info table line
+		all_rules'['all_nums'['7']'']'.style.borderRightColor = curr_theme'['7']';	//info table line
+		all_rules'['all_nums'['7']'']'.style.borderLeftColor = curr_theme'['7']';	//info table line
+		all_rules'['all_nums'['7']'']'.style.borderBottomColor = curr_theme'['7']';	//info table line
+
+		all_rules'['all_nums'['8']'']'.style.backgroundColor = curr_theme'['10']';	//export table header background
+		all_rules'['all_nums'['8']'']'.style.color = curr_theme'['11']';	//export table names
+		all_rules'['all_nums'['16']'']'.style.color = curr_theme'['11']';	//export table names link
+		all_rules'['all_nums'['17']'']'.style.color = curr_theme'['11']';	//export table names link hover
+		all_rules'['all_nums'['9']'']'.style.color = curr_theme'['12']';	//export table values
+		all_rules'['all_nums'['10']'']'.style.color = curr_theme'['13']';	//export table link
+		all_rules'['all_nums'['11']'']'.style.color = curr_theme'['14']';	//export table link hover
+		all_rules'['all_nums'['9']'']'.style.backgroundColor = curr_theme'['15']';	//export table border
+
+		all_rules'['all_nums'['12']'']'.style.backgroundColor  = curr_theme'['16']';	//about table background
+		all_rules'['all_nums'['12']'']'.style.color = curr_theme'['17']';	//about table text
+		all_rules'['all_nums'['13']'']'.style.color = curr_theme'['18']';	//about table link
+		all_rules'['all_nums'['14']'']'.style.color = curr_theme'['19']';	//about table link hover
+
+		all_rules'['all_nums'['15']'']'.style.backgroundColor  = curr_theme'['16']';	//popup background
+		all_rules'['all_nums'['15']'']'.style.color = curr_theme'['17']';	//popup text
+		all_rules'['all_nums'['15']'']'.style.borderColor = curr_theme'['7']';	//popup border
+	}
+	else {	//browser don''t support document.styleSheets = Opera etc.
+		//body & main title
+		document.body.style.backgroundColor = curr_theme'['0']';
+		var obj = document.getElementById(''main_title'');
+		if (obj) {obj.style.color = curr_theme'['1']'};
+		//info table
+		var obj = document.getElementById(''info_table'');
+		if (obj) {obj.style.backgroundColor = curr_theme'['2']'};
+		var obj = document.getElementById(''info_table_l'');
+		if (obj) {obj.style.backgroundColor = curr_theme'['2']'};
+		var obj = document.getElementById(''info_table_r'');
+		if (obj) {obj.style.backgroundColor = curr_theme'['2']'};
+		var obj = document.getElementById(''info_table_s'');
+		if (obj) {obj.style.backgroundColor = curr_theme'['2']'};
+		var i = 0;
+		do {
+			var obj = document.getElementById(''info_names_''+i);
+			if (obj) {obj.style.color = curr_theme'['3']'};
+			i++;
+		} while (obj);
+		i = 0;
+		do {
+			var obj = document.getElementById(''info_values_''+i);
+			if (obj) {obj.style.color = curr_theme'['4']'};
+			i++;
+		} while (obj);
+		var obj = document.getElementById(''info_line'');
+		if (obj) {
+			obj.style.color = curr_theme'['3']';
+			obj.style.borderTopColor = curr_theme'['7']';
+			obj.style.borderRightColor = curr_theme'['7']';
+			obj.style.borderLeftColor = curr_theme'['7']';
+			obj.style.borderBottomColor = curr_theme'['7']';
+		}
+		//all links
+		i = 0;
+		do {
+			var obj = document.getElementById(''ct_''+i);	//color themes
+			if (obj) { obj.style.color = curr_theme'['5']' }
+			i++;
+		} while (obj);
+		i = 0;
+		do {
+			var obj = document.getElementById(''dir_''+i);	//gradient directions
+			if (obj) { obj.style.color = curr_theme'['5']' }
+			i++;
+		} while (obj);
+		i = 0;
+		do {
+			var obj = document.getElementById(''other_''+i);	//gradient types
+			if (obj) { obj.style.color = curr_theme'['5']' }
+			i++;
+		} while (obj);
+		i = 0;
+		do {
+			var obj = document.getElementById(''type_''+i);	//gradient types
+			if (obj) { obj.style.color = curr_theme'['5']' }
+			i++;
+		} while (obj);
+		i = 0;
+		do {
+			var obj = document.getElementById(''h_link_''+i);	//links in the header of export table
+			if (obj) { obj.style.color = curr_theme'['5']' }
+			i++;
+		} while (obj);
+		i = 0;
+		do {
+			var obj = document.getElementById(''ex_''+i);	//extended info
+			if (obj) { obj.style.color = curr_theme'['13']'; }
+			i++;
+		} while (obj&&update_now);
+		i = 0;
+		do {
+			var obj = document.getElementById(''link_''+i);	//links to exported files 
+			if (obj) { obj.style.color = curr_theme'['13']'; }
+			i++;
+		} while (obj&&update_now);
+		i = 0;
+		do {
+			var obj = document.getElementById(''ab_''+i);	//links in the about table
+			if (obj) { obj.style.color = curr_theme'['18']' }
+			i++;
+		} while (obj);
+		//export table
+		var obj = document.getElementById(''export_header'');
+		if (obj) {
+			obj.style.backgroundColor = curr_theme'['10']';
+			obj.style.color = curr_theme'['11']';
+		}
+		var obj = document.getElementById(''export_table'');
+		if (obj) {
+			obj.style.color = curr_theme'['12']';
+			obj.style.backgroundColor = curr_theme'['15']';
+		}
+		//about table
+		var obj = document.getElementById(''about_table'');
+		if (obj) {
+			obj.style.backgroundColor = curr_theme'['16']';
+			obj.style.color = curr_theme'['17']';
+		}
+		//popup; color scheme = info table
+		var obj = document.getElementById(''dhtmltooltip'');
+		if (obj) {
+			obj.style.backgroundColor = curr_theme'['16']';
+			obj.style.color = curr_theme'['17']';
+			obj.style.borderColor = curr_theme'['7']';
+		}
+	}
+	UpdateLinks(Number(theme_nr), -1);	//update colors of links
+	//set up gradient effect
+	SetGradientLDTU(glength, gdirection, gtype, update_now, old_link);
+	if (update_now) {
+		//write current color theme to cookie
+		WriteCookie(''current_color_theme'', name, 24*14); 
+		if (Number(theme_nr)>=0) { 
+			curr_theme_nr = Number(theme_nr);
+			WriteCookie(''current_theme_nr'', String(theme_nr), 24*14) 
+		} 
+	}
+}
+
+// +++ Tooltip script code by cntchris +++ //
+// +++ edited by nickless +++ //
+
+var offsetxpoint=-80;	//Customize x offset of tooltip
+var offsetypoint=20;	//Customize y offset of tooltip
+var enabletip=false;
+var tipobj = new Object();
+
+function ietruebody() { return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body }
+
+function ddrivetip(thetext, thewidth) {
+	if (ns5||ie5||op7) {
+		offsetxpoint=90;
+		if (typeof thewidth!="undefined") {
+			tipobj.style.width=thewidth+"px";
+			if (thewidth<160) {
+				offsetypoint = -50; 
+				offsetxpoint = -1; (thewidth >>> 1);}
+		}
+		tipobj.innerHTML=thetext;
+		enabletip=true;
+		return false;
+	}
+}
+
+function positiontip(e) {
+	if (enabletip) {
+		var curX=(ns5)? e.pageX : event.x+ietruebody().scrollLeft;
+		var curY=(ns5)? e.pageY : event.y+ietruebody().scrollTop;
+		//Find out how close the mouse is to the corner of the window
+		var rightedge=ie5&&!window.opera? ietruebody().clientWidth-event.clientX-offsetxpoint : window.innerWidth-e.clientX-offsetxpoint-20;
+		var bottomedge=ie5&&!window.opera? ietruebody().clientHeight-event.clientY-offsetypoint : window.innerHeight-e.clientY-offsetypoint-20;
+
+		var leftedge=(offsetxpoint<0)? offsetxpoint*(-1) : -1000;
+
+		//if the horizontal distance isn''t enough to accomodate the width of the context menu
+		if (rightedge<tipobj.offsetWidth) {
+			//move the horizontal position of the menu to the left by it''s width
+			tipobj.style.left=ie5? ietruebody().scrollLeft+event.clientX-tipobj.offsetWidth+"px" : window.pageXOffset+e.clientX-tipobj.offsetWidth+"px"
+		}
+		else { 
+			if (curX<leftedge) { tipobj.style.left="5px" }
+			else {
+				//position the horizontal position of the menu where the mouse is positioned
+				tipobj.style.left=curX+offsetxpoint+"px";
+			}
+		}
+
+		//same concept with the vertical position
+		if (bottomedge<tipobj.offsetHeight) {
+			tipobj.style.top=ie5? ietruebody().scrollTop+event.clientY-tipobj.offsetHeight-offsetypoint+"px" : window.pageYOffset+e.clientY-tipobj.offsetHeight-offsetypoint+"px";
+		}
+		else { tipobj.style.top=curY+offsetypoint+"px" }
+		tipobj.style.visibility="visible"
+	}
+}
+
+function hideddrivetip() {
+	if (ns5||ie5||op7) {
+		enabletip=false;
+		tipobj.style.visibility="hidden";
+		tipobj.style.left="-1000px";
+		tipobj.style.width='''';
+	}
+}
+
+// +++ Custom Functions +++ //
+
+function full_loaded() {	//update links & colors after page is loaded
+	if (!document.styleSheets) { 	//opera fix
+		if (curr_ct) { SetColorTheme(curr_ct, false, -1) }
+		else { SetColorTheme(''ct_milka'', false, -1) }	//default color theme for opera nr2
+	}
+	if (!curr_theme_nr) {  //set default color theme link for opera
+		curr_theme_nr = 14;  //ct_milka
+	
+	}
+	if (!curr_link_nr) {  //set default effect link for opera
+		curr_link_nr = 3;  //mirror 33
+	}
+	
+	UpdateLinks(Number(curr_theme_nr), Number(curr_link_nr));  //set links to current color settings
+}
+
+function over_link(obj, table_nr, link_nr) {	//handle mouseover events of links in whole document; obj=link, table_nr:0=info_table,1=export_table,2=about_table, link_nr=nr of link that sent the event
+//all tooltip textes are defined here
+	switch (table_nr) {
+		case 0: {	//info table
+			if (!document.styleSheets && obj) { obj.style.color = curr_theme'['6']'; }	//onhover for opera
+			switch (obj.id.charAt(0)) {
+				case ''c'': {	//color theme popup
+					ddrivetip(''<b>Read Overview</b>'', 130);
+					break;
+				}
+				case ''d'': {	//direction popup
+					ddrivetip(''Switch Direction <br>Of Gradient Effect To<br><b>'' + obj.firstChild.nodeValue + ''</b>'', 110);
+					break;
+				}
+				case ''t'': {	//type popup
+					ddrivetip(''Switch Type Of <br>Gradient Effect To<br><b>'' + obj.firstChild.nodeValue + ''</b>'', 110);
+					break;
+				}
+			}			
+			break;
+		}
+		case 1: {	//export table
+			switch (obj.id.charAt(0)) {
+				case ''h'': {	//header popup
+					ddrivetip(''Sort Table By<br><b>'' + obj.firstChild.nodeValue + ''</b>'', 80);
+					break;
+				}
+				case ''e'': {	//extended info popup
+					if (!document.styleSheets && obj) { obj.style.color = curr_theme'['14']'; }	//onhover for opera
+					//extended information popup
+					ddrivetip(''<table class="tip_table" style="color:'' + curr_theme'['3']' + ''; width:320px;">''
+						+ ''<tr><td style="font-weight:bold; text-align:right; width:70px;">Comment:</td><td style="color:'' + curr_theme'['4']' + ''; width:250px;">'' + a'['link_nr']''['10']' + ''</td></tr>'' 
+						+ ''<tr><td style="font-weight:bold; text-align:right;">Filesize:</td><td style="color:'' + curr_theme'['4']' + ''">'' + a'['link_nr']''['11']' + ''</td></tr>'' 
+						+ ''<tr><td style="font-weight:bold; text-align:right;">Settings:</td><td style="color:'' + curr_theme'['4']' + ''">'' + a'['link_nr']''['7']' + a'['link_nr']''['8']' + '' / '' + a'['link_nr']''['12']' + '' / '' + a'['link_nr']''['13']' + ''</td></tr>'' 
+						+ ''<tr><td style="font-weight:bold; text-align:right;">Tags:</td><td style="color:'' + curr_theme'['4']' + ''">'' + a'['link_nr']''['14']' + ''</td></tr></table>'',320);
+					break;
+				}
+				case ''l'': {	//link to exported file popup
+					if (!document.styleSheets && obj) { obj.style.color = curr_theme'['14']'; }	//onhover for opera
+					ddrivetip(''<b><big><center>Extended File Info</center></big></u></b><hr><b>Track Nr:</b> '' + a'['link_nr']''['2']' + ''<br><b>Comment:</b> '' + a'['link_nr']''['10']' + ''<br><b>Album:</b> '' + a'['link_nr']''['1']' + ''<br><b>Title:</b> '' + a'['link_nr']''['3']' + ''<br><b>Artist</b> '' + a'['link_nr']''['0']' + ''<br><b>Bitrate:</b> '' + a'['link_nr']''['7']' + ''<br><b>File size:</b> '' + a'['link_nr']''['11']' + '''', 320);
+					break;
+				}
+			}			
+			break;
+		}
+		case 2: {	//about table
+			if (!document.styleSheets && obj) { obj.style.color = curr_theme'['19']'; }	//onhover for opera
+			//mp3tag link popup
+			ddrivetip(''<b>Go To Album / Compi. List</b>'', 154);
+			break;
+		}
+	}
+}
+
+function out_link(obj, table_nr, link_nr) {	//handle mouseout events of links in whole document; obj=link, table_nr:0=info_table,1=export_table,2=about_table, link_nr=nr of link that sent the event
+	switch (table_nr) {
+		case 0: {	//info table
+			if (!document.styleSheets && obj) {	//onhover for opera
+				if ((obj.id != ''ct_'' + curr_theme_nr) && (obj.id != ''type_'' + curr_link_nr) && (obj.id != ''dir_'' + gdirection)) obj.style.color = curr_theme'['5']';
+			}
+			break;
+		}
+		case 1: {	//export table
+			switch (obj.id.charAt(0)) {
+				case ''e'': {	//extended info popup
+					if (!document.styleSheets && obj) { obj.style.color = curr_theme'['13']'; }	//onhover for opera
+					break;
+				}
+				case ''l'': {	//link to exported file popup
+					if (!document.styleSheets && obj) { obj.style.color = curr_theme'['13']'; }	//onhover for opera
+					break;
+				}
+			}			
+			break;
+		}
+		case 2: {	//about
+			if (!document.styleSheets && obj) { obj.style.color = curr_theme'['18']'; }	//onhover for opera
+			break;
+		}
+	}
+	hideddrivetip();	//hide popup
+}
+
+function do_sort(criterion_m, link_nr) {	//set cookies and reload to sort; criterion_m=nr of subarray
+	a.push_stack_m(criterion_m);
+	WriteCookie("sorting_stack_m",a.sort_stack_m.join(),24*14);
+	WriteCookie("sort_order_stack_m",a.order_stack_m.join(),24*14);
+	WriteCookie("sorted_link_m",link_nr,24*14);
+	window.location.reload();
+}
+
+function play_file(file_nr) { 
+	var _file = new String("");
+	if (a'['file_nr']''['16']'.charAt(1)==":") { _file = "file://" };
+	var new_win = window.open(_file + a'['file_nr']''['16']',"Playing", "");
+}
+
+function read_settings_m() {
+	var sort_st_m = ReadCookie("sorting_stack_m");
+	var order_st_m = ReadCookie("sort_order_stack_m");
+	if (sort_st_m) { a.sort_stack_m = eval(''Array('' + sort_st_m + '')'') };
+	if (order_st_m) { a.order_stack_m = eval(''Array('' + order_st_m + '')'') };
+	a.sortByStack();
+}
+
+function write_dir() {	//writes the arrow that shows the direction of sorting
+	var last_sorted_link_m = "h_link_" + ReadCookie("sorted_link_m");
+	var _arrow_m = " " + String.fromCharCode(8593);
+
+	if (a.order_stack_m'['0']') { _arrow_m = " " + String.fromCharCode(8595) };
+	
+	var _new_dir = document.createTextNode(_arrow_m);
+	var _obj = document.getElementById(last_sorted_link_m);
+	if (_obj) { _obj.appendChild(_new_dir) }
+}
+--></script>
+</head>
+<body>
+
+<SCRIPT language=JavaScript type=text/JavaScript>
+// +++ Tooltip script code by cntchris +++ //
+// +++ edited by milka +++ //
+
+//Specify the text to display
+var displayed="<nobr><b>'['Back On Top']'</b></nobr>"
+
+///////////////////////////Do not edit below this line////////////
+
+var logolink=''javascript:window.scrollTo(0,0)''
+var ns4=document.layers
+var ie4=document.all
+var ns6=document.getElementById&&!document.all
+
+function ietruebody(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function regenerate(){
+window.location.reload()
+}
+function regenerate2(){
+if (ns4)
+setTimeout("window.onresize=regenerate",400)
+}
+
+if (ie4||ns6)
+document.write(''<span class="info_names" id="logo" style="position:absolute;top:-300px;z-index:100">''+displayed+''</span>'')
+
+function createtext(){ //function for NS4
+staticimage=new Layer(5)
+staticimage.left=-300
+staticimage.document.write(''<a href="''+logolink+''">''+displayed+''</a>'')
+staticimage.document.close()
+staticimage.visibility="show"
+regenerate2()
+staticitns()
+}
+
+function staticit(){ //function for IE4/ NS6
+var w2=ns6? pageXOffset+w : ietruebody().scrollLeft+w
+var h2=ns6? pageYOffset+h : ietruebody().scrollTop+h
+crosslogo.style.left=w2+"px"
+crosslogo.style.top=h2+"px"
+}
+
+function staticit2(){ //function for NS4
+staticimage.left=pageXOffset+window.innerWidth-staticimage.document.width-28
+staticimage.top=pageYOffset+window.innerHeight-staticimage.document.height-10
+}
+
+function inserttext(){ //function for IE4/ NS6
+if (ie4)
+crosslogo=document.all.logo
+else if (ns6)
+crosslogo=document.getElementById("logo")
+crosslogo.innerHTML=''<a href="''+logolink+''">''+displayed+''</a>''
+w=ns6 || window.opera? window.innerWidth-crosslogo.offsetWidth-20 : ietruebody().clientWidth-crosslogo.offsetWidth-10
+h=ns6 || window.opera? window.innerHeight-crosslogo.offsetHeight-15 : ietruebody().clientHeight-crosslogo.offsetHeight-10
+crosslogo.style.left=w+"px"
+crosslogo.style.top=h+"px"
+if (ie4)
+window.onscroll=staticit
+else if (ns6)
+startstatic=setInterval("staticit()",100)
+}
+
+if (ie4||ns6){
+if (window.addEventListener)
+window.addEventListener("load", inserttext, false)
+else if (window.attachEvent)
+window.attachEvent("onload", inserttext)
+else
+window.onload=inserttext
+window.onresize=new Function("window.location.reload()")
+}
+else if (ns4)
+window.onload=createtext
+
+function staticitns(){ //function for NS4
+startstatic=setInterval("staticit2()",90)
+}
+</SCRIPT>
+<noscript>Warning: Java not found! <br>Enable JavaScript or install a browser with JavaScript support in order to view this document properly.</noscript>
+<div id="dhtmltooltip" class="dhtmltooltip"></div>	<!-- <== this should be at the beginning of the page (popup) -->
+<script type="text/javascript"><!--
+	//read all cookies and set up color theme & gradient effect
+	var curr_ct = ReadCookie(''current_color_theme''); 
+	var curr_theme_nr = ReadCookie(''current_theme_nr''); 
+	var curr_glength = ReadCookie(''current_gradient_length'');
+	var curr_gdir = ReadCookie(''current_gradient_direction'');
+	var curr_gtype = ReadCookie(''current_gradient_type'');
+	var curr_link_nr = ReadCookie(''current_link_nr'');
+	
+	if (curr_ct) { SetColorTheme(curr_ct, false, -1) }
+	else { SetColorTheme(''ct_milka'', false, -1) }	//default color theme for ie and netscape
+	if ((curr_glength) && (curr_gdir) && (curr_gtype)) { SetGradientLDTU(Number(curr_glength), Number(curr_gdir), Number(curr_gtype), false, -1) }
+	else { SetGradientLDTU(33, 1, 1, false, -1) }	//default effect
+	//set up popup
+	var tipobj=document.all? document.all'['"dhtmltooltip"']' : document.getElementById? document.getElementById("dhtmltooltip") : "";
+	document.onmousemove=positiontip;
+	onload=full_loaded;	//update links, set tooltip
+	read_settings_m();
+--></script>
+
+<div align="center">
+<th class="info_line" id="info_line"><a id="ab_0" href="List.html" onMouseOver="over_link(this,2,0)"onMouseOut="out_link(this,2,0)">. . : : Mix / Set : : . .</a></th><br>
+</div>
+
+<table class="info_table" id="info_table_s" width="80%%" border="0" cellspacing="1" cellpadding="2"  align="center">
+<tr>
+<tbody id="tab_lines"><tr id="export_header" class="export_header">		<!-- !!! there shouldn''t be any spaces etc. between <tbody ...> and <tr ...> !!! -->
+</tr>
+
+<script type="text/javascript"><!--
+var op_fix = new String("");	//write link color for opera
+if (!document.styleSheets) {	//opera fix
+	op_fix = '' style="color:'' + curr_theme'['13']' + ''"'';
+	if (curr_ct) { SetColorTheme(curr_ct, false, -1) }
+	else { SetColorTheme(''ct_milka'', false, -1) }
+}
+//write output table
+var s = new String("");
+for (i = 0; i<table_length; i++) {
+	s += ''<tr class="info_values" bgcolor="'' + GetCurrentColor(i) + ''"><td>'' + Number(i+1) + ''</td><td align="left">'';
+	s += ''<b><a id="link_'' + i + ''" href="javascript:play_file('' + i + '')" onMouseOver="over_link(this,1,'' + i + '')" onMouseOut="out_link(this,1,'' + i + '')"'' + op_fix + ''>'' + a'['i']''['18']'  + ''</a></b></td>'';
+	s += ''<td id="info_values_'' + i + ''" class="info_values" align="left">'' + a'['i']''['6']' + ''</td>'';
+	s += ''<td id="info_names_'' + (i+1) + ''" class="info_values" align="left">'' + fmtTime(a'['i']''['4']') + ''</td>'';
+	s += ''<td class="info_values" align="left">'' + a'['i']''['14']' + ''</td>'';
+	if (ie5 || (i%%20==19)) {	//I don''t want make IE worse that it is, but my IE6SP2 is really faster by writing each line than each 20th !!!
+		document.write(s);
+		s = "";
+	}
+}
+document.write(s);
+s = "";
+write_dir();	//write sorting direction arrow
+--></script>
+
+</tbody>
+</table>
+</table>
+</body>
+</html>

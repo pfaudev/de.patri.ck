@@ -1,0 +1,47 @@
+$filename(html)
+<html>
+ <head>
+  <meta name="GENERATOR" content="Mp3tag - http://www.mp3tag.de">
+  <title>%artist% - %album%: cdcover front</title>
+ </head>
+  <body>
+   <style type="text/css">          
+      <!--                          
+   #border {                        
+      position:absolute;            
+      top:10px;                     
+      left:10px;                    
+      width:12cm;                   
+      height:12cm;                  
+      padding:10px;                 
+      border:1px solid #0000FF;     
+   }                                
+   #content {                       
+      position:absolute;            
+      top:10px;                     
+      left:10px;                    
+      width:12cm;                            
+      height:12cm;                           
+      padding:10px;                          
+   }
+   #footer {                        
+      position:absolute;            
+      top:14cm;                     
+      font-size:8pt;                                                   
+   }                                 
+   -->                                                    
+   </style>                            
+   <div id="border"></div>                  
+   <div id="content">  
+   <center><h3>%artist%: %album% (%year%)</h3></center>
+  <table border="0" style="width:11.7cm;">  
+
+$loop(%_filename_ext%)
+     <tr><td><font face="verdana" size="1">%track%)</font></td><td align="center"><font face="verdana" size="1">&nbsp;<b>%title%</b></font></td><td align="right"><font face="verdana" size="1">%_length%</font></td></tr>
+$loopend()
+     <tr><td></td><td></td><td align="right"><font face="verdana" size="1"><b>%_total_time%</b></font></td></tr>
+   </table>
+  </div>
+  <div id="footer">generiert am %_datetime% mit %_app% - dem <b>universellen</b> ID3-Tag Editor <a href="http://www.mp3tag.de/">www.mp3tag.de</a></div>
+ </body>
+</html>

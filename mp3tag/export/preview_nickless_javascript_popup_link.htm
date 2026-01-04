@@ -1,0 +1,1160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Change charset in above line to iso-8859-1 if you don't use unicode -->
+<meta name="GENERATOR" content="Mp3tag - http://www.mp3tag.de">
+
+<title>Directory listing of "Limp Bizkit"</title>
+<!--
+Mp3Tag export configuration by nickless, last modified on 2006-04-15
+
+Thanks a lot to
+dano for the visual style
+and
+ctnchris for the tooltip
+-->
+
+<style type="text/css"><!--
+.tip_table {
+	border: 0px solid #000000;
+	font-size: 8pt;
+	font-family: Tahoma,Verdana,Arial;
+	text-align: left;
+	vertical-align: middle;
+	margin: 0px;
+	padding: 2px;
+}
+
+/*Tooltip by ctnchris*/
+/* edited by nickless */
+/*
+	Tangering Structure CSS
+	Copyright wehnerj (jwehner@wehnerweb.com)
+	http://www.wehnerweb.com
+
+	LEAVE THIS COMMENT INTACT
+*/
+.dhtmltooltip {
+	border: 1px solid black;
+	background-color: #7B8279;
+	color: white;
+	font-family: Tahoma,Verdana,Arial;
+	font-size: 8pt;
+	text-align:center;
+	padding: 2px;
+}
+
+#dhtmltooltip {
+	position: absolute;
+	width: 300px;
+	visibility: hidden;
+	z-index: 100;
+	/* Remove following 3 lines to remove tooltip alpha blending. */
+	filter:alpha(opacity=80);
+	-moz-opacity: 0.8;
+	opacity: 0.8;
+}
+
+/*Visual Design by dano*/
+
+body { background: #404142; color: white; font-family: Verdana,Arial; font-size: 9pt; }
+h1 { font-family: tahoma, "helvetica"; font-size: 29pt; color: #d9e2e4; text-align: center; }
+
+.table1 { background: #7b8279; font-size: 8pt; color: white; font-family: Tahoma,Verdana,Arial; text-align: center; }
+.table2 { background: #2c2d2e; font-size: 8pt; color: #b9c2c4; font-family: Tahoma,Verdana,Arial; text-align: center; }
+.table3 { background: #111112; font-size: 8pt; color: #b9c2c4; font-family: Tahoma,Verdana,Arial; text-align: center; }
+
+a:link, a:visited { text-decoration: none;color: #d9e2e4; }
+a:active { text-decoration: none;color: #b9c2c4; }
+a:hover { text-decoration: underline;color: #b9c2c4; }
+--></style>
+<script type="text/javascript"><!--
+// +++ coded by nickless +++ //
+
+// +++ Browser Checks +++ //
+
+var nav = navigator.appVersion.indexOf("MSIE");
+
+var ie5 = ((nav>0) && (parseInt(navigator.appVersion.substring(nav+5, nav+6)) >= 5));  //Internet Explorer 5++
+var ns5 = ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion.substring(0, 1)) >= 5)) || (navigator.appName == "Konqueror");  //Mozilla Family 5++ = Netscape 6++, FireFox etc.; Konqueror works similar :-)
+var op7 = ((navigator.appName == "Opera") && (parseInt(navigator.appVersion.substring(0, 1)) >= 7));  //Opera 7++
+
+if (!(ie5||ns5||op7)) alert("Warning!!!\nYour browser (" + navigator.appName + ") couldn't be detected as a supported one (IE5++/Mozilla5++/Opera7++)\nSome functions may not work properly");
+
+// +++ Cookie Functions +++ //
+
+function ReadCookie(name) {
+	var _cookie = document.cookie;
+	var _name = name + "=";
+	var _len = _cookie.length;
+	var i = 0;
+
+	while (i < _len) {
+		var _val_from = i + _name.length;
+		if (_cookie.substring(i, _val_from) == _name) {
+			var _val_to = _cookie.indexOf (";", _val_from);
+			if (_val_to == -1) {_val_to = _len};
+			return unescape(_cookie.substring(_val_from, _val_to));
+		}
+		i = _cookie.indexOf(" ", i) + 1;
+		if (i == 0) break;
+	}
+	return null;
+}
+
+function WriteCookie(name, value, expire_time) {  //expire_time in hours
+	_expire_date =  new Date();
+	_expire_date.setTime(_expire_date.getTime() + expire_time * 1000 * 3600);
+
+	document.cookie = name + "=" + escape(value) + "; expires=" + _expire_date.toGMTString() + "; path=/";
+}
+
+function DeleteCookie(name) { document.cookie = name + "=; expires=Thu, 01-Jan-80 00:00:01 GMT; path=/"; }
+
+// +++ Formatting Functions +++ //
+
+function fmtNull(number, n) {
+	var _result = new String("");
+	var _l = n-Math.ceil(Math.log(number+1)/Math.LN10);
+	if (number==0) _l = n-1;
+	for (var _j=0;_j<_l;_j++) { _result +="0"; }
+
+	return _result += number;
+}
+
+function fmtTime(seconds) {
+	var _result = "";
+	if (seconds > 3600) {
+		_result = fmtNull(Math.floor(seconds / 3600), 2) + ":";
+		seconds %= 3600;
+	}
+	_result += fmtNull(Math.floor(seconds / 60), 2) + ":";
+
+	return _result + fmtNull(seconds % 60, 2);
+}
+
+// +++ Arrayed Java Export by nickless +++ //
+
+var table_length = 31;  //length of the table
+
+var a = new Array(table_length);  //main export array
+
+/* history of subarray fields usage
+a[n] = new Array(18);  //creates a new subarray in the n-th line of table
+a[n][0] = artist
+a[n][1] = album
+a[n][2] = track
+a[n][3] = title
+a[n][4] = length in seconds (digits only)
+a[n][5] = year
+a[n][6] = genre
+a[n][7] = bitrate (digits only)
+a[n][8] = bitrate information ( kbps VBR/CBR)
+a[n][9] = codec
+a[n][10] = comment
+a[n][11] = size of file
+a[n][12] = samplerate
+a[n][13] = mode
+a[n][14] = written tags
+a[n][15] = relative folderpath
+a[n][16] = filename
+a[n][17] = file size in bytes (for sorting)
+*/
+
+//you can delete fields you don't need (memory & performance), but delete ALL cases where they are used everywhere in the file!
+
+a[0] = new Array(18);
+a[0][0]="Limp Bizkit";
+a[0][1]="Significant other";
+a[0][2]="09";
+a[0][3]="9tenn 90 nine";
+a[0][4]=276;
+a[0][5]="1999";
+a[0][6]="Alt. Rock";
+a[0][7]=192;
+a[0][8]=" kbps";
+a[0][9]="MPEG 1 Layer III";
+a[0][10]="";
+a[0][11]="6.32 MB";
+a[0][12]="44100";
+a[0][13]="Stereo";
+a[0][14]="ID3v1 ID3v2 APEv2";
+a[0][15]="Significant other";
+a[0][16]="Significant other/Limp Bizkit - 9tenn 90 nine.mp3";
+a[0][17]=6630346;
+
+a[1] = new Array(18);
+a[1][0]="Limp Bizkit";
+a[1][1]="Significant other";
+a[1][2]="14";
+a[1][3]="A lesson learned";
+a[1][4]=160;
+a[1][5]="1999";
+a[1][6]="Alt. Rock";
+a[1][7]=192;
+a[1][8]=" kbps";
+a[1][9]="MPEG 1 Layer III";
+a[1][10]="";
+a[1][11]="3.67 MB";
+a[1][12]="44100";
+a[1][13]="Stereo";
+a[1][14]="ID3v1 ID3v2 APEv2";
+a[1][15]="Significant other";
+a[1][16]="Significant other/Limp Bizkit - A lesson learned.mp3";
+a[1][17]=3844889;
+
+a[2] = new Array(18);
+a[2][0]="Limp Bizkit";
+a[2][1]="Results may vary";
+a[2][2]="06";
+a[2][3]="Almost over";
+a[2][4]=279;
+a[2][5]="2003";
+a[2][6]="Alt. Rock";
+a[2][7]=128;
+a[2][8]=" kbps";
+a[2][9]="MPEG 1 Layer III";
+a[2][10]="";
+a[2][11]="4.26 MB";
+a[2][12]="44100";
+a[2][13]="Stereo";
+a[2][14]="ID3v1 ID3v2 APEv2";
+a[2][15]="Results may vary";
+a[2][16]="Results may vary/Limp Bizkit - Almost over.mp3";
+a[2][17]=4461974;
+
+a[3] = new Array(18);
+a[3][0]="Limp Bizkit";
+a[3][1]="Results may vary";
+a[3][2]="15";
+a[3][3]="Behind blue eyes";
+a[3][4]=366;
+a[3][5]="2003";
+a[3][6]="Alt. Rock";
+a[3][7]=192;
+a[3][8]=" kbps";
+a[3][9]="MPEG 1 Layer III";
+a[3][10]="";
+a[3][11]="8.38 MB";
+a[3][12]="44100";
+a[3][13]="Stereo";
+a[3][14]="ID3v1 ID3v2 APEv2";
+a[3][15]="Results may vary";
+a[3][16]="Results may vary/Limp Bizkit - Behind blue eyes.mp3";
+a[3][17]=8784539;
+
+a[4] = new Array(18);
+a[4][0]="Limp Bizkit";
+a[4][1]="Significant other";
+a[4][2]="04";
+a[4][3]="Breakstuff";
+a[4][4]=166;
+a[4][5]="1999";
+a[4][6]="Alt. Rock";
+a[4][7]=192;
+a[4][8]=" kbps";
+a[4][9]="MPEG 1 Layer III";
+a[4][10]="";
+a[4][11]="3.82 MB";
+a[4][12]="44100";
+a[4][13]="Stereo";
+a[4][14]="ID3v1 ID3v2 APEv2";
+a[4][15]="Significant other";
+a[4][16]="Significant other/Limp Bizkit - Breakstuff.mp3";
+a[4][17]=4004100;
+
+a[5] = new Array(18);
+a[5][0]="Limp Bizkit";
+a[5][1]="Results may vary";
+a[5][2]="07";
+a[5][3]="Build a bridge";
+a[5][4]=237;
+a[5][5]="2003";
+a[5][6]="Alt. Rock";
+a[5][7]=128;
+a[5][8]=" kbps";
+a[5][9]="MPEG 1 Layer III";
+a[5][10]="";
+a[5][11]="3.62 MB";
+a[5][12]="44100";
+a[5][13]="Stereo";
+a[5][14]="ID3v1 ID3v2 APEv2";
+a[5][15]="Results may vary";
+a[5][16]="Results may vary/Limp Bizkit - Build a bridge.mp3";
+a[5][17]=3790764;
+
+a[6] = new Array(18);
+a[6][0]="Limp Bizkit";
+a[6][1]="Results may vary";
+a[6][2]="13";
+a[6][3]="Creamer";
+a[6][4]=271;
+a[6][5]="2003";
+a[6][6]="Alt. Rock";
+a[6][7]=192;
+a[6][8]=" kbps";
+a[6][9]="MPEG 1 Layer III";
+a[6][10]="";
+a[6][11]="6.20 MB";
+a[6][12]="44100";
+a[6][13]="Stereo";
+a[6][14]="ID3v1 ID3v2 APEv2";
+a[6][15]="Results may vary";
+a[6][16]="Results may vary/Limp Bizkit - Creamer.mp3";
+a[6][17]=6506243;
+
+a[7] = new Array(18);
+a[7][0]="Limp Bizkit";
+a[7][1]="Significant other";
+a[7][2]="08";
+a[7][3]="Don't go off like";
+a[7][4]=240;
+a[7][5]="1999";
+a[7][6]="Alt. Rock";
+a[7][7]=192;
+a[7][8]=" kbps";
+a[7][9]="MPEG 1 Layer III";
+a[7][10]="";
+a[7][11]="5.50 MB";
+a[7][12]="44100";
+a[7][13]="Stereo";
+a[7][14]="ID3v1 ID3v2 APEv2";
+a[7][15]="Significant other";
+a[7][16]="Significant other/Limp Bizkit - Don't go off like.mp3";
+a[7][17]=5763290;
+
+a[8] = new Array(18);
+a[8][0]="Limp Bizkit";
+a[8][1]="Results may vary";
+a[8][2]="05";
+a[8][3]="Down another day";
+a[8][4]=246;
+a[8][5]="2003";
+a[8][6]="Alt. Rock";
+a[8][7]=128;
+a[8][8]=" kbps";
+a[8][9]="MPEG 1 Layer III";
+a[8][10]="";
+a[8][11]="3.76 MB";
+a[8][12]="44100";
+a[8][13]="Stereo";
+a[8][14]="ID3v1 ID3v2 APEv2";
+a[8][15]="Results may vary";
+a[8][16]="Results may vary/Limp Bizkit - Down another day.mp3";
+a[8][17]=3942869;
+
+a[9] = new Array(18);
+a[9][0]="Limp Bizkit";
+a[9][1]="Results may vary";
+a[9][2]="16";
+a[9][3]="Drown";
+a[9][4]=231;
+a[9][5]="2003";
+a[9][6]="Alt. Rock";
+a[9][7]=128;
+a[9][8]=" kbps";
+a[9][9]="MPEG 1 Layer III";
+a[9][10]="";
+a[9][11]="3.53 MB";
+a[9][12]="44100";
+a[9][13]="Stereo";
+a[9][14]="ID3v1 ID3v2 APEv2";
+a[9][15]="Results may vary";
+a[9][16]="Results may vary/Limp Bizkit - Drown.mp3";
+a[9][17]=3705468;
+
+a[10] = new Array(18);
+a[10][0]="Limp Bizkit";
+a[10][1]="Results may vary";
+a[10][2]="02";
+a[10][3]="Eat you alive";
+a[10][4]=238;
+a[10][5]="2003";
+a[10][6]="Alt. Rock";
+a[10][7]=128;
+a[10][8]=" kbps";
+a[10][9]="MPEG 1 Layer III";
+a[10][10]="";
+a[10][11]="3.63 MB";
+a[10][12]="44100";
+a[10][13]="Stereo";
+a[10][14]="ID3v1 ID3v2 APEv2";
+a[10][15]="Results may vary";
+a[10][16]="Results may vary/Limp Bizkit - Eat you alive.mp3";
+a[10][17]=3805810;
+
+a[11] = new Array(18);
+a[11][0]="Limp Bizkit";
+a[11][1]="Results may vary";
+a[11][2]="03";
+a[11][3]="Gimme the mic";
+a[11][4]=185;
+a[11][5]="2003";
+a[11][6]="Alt. Rock";
+a[11][7]=128;
+a[11][8]=" kbps";
+a[11][9]="MPEG 1 Layer III";
+a[11][10]="";
+a[11][11]="2.83 MB";
+a[11][12]="44100";
+a[11][13]="Stereo";
+a[11][14]="ID3v1 ID3v2 APEv2";
+a[11][15]="Results may vary";
+a[11][16]="Results may vary/Limp Bizkit - Gimme the mic.mp3";
+a[11][17]=2964426;
+
+a[12] = new Array(18);
+a[12][0]="Limp Bizkit";
+a[12][1]="Results may vary";
+a[12][2]="14";
+a[12][3]="Head for the barricade";
+a[12][4]=215;
+a[12][5]="2003";
+a[12][6]="Alt. Rock";
+a[12][7]=128;
+a[12][8]=" kbps";
+a[12][9]="MPEG 1 Layer III";
+a[12][10]="";
+a[12][11]="3.28 MB";
+a[12][12]="44100";
+a[12][13]="Stereo";
+a[12][14]="ID3v1 ID3v2 APEv2";
+a[12][15]="Results may vary";
+a[12][16]="Results may vary/Limp Bizkit - Head for the barricade.mp3";
+a[12][17]=3438810;
+
+a[13] = new Array(18);
+a[13][0]="Limp Bizkit";
+a[13][1]="Significant other";
+a[13][2]="06";
+a[13][3]="I'm broke";
+a[13][4]=239;
+a[13][5]="1999";
+a[13][6]="Alt. Rock";
+a[13][7]=192;
+a[13][8]=" kbps";
+a[13][9]="MPEG 1 Layer III";
+a[13][10]="";
+a[13][11]="5.48 MB";
+a[13][12]="44100";
+a[13][13]="Stereo";
+a[13][14]="ID3v1 ID3v2 APEv2";
+a[13][15]="Significant other";
+a[13][16]="Significant other/Limp Bizkit - I'm broke.mp3";
+a[13][17]=5744514;
+
+a[14] = new Array(18);
+a[14][0]="Limp Bizkit";
+a[14][1]="Significant other";
+a[14][2]="01";
+a[14][3]="Intro";
+a[14][4]=37;
+a[14][5]="1999";
+a[14][6]="Alt. Rock";
+a[14][7]=192;
+a[14][8]=" kbps";
+a[14][9]="MPEG 1 Layer III";
+a[14][10]="";
+a[14][11]="879.03 KB";
+a[14][12]="44100";
+a[14][13]="Joint Stereo";
+a[14][14]="ID3v1 ID3v2 APEv2";
+a[14][15]="Significant other";
+a[14][16]="Significant other/Limp Bizkit - Intro.mp3";
+a[14][17]=900125;
+
+a[15] = new Array(18);
+a[15][0]="Limp Bizkit";
+a[15][1]="Significant other";
+a[15][2]="02";
+a[15][3]="Just like this";
+a[15][4]=215;
+a[15][5]="1999";
+a[15][6]="Alt. Rock";
+a[15][7]=192;
+a[15][8]=" kbps";
+a[15][9]="MPEG 1 Layer III";
+a[15][10]="";
+a[15][11]="4.93 MB";
+a[15][12]="44100";
+a[15][13]="Stereo";
+a[15][14]="ID3v1 ID3v2 APEv2";
+a[15][15]="Significant other";
+a[15][16]="Significant other/Limp Bizkit - Just like this.mp3";
+a[15][17]=5164595;
+
+a[16] = new Array(18);
+a[16][0]="Limp Bizkit";
+a[16][1]="Results may vary";
+a[16][2]="10";
+a[16][3]="Let me down";
+a[16][4]=256;
+a[16][5]="2003";
+a[16][6]="Alt. Rock";
+a[16][7]=128;
+a[16][8]=" kbps";
+a[16][9]="MPEG 1 Layer III";
+a[16][10]="";
+a[16][11]="3.91 MB";
+a[16][12]="44100";
+a[16][13]="Stereo";
+a[16][14]="ID3v1 ID3v2 APEv2";
+a[16][15]="Results may vary";
+a[16][16]="Results may vary/Limp Bizkit - Let me down.mp3";
+a[16][17]=4102947;
+
+a[17] = new Array(18);
+a[17][0]="Limp Bizkit";
+a[17][1]="Results may vary";
+a[17][2]="11";
+a[17][3]="Lonely world";
+a[17][4]=274;
+a[17][5]="2003";
+a[17][6]="Alt. Rock";
+a[17][7]=128;
+a[17][8]=" kbps";
+a[17][9]="MPEG 1 Layer III";
+a[17][10]="";
+a[17][11]="4.18 MB";
+a[17][12]="44100";
+a[17][13]="Stereo";
+a[17][14]="ID3v1 ID3v2 APEv2";
+a[17][15]="Results may vary";
+a[17][16]="Results may vary/Limp Bizkit - Lonely world.mp3";
+a[17][17]=4380922;
+
+a[18] = new Array(18);
+a[18][0]="Limp Bizkit";
+a[18][1]="Significant other";
+a[18][2]="10";
+a[18][3]="N2 gehter now";
+a[18][4]=290;
+a[18][5]="1999";
+a[18][6]="Alt. Rock";
+a[18][7]=192;
+a[18][8]=" kbps";
+a[18][9]="MPEG 1 Layer III";
+a[18][10]="";
+a[18][11]="6.64 MB";
+a[18][12]="44100";
+a[18][13]="Stereo";
+a[18][14]="ID3v1 ID3v2 APEv2";
+a[18][15]="Significant other";
+a[18][16]="Significant other/Limp Bizkit - N2 gehter now.mp3";
+a[18][17]=6960743;
+
+a[19] = new Array(18);
+a[19][0]="Limp Bizkit";
+a[19][1]="Significant other";
+a[19][2]="12";
+a[19][3]="No sex";
+a[19][4]=234;
+a[19][5]="1999";
+a[19][6]="Alt. Rock";
+a[19][7]=192;
+a[19][8]=" kbps";
+a[19][9]="MPEG 1 Layer III";
+a[19][10]="";
+a[19][11]="5.37 MB";
+a[19][12]="44100";
+a[19][13]="Stereo";
+a[19][14]="ID3v1 ID3v2 APEv2";
+a[19][15]="Significant other";
+a[19][16]="Significant other/Limp Bizkit - No sex.mp3";
+a[19][17]=5632919;
+
+a[20] = new Array(18);
+a[20][0]="Limp Bizkit";
+a[20][1]="Significant other";
+a[20][2]="07";
+a[20][3]="Nobody like you";
+a[20][4]=260;
+a[20][5]="1999";
+a[20][6]="Alt. Rock";
+a[20][7]=192;
+a[20][8]=" kbps";
+a[20][9]="MPEG 1 Layer III";
+a[20][10]="";
+a[20][11]="5.96 MB";
+a[20][12]="44100";
+a[20][13]="Stereo";
+a[20][14]="ID3v1 ID3v2 APEv2";
+a[20][15]="Significant other";
+a[20][16]="Significant other/Limp Bizkit - Nobody like you.mp3";
+a[20][17]=6244811;
+
+a[21] = new Array(18);
+a[21][0]="Limp Bizkit";
+a[21][1]="Significant other";
+a[21][2]="03";
+a[21][3]="Nookie";
+a[21][4]=290;
+a[21][5]="1999";
+a[21][6]="Alt. Rock";
+a[21][7]=192;
+a[21][8]=" kbps";
+a[21][9]="MPEG 1 Layer III";
+a[21][10]="";
+a[21][11]="6.63 MB";
+a[21][12]="44100";
+a[21][13]="Stereo";
+a[21][14]="ID3v1 ID3v2 APEv2";
+a[21][15]="Significant other";
+a[21][16]="Significant other/Limp Bizkit - Nookie.mp3";
+a[21][17]=6955133;
+
+a[22] = new Array(18);
+a[22][0]="Limp Bizkit";
+a[22][1]="Significant other";
+a[22][2]="15";
+a[22][3]="Outro";
+a[22][4]=438;
+a[22][5]="1999";
+a[22][6]="Alt. Rock";
+a[22][7]=192;
+a[22][8]=" kbps";
+a[22][9]="MPEG 1 Layer III";
+a[22][10]="";
+a[22][11]="10.03 MB";
+a[22][12]="44100";
+a[22][13]="Stereo";
+a[22][14]="ID3v1 ID3v2 APEv2";
+a[22][15]="Significant other";
+a[22][16]="Significant other/Limp Bizkit - Outro.mp3";
+a[22][17]=10513010;
+
+a[23] = new Array(18);
+a[23][0]="Limp Bizkit";
+a[23][1]="Results may vary";
+a[23][2]="12";
+a[23][3]="Phenomenom";
+a[23][4]=240;
+a[23][5]="2003";
+a[23][6]="Alt. Rock";
+a[23][7]=128;
+a[23][8]=" kbps";
+a[23][9]="MPEG 1 Layer III";
+a[23][10]="";
+a[23][11]="3.66 MB";
+a[23][12]="44100";
+a[23][13]="Stereo";
+a[23][14]="ID3v1 ID3v2 APEv2";
+a[23][15]="Results may vary";
+a[23][16]="Results may vary/Limp Bizkit - Phenomenom.mp3";
+a[23][17]=3835903;
+
+a[24] = new Array(18);
+a[24][0]="Limp Bizkit";
+a[24][1]="Significant other";
+a[24][2]="05";
+a[24][3]="Re-arranged";
+a[24][4]=355;
+a[24][5]="1999";
+a[24][6]="Alt. Rock";
+a[24][7]=192;
+a[24][8]=" kbps";
+a[24][9]="MPEG 1 Layer III";
+a[24][10]="";
+a[24][11]="8.12 MB";
+a[24][12]="44100";
+a[24][13]="Stereo";
+a[24][14]="ID3v1 ID3v2 APEv2";
+a[24][15]="Significant other";
+a[24][16]="Significant other/Limp Bizkit - Re-arranged.mp3";
+a[24][17]=8517464;
+
+a[25] = new Array(18);
+a[25][0]="Limp Bizkit";
+a[25][1]="Results may vary";
+a[25][2]="08";
+a[25][3]="Red light - green light";
+a[25][4]=337;
+a[25][5]="2003";
+a[25][6]="Alt. Rock";
+a[25][7]=128;
+a[25][8]=" kbps";
+a[25][9]="MPEG 1 Layer III";
+a[25][10]="";
+a[25][11]="5.13 MB";
+a[25][12]="44100";
+a[25][13]="Stereo";
+a[25][14]="ID3v1 ID3v2 APEv2";
+a[25][15]="Results may vary";
+a[25][16]="Results may vary/Limp Bizkit - Red light - green light.mp3";
+a[25][17]=5384024;
+
+a[26] = new Array(18);
+a[26][0]="Limp Bizkit";
+a[26][1]="Results may vary";
+a[26][2]="01";
+a[26][3]="Re-entry";
+a[26][4]=157;
+a[26][5]="2003";
+a[26][6]="Alt. Rock";
+a[26][7]=192;
+a[26][8]=" kbps";
+a[26][9]="MPEG 1 Layer III";
+a[26][10]="";
+a[26][11]="3.61 MB";
+a[26][12]="44100";
+a[26][13]="Stereo";
+a[26][14]="ID3v1 ID3v2 APEv2";
+a[26][15]="Results may vary";
+a[26][16]="Results may vary/Limp Bizkit - Re-entry.mp3";
+a[26][17]=3788464;
+
+a[27] = new Array(18);
+a[27][0]="Limp Bizkit";
+a[27][1]="Significant other";
+a[27][2]="13";
+a[27][3]="Show me what you go";
+a[27][4]=267;
+a[27][5]="1999";
+a[27][6]="Alt. Rock";
+a[27][7]=192;
+a[27][8]=" kbps";
+a[27][9]="MPEG 1 Layer III";
+a[27][10]="";
+a[27][11]="6.11 MB";
+a[27][12]="44100";
+a[27][13]="Stereo";
+a[27][14]="ID3v1 ID3v2 APEv2";
+a[27][15]="Significant other";
+a[27][16]="Significant other/Limp Bizkit - Show me what you go.mp3";
+a[27][17]=6410918;
+
+a[28] = new Array(18);
+a[28][0]="Limp Bizkit";
+a[28][1]="Results may vary";
+a[28][2]="09";
+a[28][3]="The only one";
+a[28][4]=249;
+a[28][5]="2003";
+a[28][6]="Alt. Rock";
+a[28][7]=128;
+a[28][8]=" kbps";
+a[28][9]="MPEG 1 Layer III";
+a[28][10]="";
+a[28][11]="3.80 MB";
+a[28][12]="44100";
+a[28][13]="Stereo";
+a[28][14]="ID3v1 ID3v2 APEv2";
+a[28][15]="Results may vary";
+a[28][16]="Results may vary/Limp Bizkit - The only one.mp3";
+a[28][17]=3984697;
+
+a[29] = new Array(18);
+a[29][0]="Limp Bizkit";
+a[29][1]="Significant other";
+a[29][2]="11";
+a[29][3]="Trust";
+a[29][4]=299;
+a[29][5]="1999";
+a[29][6]="Alt. Rock";
+a[29][7]=192;
+a[29][8]=" kbps";
+a[29][9]="MPEG 1 Layer III";
+a[29][10]="";
+a[29][11]="6.86 MB";
+a[29][12]="44100";
+a[29][13]="Stereo";
+a[29][14]="ID3v1 ID3v2 APEv2";
+a[29][15]="Significant other";
+a[29][16]="Significant other/Limp Bizkit - Trust.mp3";
+a[29][17]=7189576;
+
+a[30] = new Array(18);
+a[30][0]="Limp Bizkit";
+a[30][1]="Results may vary";
+a[30][2]="04";
+a[30][3]="Underneath the gun";
+a[30][4]=343;
+a[30][5]="2003";
+a[30][6]="Alt. Rock";
+a[30][7]=192;
+a[30][8]=" kbps";
+a[30][9]="MPEG 1 Layer III";
+a[30][10]="";
+a[30][11]="7.84 MB";
+a[30][12]="44100";
+a[30][13]="Stereo";
+a[30][14]="ID3v1 ID3v2 APEv2";
+a[30][15]="Results may vary";
+a[30][16]="Results may vary/Limp Bizkit - Underneath the gun.mp3";
+a[30][17]=8222802;
+
+
+// +++ Average Bitrate Calculations +++ //
+
+var avg_btr_file = 0;
+var avg_btr_second = 0;
+var avg_length = 0;
+
+for (i=0; i<table_length;i++) {
+	avg_btr_file += a[i][7];
+	avg_btr_second += a[i][4]*a[i][7];
+	avg_length += a[i][4];
+}
+avg_btr_file /= table_length;
+avg_btr_second /= avg_length;
+avg_length = Math.round(avg_length/table_length);
+
+// +++ Array Object Extension +++ //
+
+//public functions
+Array.prototype.sortBy = sortBySubarrayNr;  //call name_of_the_array.sortBy() to sort the array by nr. in subarray in alphabetical (A->Z or Z-A) order (optionally)
+Array.prototype.sortByStack = sortByStack;  //call name_of_the_array.sortBy() to sort the array by settings setted with push_stack
+Array.prototype.push_stack = push_stack;  //add subarray nr and order to sorting history, array will be sorted my all this (up to 5) criteria
+
+//internal functions & properties
+Array.prototype.multisort = multisort;
+Array.prototype.xchange = xchange;
+Array.prototype.compare = compare;
+Array.prototype.quicksort = quicksort;
+Array.prototype.sort_stack = new Array(-1,-1,-1,-1,-1);  //contains history of sorting for sorting by multiple criteria; -1=not sorted, 0++=sorted by subarray nr; internal use, don't change directly!!!
+Array.prototype.order_stack = new Array(true,true,true,true,true);  //contains history of sorting order; true = A->Z, false = Z->A; internal use, don't change directly!!!
+
+// +++ Quick Sort +++ //
+
+function sortBySubarrayNr(sub_nr, order) {  //sorts array by entry nr. sub_nr in (alphabetical or not) order; internal use, don't call directly!!!
+	this.push_stack(sub_nr,order);
+	this.multisort(0,this.length-1,0);
+}
+
+function sortByStack() { this.multisort(0,this.length-1,0) }  //internal use, don't call directly!!!
+
+function multisort(from_a, to_b, stack_level) {  //sorts by multiple criteria; internal use, don't call directly!!!
+	if ((stack_level>=this.sort_stack.length)||(this.sort_stack[stack_level]<0)) { return }
+	this.quicksort(from_a,to_b,stack_level);
+	if ((stack_level+1>=this.sort_stack.length)||(this.sort_stack[stack_level+1]<0)) { return }
+	var a = from_a+1;
+	var b = from_a;
+	while (a<=to_b) {
+		while ((a<=to_b)&&(this[a-1][this.sort_stack[stack_level]]!=this[a][this.sort_stack[stack_level]])) { a++ }
+		b = a+1;
+		while ((b<=to_b)&&(this[a][this.sort_stack[stack_level]]==this[b][this.sort_stack[stack_level]])) { b++ }
+		if (a>to_b) { return }
+		this.multisort(a-1,b-1,stack_level+1);
+		a = b+1;
+	}
+}
+
+function push_stack(last_sort, last_order) {  //internal use, don't call directly!!!
+	if (last_sort < 0) return;
+	if (this.sort_stack[0] == last_sort) {  //prevent sorting multiple times by the same criterion
+		if (!last_order) { this.order_stack[0] = !(this.order_stack[0]) }  //reverse order if not defined
+		else { this.order_stack[0] = last_order }
+		return;
+	}
+	for (var i=this.sort_stack.length-1;i>0;i--) {
+		this.sort_stack[i] = this.sort_stack[i-1];
+		this.order_stack[i] = this.order_stack[i-1];
+	}
+	if (!last_order) { last_order = true }
+	this.sort_stack[0] = last_sort;
+	this.order_stack[0] = last_order;
+}
+
+function xchange(nr1, nr2) {  //internal use, don't call directly!!!
+	var temp = this[nr1];
+	this[nr1] = this[nr2];
+	this[nr2] = temp;
+}
+
+function compare(n1, n2, stack_nr) {  //internal use, don't call directly!!!
+	if (this.order_stack[stack_nr]) { return(this[n1][this.sort_stack[stack_nr]] < this[n2][this.sort_stack[stack_nr]]) }
+	else { return(this[n1][this.sort_stack[stack_nr]] > this[n2][this.sort_stack[stack_nr]]) };
+}
+
+function quicksort(left, right, stack_pos) {  //internal use, don't call directly!!!
+	var l, r, x;
+
+	l = left;
+	r = right;
+	x = (left + right)>>>1;
+
+	do {
+		while(this.compare(l, x, stack_pos)) { l++ };
+		while(this.compare(x, r, stack_pos)) { r-- };
+		if(l <= r) {
+			this.xchange(l, r);
+
+			if(x == l) { x = r }
+			else { if(x == r) {x = l} }
+
+			l++;
+			r--;
+		}
+	} while(l < r);
+
+	if (r > left) { this.quicksort(left, r, stack_pos) };
+	if (l < right) { this.quicksort(l, right, stack_pos) };
+}
+
+// +++ Tooltip script code by cntchris +++ //
+//edited by nickless
+
+/***********************************************
+* Cool DHTML tooltip script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+var offsetxpoint=-80;  //Customize x offset of tooltip
+var offsetypoint=20;  //Customize y offset of tooltip
+var enabletip=false;
+var tipobj = new Object();
+
+function ietruebody() { return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body }
+
+function ddrivetip(thetext, thewidth) {
+	if (ns5||ie5||op7) {
+		offsetxpoint=-80;
+		if (typeof thewidth!="undefined") {
+			tipobj.style.width=thewidth+"px";
+			if (thewidth<160) offsetxpoint = - (thewidth >>> 1);
+		}
+		tipobj.innerHTML=thetext;
+		enabletip=true;
+		return false;
+	}
+}
+
+function positiontip(e) {
+	if (enabletip) {
+		var curX=(ns5)? e.pageX : event.x+ietruebody().scrollLeft;
+		var curY=(ns5)? e.pageY : event.y+ietruebody().scrollTop;
+		//Find out how close the mouse is to the corner of the window
+		var rightedge=ie5&&!window.opera? ietruebody().clientWidth-event.clientX-offsetxpoint : window.innerWidth-e.clientX-offsetxpoint-20;
+		var bottomedge=ie5&&!window.opera? ietruebody().clientHeight-event.clientY-offsetypoint : window.innerHeight-e.clientY-offsetypoint-20;
+
+		var leftedge=(offsetxpoint<0)? offsetxpoint*(-1) : -1000;
+
+		//if the horizontal distance isn't enough to accomodate the width of the context menu
+		if (rightedge<tipobj.offsetWidth) {
+			//move the horizontal position of the menu to the left by it's width
+			tipobj.style.left=ie5? ietruebody().scrollLeft+event.clientX-tipobj.offsetWidth+"px" : window.pageXOffset+e.clientX-tipobj.offsetWidth+"px"
+		}
+		else {
+			if (curX<leftedge) { tipobj.style.left="5px" }
+			else {
+				//position the horizontal position of the menu where the mouse is positioned
+				tipobj.style.left=curX+offsetxpoint+"px";
+			}
+		}
+
+		//same concept with the vertical position
+		if (bottomedge<tipobj.offsetHeight) {
+			tipobj.style.top=ie5? ietruebody().scrollTop+event.clientY-tipobj.offsetHeight-offsetypoint+"px" : window.pageYOffset+e.clientY-tipobj.offsetHeight-offsetypoint+"px";
+		}
+		else { tipobj.style.top=curY+offsetypoint+"px" }
+		tipobj.style.visibility="visible"
+	}
+}
+
+function hideddrivetip() {
+	if (ns5||ie5||op7) {
+		enabletip=false;
+		tipobj.style.visibility="hidden";
+		tipobj.style.left="-1000px";
+		tipobj.style.width='';
+	}
+}
+
+// +++ Custom Functions +++ //
+
+function over_link(obj, table_nr, link_nr) {  //handle mouseover events of links in whole document; obj=link, table_nr:0=info_table,1=export_table,2=about_table, link_nr=nr of link that sent the event
+//all tooltip textes are defined here
+	switch (table_nr) {
+		case 1: {  //export table
+			switch (obj.id.charAt(0)) {
+				case 'h': {  //header popup
+					ddrivetip('sort table by<br><b>' + obj.firstChild.nodeValue + '</b>', 80);
+					break;
+				}
+				case 'e': {  //extended info popup
+					//extended information popup
+					ddrivetip('<table class="tip_table" style="color:#000000; width:320px;">'
+						+ '<tr><td style="font-weight:bold; text-align:right; width:70px;">Path:</td><td style="color:#ffffff; width:250px;">' + a[link_nr][15] + '</td></tr>'
+						+ '<tr><td style="font-weight:bold; text-align:right; width:70px;">Comment:</td><td style="color:#ffffff; width:250px;">' + a[link_nr][10] + '</td></tr>'
+						+ '<tr><td style="font-weight:bold; text-align:right;">Filesize:</td><td style="color:#ffffff">' + a[link_nr][11] + '</td></tr>'
+						+ '<tr><td style="font-weight:bold; text-align:right;">Settings:</td><td style="color:#ffffff">' + a[link_nr][7] + a[link_nr][8] + ' / ' + a[link_nr][12] + ' / ' + a[link_nr][13] + '</td></tr>'
+						+ '<tr><td style="font-weight:bold; text-align:right;">Tags:</td><td style="color:#ffffff">' + a[link_nr][14] + '</td></tr></table>',320);
+					break;
+				}
+				case 'l': {  //link to exported file popup
+					ddrivetip('play file:<br>"' + a[link_nr][16] + '"', 320);
+					break;
+				}
+			}
+			break;
+		}
+		case 2: {  //about table
+			//mp3tag link popup
+			ddrivetip('visit home page of Mp3Tag', 160);
+			break;
+		}
+	}
+}
+
+function out_link(obj, table_nr, link_nr) {  //handle mouseout events of links in whole document; obj=link, table_nr:0=info_table,1=export_table,2=about_table, link_nr=nr of link that sent the event
+	hideddrivetip();  //hide popup
+}
+
+function do_sort(criterion, link_nr) {  //set cookies and reload to sort; criterion=nr of subarray
+	a.push_stack(criterion);
+	WriteCookie("sorting_stack",a.sort_stack.join(),24*14);
+	WriteCookie("sort_order_stack",a.order_stack.join(),24*14);
+	WriteCookie("sorted_link",link_nr,24*14);
+	window.location.reload();
+}
+
+function play_file(file_nr) {
+	var _file = new String("");
+	if (a[file_nr][16].charAt(1)==":") { _file = "file://" };
+	var new_win = window.open(_file + a[file_nr][16],"Playing", "");
+}
+
+function read_settings() {
+	var sort_st = ReadCookie("sorting_stack");
+	var order_st = ReadCookie("sort_order_stack");
+	if (sort_st) { a.sort_stack = eval('Array(' + sort_st + ')') };
+	if (order_st) { a.order_stack = eval('Array(' + order_st + ')') };
+	a.sortByStack();
+}
+
+function write_dots()  //writes dots to the General Information Table
+{
+  document.write('<td width="1%"><br></td>');
+  for (i=0; i<19; i++) { document.write('<td width="2%">&middot;</td>') };
+  document.write('<td width="1%"><br></td>');
+}
+
+function write_dir() {  //writes the arrow that shows the direction of sorting
+	var last_sorted_link = "h_link_" + ReadCookie("sorted_link");
+	var _arrow = " " + String.fromCharCode(8593);
+
+	if (a.order_stack[0]) { _arrow = " " + String.fromCharCode(8595) };
+
+	var _new_dir = document.createTextNode(_arrow);
+	var _obj = document.getElementById(last_sorted_link);
+	if (_obj) { _obj.appendChild(_new_dir) };
+}
+//--></script>
+</head>
+<body>
+<div id="dhtmltooltip" class="dhtmltooltip"></div>
+<script type="text/javascript"><!--
+	//set up popup
+	var tipobj=document.all? document.all["dhtmltooltip"] : document.getElementById? document.getElementById("dhtmltooltip") : "";
+	document.onmousemove=positiontip;
+	read_settings();
+--></script>
+<div align="center">
+<h1>Directory listing of "Limp Bizkit"</h1>
+
+<!-- General information Table begin -->
+
+<table class="table1" border="0" cellpadding="2" cellspacing="1" width="800">
+<tbody>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%">Export file creation date: </td>
+<script>write_dots();</script>
+<td align="left" width="30%">4/16/2006 1:37:14 AM</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%">Total Tracks: </td>
+<script>write_dots();</script>
+<td align="left" width="30%">31</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%">Total Length: </td>
+<script>write_dots();</script>
+<td align="left" width="30%">02:11:30</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%">Total Size: </td>
+<script>write_dots();</script>
+<td align="left" width="30%">157.91 MB</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%">Average track length: </td>
+<script>write_dots();</script>
+<td align="left" width="30%"><script>document.write(fmtTime(avg_length))</script></td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%">Average bitrate per file: </td>
+<script>write_dots();</script>
+<td align="left" width="30%"><script>document.write(avg_btr_file.toFixed(1))</script> kbps</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" align="right" width="30%">Average bitrate per second: </td>
+<script>write_dots();</script>
+<td align="left" width="30%"><script>document.write(avg_btr_second.toFixed(1))</script> kbps</td>
+</tr>
+</tbody>
+</table>
+<br>
+
+<!-- General information Table end -->
+
+<!-- Main Export Table begin -->
+
+<table class="table1" border="0" cellpadding="1" cellspacing="1" width="98%">
+<tbody>
+<tr class="table3" style="font-weight: bold;">
+<td width="30px">Nr.</td>
+<td style="width:auto; text-align:left"><a id="h_link_0" href="javascript:do_sort(0,0)" onMouseOver="over_link(this,1,0)" onMouseOut="out_link(this,1,0)">Artist</a></td>
+<td style="width:auto; text-align:left"><a id="h_link_1" href="javascript:do_sort(1,1)" onMouseOver="over_link(this,1,1)" onMouseOut="out_link(this,1,1)">Album</a></td>
+<td style="width:auto; text-align:left"><a id="h_link_2" href="javascript:do_sort(2,2)" onMouseOver="over_link(this,1,2)" onMouseOut="out_link(this,1,2)">Track</a> - <a id="h_link_3" href="javascript:do_sort(3,3)" onMouseOver="over_link(this,1,3)" onMouseOut="out_link(this,1,3)">Title</a></td>
+<td width="55px"><a id="h_link_4" href="javascript:do_sort(4,4)" onMouseOver="over_link(this,1,4)" onMouseOut="out_link(this,1,4)">Length</a></td>
+<td width="40px"><a id="h_link_5" href="javascript:do_sort(5,5)" onMouseOver="over_link(this,1,5)" onMouseOut="out_link(this,1,5)">Year</a></td>
+<td width="90px"><a id="h_link_6" href="javascript:do_sort(6,6)" onMouseOver="over_link(this,1,6)" onMouseOut="out_link(this,1,6)">Genre</a></td>
+<td width="70px"><a id="h_link_7" href="javascript:do_sort(7,7)" onMouseOver="over_link(this,1,7)" onMouseOut="out_link(this,1,7)">Bitrate</a></td>
+<td width="95px"><a id="h_link_8" href="javascript:do_sort(9,8)" onMouseOver="over_link(this,1,8)" onMouseOut="out_link(this,1,8)">Codec</a></td>
+</tr>
+<script><!--
+//write output table
+var s = new String("");
+for (i = 0; i<table_length; i++) {
+	s += '<tr class="table' + Number(i%2+2) + '"><td>' + Number(i+1) + '</td>';
+	s += '<td align="left"><a id="ex_' + i + '" href="" onMouseOver="over_link(this,1,' + i + ')" onMouseOut="out_link(this,1,' + i + ')">' + a[i][0] + '</a></td>';
+	s += '<td align="left">' + a[i][1] + '</td><td align="left">';
+	if (a[i][2]!='00') { s += a[i][2] + ' - ' }
+	s += '<a id="link_' + i + '" href="javascript:play_file(' + i + ')" onMouseOver="over_link(this,1,' + i + ')" onMouseOut="out_link(this,1,' + i + ')">' + a[i][3] + '</a></td>';
+	s += '<td>' + fmtTime(a[i][4]) + '</td>';
+	s += '<td>' + a[i][5] + '</td>';
+	s += '<td>' + a[i][6] + '</td>';
+	s += '<td>' + a[i][7] + a[i][8] + '</td>';
+	s += '<td width="95px">' + a[i][9] + '</td></tr>';
+	if (ie5 || (i%20==19)) {  //I don't want make IE worse that it is, but my IE6SP2 is really faster by writing each line than each 20th !!!
+		document.write(s);
+		s = "";
+	}
+}
+document.write(s);
+s = "";
+write_dir();  //write sorting direction arrow
+//--></script>
+</tbody>
+</table>
+<br>
+
+<!-- Main Export Table end -->
+
+<!-- Info Table begin -->
+
+<table class="table1" border="0" cellpadding="2" cellspacing="1" width="600">
+<tbody>
+<tr>
+<td>Created on 4/16/2006 with <a id="ab_0" style="color: #000000" href="http://www.mp3tag.de/" target="_blank" onMouseOver="over_link(this,2,0)" onMouseOut="out_link(this,2,0)"><b>Mp3tag V.2.32a</b></a> - the <b>universal</b> Tag Editor</td>
+</tr>
+</tbody>
+</table>
+
+<!-- Info Table end -->
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+$filename(%APPDATA%\Mp3tag\data\columns\AutoColumns.Names.txt,ANSI)$loop(%_path%)$regexp($list($char(9),$char(9),$char(9)$char(13)$char(10)),'\t(.+?)\t.+?\t\r\n','$1\r\n')$loopend()
