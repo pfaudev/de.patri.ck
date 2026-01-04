@@ -1,0 +1,336 @@
+﻿################################################################################
+# Mp3tag Tag Source for Google Play Music                                      #
+#                                                                              #
+# Created by SheepKid12 and improved by vikaesar                               #
+#                                                                              #
+# Known issues: When parsing multi-disc albums the total tracks number for     #
+#               every disc is not included in the %track% field following      #
+#               this pattern: "track number/total tracks", just the track      #
+#               number.                                                        #
+#                                                                              #
+# This file needs to be stored in Mp3tag's tag sources directory:              #
+# %APPDATA%\Mp3tag\data\sources                                                #
+#                                                                              #
+# [2019-05-15] v1.03                                                           #
+#      CHANGE: Revamped script version that works with the obfuscated HTML     #
+#              structure currently used on Google Play Music web pages.        #
+# [2018-11-22] v1.02                                                           #
+#         FIX: albums with no genre information were not parsed correctly.     #
+#         FIX: multi-disc albums were not parsed correctly.                    #
+#              Now working for up to 20-disc albums.                           #
+# [2018-11-22] v1.01                                                           #
+#         FIX: multi-disc albums were not parsed correctly.                    #
+# [2018-11-19] v1.00 based on Tag Source for Google Play Music by SheepKid12   #
+################################################################################
+
+[Name]=Google Play Music
+[BasedOn]=play.google.com
+[IndexUrl]=https://play.google.com/store/search?q=%s&c=music&hl=en
+[AlbumUrl]=https://play.google.com
+[WordSeparator]=%20
+[IndexFormat]=%_url%|%Album%|%Artist%|
+[SearchBy]=%Artist% %Album%
+[Encoding]=url-utf-8
+
+
+################################################################################
+#                        LIST OF SEARCH RESULTS DIALOG                         #
+################################################################################
+[ParserScriptIndex]=...
+
+## Comment/uncomment for debugging purposes:
+# DebugWriteInput "C:\Users\your_username\Desktop\mp3tag-google-play-ws-index-debug.out.html"
+# Debug "on" "C:\Users\your_username\Desktop\mp3tag-google-play-ws-index-debug.txt"
+
+FindLine ">Albums</h2>"
+MoveLine 1
+do
+	GotoChar 1
+
+	# URL
+	FindInLine "<a href=\"/store/music/album/" 1 1
+	MoveChar -19
+	
+	SayUntil "\""
+	## We want the album web page in English so certain regex match results work
+	## as intended:
+	Say "&hl=en"
+	Say "|"
+
+	# ALBUM
+	FindInLine "title=\""
+	SayUntil "\""
+	Say "|"
+
+	# ARTIST
+	FindInLine "<div >"
+	SayUntil "</div>"
+	Say "|"
+
+	SayNewline
+
+	MoveLine 2
+	FindInLine "<a href=\"/store/music/" 1 1
+while "album/"
+
+
+################################################################################
+#                        ADJUST TAG INFORMATION DIALOG                         #
+################################################################################
+[ParserScriptAlbum]=...
+
+## Comment/uncomment for debugging purposes:
+# DebugWriteInput "C:\Users\your_username\Desktop\mp3tag-google-play-ws-album-debug.out.html"
+# Debug "on" "C:\Users\your_username\Desktop\mp3tag-google-play-ws-album-debug.txt"
+
+## We need the disc count now so later we can format disc numbers with the
+## following pattern: "disc number/total discs"
+# Disc Count
+OutputTo "TOTALDISCS"
+Say "1"
+FindLine ">Disc 1</h2>" 1 1
+FindInLine ">Disc 1<" 1 1
+if "/h2"
+	Set "TEMP_Multidisc" "1"
+	FindLine "</table><h2" 1 1
+	do
+		Set "TOTALDISCS"
+		FindInLine ">Disc "
+		SayNextNumber
+		MoveLine 1
+		FindLine "</table>" 1 1
+		FindInLine "</table>" 1 1
+	while "<h2"
+endif
+GotoLine 1
+
+## We need to check if the artist for every track is different from the album
+## artist so later this information can be parsed in the track loop
+FindLine ">Artist</th>" 1 1
+FindInLine ">Artist<" 1 1
+if "/th"
+	Set "TEMP_Various_Artists" "1"
+endif
+GotoLine 1
+
+## We need the track count now so later we can format track numbers with the
+## following pattern: "track number/total tracks":
+##
+## Sample input:
+## <div class="BgcNfc">Tracks</div><span class="htlgb">13</span>
+##
+# Track Count
+OutputTo "TEMP_TotalTracks"
+FindLine ">Tracks<"
+FindInLine ">Tracks</div>"
+FindInLine "<span class="
+FindInLine ">"
+SayNextNumber
+GotoLine 1
+
+# Album
+OutputTo "ALBUM"
+FindLine "alt=\"Cover art\""
+FindInLine "<h1 class="
+FindInLine "<span"
+FindInLine ">"
+SayUntil "</span></h1>"
+
+## Sample inputs:
+## <span class="H51Agc UAO9ie"><a  href="https://play.google.com/store/music/artist?id=Aptqrn3mq6xstxya4c2zfppq46a"  class="hrTbp R8zArc">Stratovarius</a></span>
+##
+# Album Artist
+OutputTo "ALBUMARTIST"
+FindInLine "href=\"https://play.google.com/store/music/artist" 1 1
+MoveChar -6
+if "artist"
+	FindInLine ">"
+	SayUntil "</a>"
+else
+	GotoChar 1
+	FindInLine ">Various Artists<"
+	Say "Various Artists"
+endif
+
+## Google Play Music doesn't provide composer info so copy album artist info instead:
+##
+# Composer
+# OutputTo "COMPOSER"
+# SayOutput "ALBUMARTIST"
+
+# Release Date
+OutputTo "YEAR"
+FindInLine "<span class="
+FindInLine ", "
+SayNextNumber
+
+## Take into account that there exist albums with no genre information
+##
+# Genre
+OutputTo "GENRE"
+FindInLine "itemprop=\"genre\"" 1 1
+MoveChar -6
+if "genre"
+	FindInLine ">"
+	SayUntil "</a>"
+endif
+
+# Publisher
+OutputTo "PUBLISHER"
+GotoChar 1
+FindInLine "℗" 1 1
+MoveChar -1
+if "℗"
+	SayUntil "</span>"
+else
+	GotoChar 1
+	FindInLine "©" 1 1
+	MoveChar -1
+	if "©"
+		SayUntil "</span>"
+	endif
+endif
+
+# Copyright
+# OutputTo "COPYRIGHT"
+# SayOutput "PUBLISHER"
+
+# Explicitness
+OutputTo "ITUNESADVISORY"
+GotoChar 1
+FindInLine ">Explicit</span>" 1 1
+MoveChar -15
+if "Explicit"
+	Say "1"
+endif
+
+## You can choose the album cover resolution to your liking:
+## Current: 512x512 pixels
+##
+# Cover URL
+OutputTo "COVERURL"
+GotoChar 1
+Replace "=w200-h300" "=w512"
+# Replace "=w200-h300" "=w1400"
+SayRegexp "https://[\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-]=w512?"
+
+## Check if tracks have a different artist than the album artist
+##
+# Artist
+OutputTo "TEMP_Artist"
+ifnotoutput "TEMP_Various_Artists"
+	SayOutput "ALBUMARTIST"
+endif
+
+## Set disc number in single-disc albums or first disc in multi-disc albums
+# Disc Number
+OutputTo "TEMP_DiscNumber"
+Say "1/1"
+ifoutput "TEMP_Multidisc"
+	Set "TEMP_DiscNumber"
+	Set "TEMP_CurrentDisc" "1"
+endif
+
+# Track Loop
+GotoLine 1
+FindLine ">Songs</th>"
+FindInLine "<tr class="
+do
+	# Current disc number (Disc/Total)
+	ifoutput "TEMP_Multidisc"
+		OutputTo "TEMP_DiscNumber"
+		SayOutput "TEMP_CurrentDisc"
+		Say "/"
+		SayOutput "TOTALDISCS"
+		Say "|"
+	endif
+
+	FindInLine "data-update-url-on-play"
+	
+	# Track number
+	OutputTo "TEMP_Track"
+	FindInLine "<div class="
+	FindInLine ">"
+	SayNextNumber
+	ifnotoutput "TEMP_Multidisc"
+		Say "/"
+		SayOutput "TEMP_TotalTracks"
+	endif
+	Say "|"
+
+	# Title
+	OutputTo "TEMP_Title"
+	FindInLine "<td itemprop=\"name\""
+	FindInLine ">"
+	SayUntil "</td>"
+	Say "|"
+
+	# Length (m:ss)
+	OutputTo "_LENGTH"
+	FindInLine "aria-label="
+	FindInLine ">"
+	SayUntil "</td>"
+	Say "|"
+	
+	# Artist
+	ifoutput "TEMP_Various_Artists"
+		OutputTo "TEMP_Artist"
+		FindInLine "href=\"https://play.google.com/store/music/artist"
+		FindInLine ">"
+		SayUntil "</a>"
+		Say "|"
+	endif
+
+	## Placeholder to indicate the tracks 'array' length
+	##
+	# Tracks
+	OutputTo "TRACKS"
+	Say "|"
+
+	## Let's check if this is an 'Album Only' track, as that means that the next
+	## track info comes next in this very same line instead of the next one
+	FindInLine ">Album only" 1 1
+	ifnot "</button></td></tr>"
+		MoveLine 1
+	endif
+	FindInLine "</button></td></tr>"
+	
+	## For multidisc albums, let's check if the next disc comes next
+	ifoutput "TEMP_Multidisc"
+		if "</table><h2"
+			Set "TEMP_CurrentDisc"
+			OutputTo "TEMP_CurrentDisc"
+			FindInLine ">Disc "
+			SayNextNumber
+			FindInLine "</thead>"
+		endif
+	endif
+	
+while "<tr class="
+
+## For some reason the track tags have to be output in this specific order,
+## and that's why temp tags have to be used in the loop and reset at the end:
+OutputTo "DISCNUMBER"
+SayOutput "TEMP_DiscNumber"
+
+OutputTo "ARTIST"
+SayOutput "TEMP_Artist"
+
+OutputTo "TITLE"
+SayOutput "TEMP_Title"
+
+OutputTo "TRACK"
+SayOutput "TEMP_Track"
+
+## Void temp tags/variables:
+ifoutput "TEMP_Multidisc"
+	Set "TEMP_CurrentDisc"
+endif
+Set "TEMP_Multidisc"
+Set "TOTALDISCS"
+Set "TEMP_Various_Artists"
+Set "TEMP_DiscNumber"
+Set "TEMP_TotalTracks"
+Set "TEMP_Track"
+Set "TEMP_Title"
+Set "TEMP_Artist"

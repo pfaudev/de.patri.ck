@@ -1,0 +1,11 @@
+# Mp3tag (v2.39a) Cover form URL by dano started 2007-07-04
+# Save it in your Mp3tag data directory, i.e.
+# C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+#
+[Name]=Cover - from URL
+[BasedOn]=your URL
+[AlbumUrl]=%s
+
+[ParserScriptAlbum]=...
+outputto "coverurl"
+sayoutput "CurrentURL"

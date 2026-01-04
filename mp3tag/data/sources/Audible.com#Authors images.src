@@ -1,0 +1,99 @@
+# ###################################################################
+#
+# Mp3tag parsing for Audible.com, created by romano.
+# This is only to get artist Cover and Bio.
+#
+# 2020-04-24: wip first(romano)
+# Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Last Change: 16.09.2021
+#
+# Copy this file to your sources directory at
+# %APPDATA%\Mp3tag\data\sources
+#
+# ###################################################################
+
+[Name]=Audible.com
+[BasedOn]=www.audible.com
+[IndexUrl]=https://www.audible.com/search?keywords=
+[AlbumUrl]=https://www.audible.com
+[WordSeperator]=+
+[IndexFormat]=%_url%|%Author%
+[SearchBy]=%artist% %album%
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
+
+#join everything until end 
+joinuntil "</html>"
+
+#remove spaces after lines
+regexpreplace "[\r\n]+" ""
+
+#.+ Matches any character except linebreaks and replace them whit "results"
+regexpreplace ".+results" "results"
+
+regexpreplace "<script asyn.+" ""
+
+#Matches any whitespace character (spaces, tabs, line breaks).
+regexpreplace "\s\s+" " "
+
+#Matches a TAB character
+regexpreplace "\t+" " "
+replace "\" >" "\">"
+replace "> <" "><"
+replace "Running Time:" ""
+
+findinline "results"
+findinline "<h3 class=\"bc-heading"
+
+#this \" is iqual to "
+do	
+	#  Url		
+	findinline "href=\"" 2
+	sayuntil "\""
+	say "|"
+	
+	# Author
+	findinline ">"
+	sayuntil "<"
+	
+	  
+	saynewline
+	 
+   	findinline "<h3 class=\"bc-heading " 1 1
+    
+while "bc-color-link" 99
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tagcover.txt"
+#Debug "ON" "C:\Users\xxx\Desktop\mp3tagdebugauthor.txt"
+
+# Cover
+outputto "Coverurl"
+findline "image-mask app-image-position author-image-outline" 1 1
+#findline "data-bc-hiRes=\"" 3
+#findinline "data-bc-hiRes=\"" 1 1
+findinline "js-only-element\" src=\"" 1 1
+sayuntil "\""
+gotoline 1
+
+# Artist Bio
+Outputto "INVOLVEDPEOPLE"
+findline "AUTHOR</span>" 
+findline "adbl-author-desc" 1 1
+if "    adbl-author-desc"
+	findline "bc-color-secondary\">"
+	joinuntil "</p>"
+	findinline "\">"
+	sayuntil "</p>"
+else
+say "No Bio in Audible"
+endif

@@ -1,0 +1,174 @@
+################################################################################
+# Mp3tag Tag Source for Audiobooks.com                                         
+#                                                                              
+# Created by romano in 29.08.2021				              				   
+#                                                                              
+# This file needs to be stored in Mp3tag's tag sources directory:              
+# %APPDATA%\Mp3tag\data\sources                                                
+#                                                                              
+# [2020-08-29] v0.1                                                            
+#   NEW: Initial work						    
+#	NEW: Some cleanup						       
+#	CHG: "Description" is now "comment" and updated to "Edition"	
+#
+# [2021-11-26] v0.2
+#	CHG: Improved Duration.
+#	FIX: Fixed to work with new html.
+#
+# [2022-01-04] v0.3 (by Frozer)
+#   FIX: Handle search redirect to book (Frozer)
+#   FIX: Only ouput year (Frozer)
+#   CHG: List all search results on page (Frozer)
+#         				       
+# This web site only allows search for book or author.
+################################################################################
+
+[Name]=Audiobooks.com [v.0.3-04.01.2022]
+[BasedOn]=Audiobooks.com
+[IndexUrl]=https://www.audiobooks.com/search/book/
+[AlbumUrl]=https://www.audiobooks.com/audiobook
+[WordSeparator]=%20
+[IndexFormat]=%_url%|% ↓ Album%|% ↓ Artist%|% ↓ Duration%
+[SearchBy]=%Album%
+[Encoding]=url-utf-8
+
+################################################################################
+#                        LIST OF SEARCH RESULTS DIALOG                         #
+################################################################################
+[ParserScriptIndex]=...
+## Comment/uncomment for debugging purposes:
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag_audiobooks.html"
+#Debug "on" "C:\Users\xxxx\Desktop\audiobooks.txt"
+
+FindLine "<h3 class=\"nobold nopadding\">" 1 1
+unspace
+
+if "<h3"
+	do
+		# URL
+		FindLine "<a href=\""
+		findinline "<a href=\""
+		SayUntil "\""
+		Say "|"
+
+		# ALBUM
+		FindLine "<h5 class=\"book-title\">"
+		findinline "<h5 class=\"book-title\">"
+		SayUntil "<"
+		Say "|"
+
+		# ARTIST
+		findline "<span class=\"book-author\"> "	
+		findinline "<span class=\"book-author\"> "
+		SayUntil "<"
+		Say "|"
+		
+		# DURATION
+		MoveLine 2
+		unspace
+		replace "</p>" ""
+		sayrest
+			
+		SayNewline
+
+		FindLine "<div class=\"browseContainer__bookItem flexer\">" 1 1
+		FindInLine "<div class=\"" 1 1
+	while "browseContainer__bookItem flexer"
+else
+	gotoline 1
+	FindLine "<meta property=\"og:url\""
+	FindInLine "<meta property="og:url" content=\""
+	# redirected straight to the page instead of a search page, just pass it to the Album Parser
+	sayuntil "\""
+	say "|||"
+	saynewline
+	gotoline 1
+endif
+
+################################################################################
+#                        ADJUST TAG INFORMATION DIALOG                         #
+################################################################################
+[ParserScriptAlbum]=...
+
+## Comment/uncomment for debugging purposes:
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag_audiobooks_album.html"
+#Debug "on" "C:\Users\xxxx\Desktop\mp3tag_audiobooks_album.txt"
+
+# Get only the html we need to make it more simple
+findline "<div class=\"book-details-content container clearfix\">"
+joinuntil "Similar Titles and Also Customers"
+
+#Album Title
+outputto "Album"
+findinline "<h1 class=\"audiobookTitle\">"
+sayuntil "<"
+
+# I have to put the Unabridged somewhere
+#Edition
+outputto "Edition"
+findinline "<h4 class=\"fleft nobold\">"
+sayuntil "<"
+
+# Cover
+outputto "Coverurl"
+findinline "<div class=\"book-details-sidenav\">"
+findinline "src=\""
+say "https:"
+sayuntil "\""
+
+#Author
+outputto "Artist"
+findinline "<h4 class=\"book-written-by\">"
+# todo: use regex here
+findinline "\">" 3
+sayuntil "<"
+
+#Narrator
+outputto "Composer"
+findinline "<h4 class=\"book-narrated-by\">Narrated By:"
+# todo: use regex here
+findinline "\">" 3
+sayuntil "<"
+
+#Year
+outputto "Year"
+#todo: improve date
+findinline "Date: <span class=\"nobold\">"
+sayregexp "\d+" "" "<"
+
+#Duration
+# Is it worth it?
+# todo: improve it
+outputto "Duration"
+findinline "<span class="nobold\">"
+sayuntil "<"
+
+#Comment
+outputto "Comment"
+findinline "<p class=\"hide\">"
+sayuntil "</p>"
+replace "<br />" " "
+
+#Genres
+outputto "Genre 1"
+findinline "<span itemprop=\"title\">"
+sayuntil "<"
+outputto "Genre 2"
+findinline "<span itemprop=\"title\">"
+sayuntil "<"
+outputto "Genre"
+sayoutput "Genre 1"
+say "/"
+sayoutput "Genre 2"
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
+
+# Set Audible Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
+
+# Set Comment to DESCRIPTION for better MP4 support
+outputto "DESCRIPTION"
+sayoutput "Comment"

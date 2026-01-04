@@ -1,0 +1,876 @@
+﻿[Name]=discogs.com (Pone Mod 4.4)
+[BasedOn]=www.discogs.com
+[IndexUrl]=http://api.discogs.com/database/search?type=release&per_page=100&artist=%s
+[AlbumUrl]=http://api.discogs.com/releases/
+[WordSeperator]=%20
+[IndexFormat]=%Cover%|%_url%|%_preview%|%Artist%|%Album%|%Year%|%Publisher%|%Catalog%|%Format%|%Country%|
+[SearchBy]=$repl($regexp($regexp($regexp($regexp($if2(%ALBUMARTIST%,$if2(%albumartist%,$if2(%album artist%,$if2(%band%,$if2(%albumartist%,$if2(%ARTIST%,$if2(%artist%,%discogs_artist_name%))))))),^(va|various artists|v\.a\.)$,Various,1),The (.*),$1,1),''s( |$),$1,1), (featuring|feat|ft|presents|pres|and|vs|w/|\+|/|&)\.* , ,1),',',)&title=$trim($regexp($regexp($regexp($repl($regexp(%ALBUM%,'(\(|\[).*(\)|\]).*',),-, ,_, ,/, ,:, ,., ,", ,!, ,?, ,&, ,#, ), (web|cd *\d*|vinyl|ep|e p ) *$,,1), (web|cd *\d*|vinyl|ep|e p ) *$,,1),''s( |$),$1))
+[Encoding]=utf-8
+#﻿
+[ParserScriptIndex]=...
+# Pone Mod 4.4
+
+#< ## JSON REPLACMENTS
+# replace syntax characters in non-syntax position
+regexpreplace ":(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u003a"	
+regexpreplace ",(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u002c"	
+regexpreplace "\[(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u005b"	
+regexpreplace "\](?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u005d"	
+regexpreplace "\{(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u007b"	
+regexpreplace "\}(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u007d"	
+
+regexpreplace "\"videos\": \[[^\[]*?\]," ""
+regexpreplace "\"images\": \[[^\[]*?\]," ""
+regexpreplace "\"community\": \{[^\{]*?\}," ""
+regexpreplace "\}$" ", \"end_of_document\": []}"
+
+# replace special JSON characters
+replace "\\\\" "\\u005c"
+replace "\\\"" "\\u0022"	# =	"&quot;"
+replace "\\b" "\\u0008"		# backspace
+replace "\\f" "\\u000c"		# formfeed
+replace "\\n" "\\u000a"		# newline
+replace "\\r" "\\u000d"		# carriage return
+replace "\\t" "\\u0009"		# horizontal tab
+
+# replace problematic characters for Mp3tag
+replace "|" "ǀ"
+#replace "|" "\\u007c"												# not working anymore
+#replace "|" "$verticalBar()"										# does not work in UNSYNCEDLYRICS field
+replace "\\u005c\\u005c" "\\u005c\\u200b\\u005c\\u200b"
+replace "\"\"" "\" \""
+regexpreplace "\s\s+" " " #>
+
+findinline "\"results\":"
+#regexpreplace "\}, \{" "\}\n\{"
+do
+	#Skip Master Pages
+	findinline "\"type\":" 1 1
+	movechar 2
+	ifnot "release"
+		findinline "}" 1 1
+	else
+		findinline "{" -1 1
+	endif
+
+	#Cover
+	findinline "\"thumb\":" 1 1
+	movechar 2
+	if "http\u003a//api.discogs.com/images/default-release"
+		say "    ╳"
+	else
+		say "✔"
+	endif
+	say "|"
+	
+	#URL
+	findinline "{" -1 1
+	findinline "\"id\"" 1 1
+	movechar 2
+	saynextnumber
+	say "|"
+	
+	#Preview
+	findinline "{" -1 1
+	findinline "\"uri\""
+	movechar 3
+	say "http://www.discogs.com"
+    sayuntil "\"" 
+    say "|"
+	
+	#Artist
+	findinline "{" -1 1
+	findinline "\"title\""
+	movechar 3
+	sayuntil " - " 
+    say "|"
+
+	#Album
+	movechar 2
+	sayuntil "\"" 
+	say "|"
+	
+	#Year
+	findinline "{" -1 1
+	
+	sayregexp "(?<=\"year\": \").+?(?=\")" "" "}"
+	
+	#findinline "\"year\"" 1 1
+	#movechar 3
+	#saynextnumber
+	say "|"
+	
+	#Publisher
+	#findinline "{" -1 1
+	findinline "\"label\""
+	movechar 4
+    sayuntil "\"" 
+    say "|"
+	
+	#Catalog
+	findinline "{" -1 1
+	findinline "\"catno\""
+	movechar 3
+    sayuntil "\"" 
+    say "|"
+	
+	#Format
+	findinline "{" -1 1
+	findinline "\"format\""
+	movechar 2
+	if "["
+		sayregexp "(?<=\").+?(?=\")" "" "]"
+	else
+		sayuntil "\"" 
+		movechar 1
+	endif
+	say "|"
+	
+	#Country
+	findinline "{" -1 1
+	findinline "\"country\""
+	movechar 3
+    sayuntil "\"" 
+    say "|"
+	
+	saynewline
+	findinline "}"
+	
+while ", {" 110
+
+#﻿
+[ParserScriptAlbum]=...
+# Pone Mod 4.4
+# debug "on" "C:\debug.txt"
+
+#< ## Totaldiscs # 
+outputto "totaldiscs temp"
+regexpreplace ".+\"formats\": \[" ""
+regexpreplace "((?:\{.*?(?:\{.+?\}.*?)*\}\s*,?\s*)+).+" "$1"  
+regexpreplace "(?:\"qty\": \"1\"|\"name\": \"(?:All Media|Box Set)\")[^\{]*(?:\"qty\": \"1\"|\"name\": \"(?:All Media|Box Set)\")" ""
+regexpreplace "(?:\"qty\": \"\d+\"|\"name\": \"File\")[^\{]*(?:\"qty\": \"\d+\"|\"name\": \"File\")" "\"name\": \"File\", \"qty\": \"1\""
+regexpreplace "\"qty\": \"(\d+)\"" "<<<<<-$1->>>>>"
+regexpreplace "^" ">>>>>"
+regexpreplace "$" "<<<<<"
+regexpreplace ">>>>>.*?<<<<<" ""
+regexpreplace "9(\d)" "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII$1"
+regexpreplace "8(\d)" "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII$1"
+regexpreplace "7(\d)" "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII$1"
+regexpreplace "6(\d)" "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII$1"
+regexpreplace "5(\d)" "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII$1"
+regexpreplace "4(\d)" "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII$1"
+regexpreplace "3(\d)" "IIIIIIIIIIIIIIIIIIIIIIIIIIIIII$1"
+regexpreplace "2(\d)" "IIIIIIIIIIIIIIIIIIII$1"
+regexpreplace "1(\d)" "IIIIIIIIII$1"
+replace "9" "IIIIIIIII"
+replace "8" "IIIIIIII"
+replace "7" "IIIIIII"
+replace "6" "IIIIII"
+replace "5" "IIIII"
+replace "4" "IIII"
+replace "3" "III"
+replace "2" "II"
+replace "1" "I"
+replace "0" ""
+replace "-" ""
+replace "IIIIIIIIII" "X"
+regexpreplace "X$" "X0"
+replace "XXXXXXXXX" "9"
+replace "XXXXXXXX" "8"
+replace "XXXXXXX" "7"
+replace "XXXXXX" "6"
+replace "XXXXX" "5"
+replace "XXXX" "4"
+replace "XXX" "3"
+replace "XX" "2"
+replace "X" "1"
+replace "IIIIIIIII" "9"
+replace "IIIIIIII" "8"
+replace "IIIIIII" "7"
+replace "IIIIII" "6"
+replace "IIIII" "5"
+replace "IIII" "4"
+replace "III" "3"
+replace "II" "2"
+replace "I" "1"
+
+regexpreplace "^1$" "0"
+regexpreplace "^$" "0"	
+ifnot "0"
+	say "/"
+	sayrest
+else
+	say ""
+endif
+findline "<<_GO-TO-START_>>" -1 1
+findline "{" 1 1#>
+
+#< ## DATE # #>
+
+#< ## MAIN SECTION - JSON REPLACMENTS
+# replace syntax characters in non-syntax position
+regexpreplace ":(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u003a"	
+regexpreplace ",(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u002c"	
+regexpreplace "\[(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u005b"	
+regexpreplace "\](?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u005d"	
+regexpreplace "\{(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u007b"	
+regexpreplace "\}(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u007d"	
+
+regexpreplace "\"videos\": \[[^\[]*?\]," ""
+regexpreplace "\"images\": \[[^\[]*?\]," ""
+regexpreplace "\}$" ", \"end_of_document\": []}"
+
+# replace special JSON characters
+replace "\\\\" "\\u005c"
+replace "\\\"" "\\u0022"	# =	"&quot;"
+replace "\\b" "\\u0008"		# backspace
+replace "\\f" "\\u000c"		# formfeed
+replace "\\n" "\\u000a"		# newline
+replace "\\r" "\\u000d"		# carriage return
+replace "\\t" "\\u0009"		# horizontal tab
+
+# replace problematic characters for Mp3tag
+replace "|" "ǀ"
+#replace "|" "\\u007c"												# not working anymore
+#replace "|" "$verticalBar()"										# does not work in UNSYNCEDLYRICS field
+replace "\\u005c\\u005c" "\\u005c\\u200b\\u005c\\u200b"
+replace "\"\"" "\" \""
+regexpreplace "\s\s+" " " #>
+
+#< ##  Chapter Replacements #
+regexpreplace "\"position\": \" \"([^\}]+?)\"title\": \"-\"|\"title\": \"-\"([^\}]+?)\"position\": \" \"" "\"position\": \" \"$1$2\"title\": \" \""
+regexpreplace "\"position\": \" \"([^\}]+?)\"title\": \"\s*(?:CD|Disc)*\s*(?:\d+|one|two|three|four|five)*\s*(?:\(\d+:\d+\))?\s*(?:\\\\u003a)*\"|\"title\": \"\s*(?:CD|Disc)\s?\d+\s*(?:\(\d+:\d+\))?\s*\"([^\}]+?)\"position\": \" \"" "\"position\": \" \"$1$2\"title\": \" \""#>
+
+# transform new index tracks into old headings
+regexpreplace ",*\s*\"sub_tracks\": \[(.*?(\[.+?\].*?)*?)\](.*?\})" "$3, $1, {\"position\": \" \", \"title\": \"  \"}"
+replace ", {\"position\": \" \", \"title\": \"  \"}]" "]"
+
+#< # Artist Name Replacements
+replace "\"name\": \"Various\"" "\"name\": \"Various Artists\""
+regexpreplace "\"artists\":((?:[^\}]|(?:\{[^\}]*?(?:\{[^\}]+?\}[^\}]*?)*\}))*)\}$" "\"albumartists\":$1\}"
+regexpreplace "\"extraartists\":((?:[^\}]|(?:\{[^\}]*?(?:\{[^\}]+?\}[^\}]*?)*\}))*)\}$" "\"albumextraartists\":$1\}"
+
+# copy standard name to empty anv entries
+regexpreplace "\"name\": \"([^\}]+?)\"([^\}]+?)\"anv\": \" \"" "\"name\": \"$1\"$2\"anv\": \"$1\""
+
+# reverse discogs naming conventions
+regexpreplace "(\"anv\": \"[^\"]+?) \(\d+\)\"" "$1\""
+regexpreplace "(\"name\": \"[^\"]+?) \(\d+\)\"" "$1\""
+regexpreplace "\"anv\": \"([^\"]+?)\\\\u002c The\"" "\"anv\": \"The $1\""
+regexpreplace "\"name\": \"([^\"]+?)\\\\u002c The\"" "\"name\": \"The $1\""
+
+# mark extraartists
+regexpreplace "(\"(?:album)?extraartists\": \[[^\]]*?\])" "$1<</extraartists>>"
+regexpreplace "\"name\":(?=[^\]]*?\]<</extraartists>>)" "\"extraname\":"
+regexpreplace "\"anv\":(?=[^\]]*?\]<</extraartists>>)" "\"extraanv\":"
+replace "<</extraartists>>" ""
+
+## delete commas for single artists, commas for multi artists without joiners and leading space for joiners # 
+regexpreplace "\"join\": \"\\\\u002c(\"[^\}]+?\}\])" "\"join\": \"$1"
+
+regexpreplace "\"join\": \" (\"[^\}]+?\}\s*,\s*\{)" "\"join\": \"\\\\u002c$1"
+replace "\"join\": \"" "\"join\": \" "
+replace "\"join\": \" \\u002c\"" "\"join\": \"\\u002c\""
+
+## combine names & joiners => name joined # 
+## combine anv joiners => anv joined # 
+regexpreplace "\"join\": \"([^\}]+?)\", ([^\}]*?)\"anv\": \"([^\}]+?)\"" "\"join\": \"$1\", \"anv joined\": \"$3$1\", $2\"anv\": \"$3\""
+
+## combine extraname & track => extraname album # 
+## combine extraanv & track => extraanv album # 
+
+## combine extranames & roles => extraname&role track # 
+## combine extraanvs & roles => extraanv&role track # 
+regexpreplace "\"extraanv\": \"([^\}]+?)\", ([^\}]*?)\"role\": \"([^\"][^\"]+?)\"" "\"extraanv\": \"$1\", \"extraanv&role track\": \"$3: $1\", $2\"role\": \"$3\""
+
+## combine extranames & roles & tracks => extraname&role album # 
+## combine extraanvs & roles & tracks => extraanv&role album # 
+regexpreplace "\"extraanv\": \"([^\}]+?)\", ([^\}]*?)\"role\": \"([^\"][^\"]+?)\"" "\"extraanv\": \"$1\", \"extraanv&role album\": \"$1 ($3)\", $2\"role\": \"$3\""
+regexpreplace "\"extraanv&role album\": \"([^\}]+?)\", ([^\}]*?)\"tracks\": \"([^\s][^\"]*?)\"" "\"extraanv&role album\": \"$1 (track: $3)\", $2\"tracks\": \"$3\""
+
+## join extranames with same roles => extraname&role album joined + extraname&role track joined # 
+## join extraanvs with same roles => extraanv&role album joined + extraanv&role track joined # 		#>
+
+#< ## COVER # 
+outputto "coverurl"
+findinline "\"thumb\":" 1 1
+if " \""
+	findinline "-150-" 1 1
+	say "http://s.pixogs.com/image/R-"
+	sayuntil "\""
+endif
+gotochar 1#>
+
+#< ## ALBUMARTIST #
+findinline "\"albumartists\":"
+
+outputto "ALBUMARTIST"
+sayregexp "(?<=\"anv joined\": \").+?(?=\")" "" "}],"
+
+
+outputto "Artist - Name Variation temp"
+sayregexp "(?<=\"anv joined\": \").+?(?=\")" "" "}],"
+gotochar 1	#>
+
+#< ## ALBUM # 
+outputto "ALBUM"
+findinline "\"title\": \""
+sayuntil "\""
+gotochar 1#>
+
+#< ## YEAR # 
+outputto "YEAR"
+sayregexp "(?<=\"year\": )\d\d\d\d(?=,)"#>
+
+#< ## STYLE # 
+
+outputto "Style"
+findinline "\"styles\":" 1 1	
+if " ["
+	sayregexp "(?<=\")[^,].+?(?=\")" ", " "],"
+endif
+gotochar 1#>
+
+#< ## GENRE # 
+outputto "Genre"
+findinline "\"genres\":" 1 1	
+sayregexp "(?<=\")[^,].+?(?=\")" ", " ","
+gotochar 1#>
+
+#< ## LABEL SECTION # 
+findinline "\"labels\":" 1 1
+#< ## LABEL + LABEL CAT # 	#>
+
+#< ## LABEL # 
+outputto "PUBLISHER"	#>
+sayregexp "(?<=\"name\": \").+?(?=\")" ", " "}],"
+#< ## LABEL CAT # 
+outputto "Discogs_Catalog"
+sayregexp "(?<=\"catno\": \").+?(?=\")" ", " "}],"
+gotochar 1#> #>
+
+#< ## SERIES SECTION # 
+replace "\"catno\": \" \"" "\"catno\": \"none\""
+findinline "\"series\":" 1 1
+if " [{"
+	#< ## SERIES + SERIES CAT # 	#>
+	#< ## SERIES # # SERIES
+	outputto "PUBLISHER"
+	say ", "
+	sayregexp "(?<=\"name\": \").+?(?=\")" ", " "}],"		#>
+	#< ## SERIES CAT # 
+	outputto "Discogs_Catalog"
+	say ", "
+	sayregexp "(?<=\"catno\": \").+?(?=\")" ", " "}],"
+endif
+gotochar 1#>
+#>
+
+#< ## FORMAT SECTION #
+findinline "\"formats\": " 1 1
+
+
+regexpreplace "(\"text\": \".+?\")([^\}]+?)(\"descriptions\": \[.+?\])" "$3$2$1"
+regexpreplace "(\"descriptions\": \[[^\]]+?)\]" "$1, \"<<description\\\\u002c&nbsp;category>>\"\]"
+regexpreplace "\"text\": \"(.+?)\"" "\"text\": \[\"$1\", \"<<description\\\\u002c&nbsp;text>>\"\]"
+
+replace "\"qty\": \"1\"" "\"qty\": \" \""
+regexpreplace "\"qty\": \"(\d)\"" "\"qty\": \"&nbsp;(x $1)\""#>
+
+#< ## MEDIATYPE + DESCRIPTION CATEGORY + TEXT # #>
+
+#< ## FORMAT ALL # 
+outputto "DISCOGS_FORMAT"
+#replace "\"text\": \"" "\"text\": \"\u002C "
+#regexpreplace "\"descriptions\": \[\"(?![^\[]+?\"\],,)" "\"descriptions\": [\"\\\\u002C "
+findinline "\"formats\": " 1 1
+do
+	findinline "{" 1 1
+	sayregexp "(?<=\"qty\": \"&nbsp;\(x ).+?(?=\)\")" ", " "}"
+	sayregexp "(?<=\"qty\": \")&nbsp;(?=\(x .+?\)\")" ", " "}"
+	sayregexp "(?<=\"qty\": \"&nbsp;\()x(?= .+?\)\")" ", " "}"
+	sayregexp "(?<=\"qty\": \")&nbsp;(?=\(x .+?\)\")" ", " "}"
+	sayregexp "(?<=\"name\": \").+?(?=\")" ", " "}"
+	sayregexp "(?<=<<description)\\\\u002c&nbsp;(?=(?:category|text))" "" ">>"
+	sayregexp "(?<=\")[^\[\"]+?(?=\"(,\s*\"[^\"]+\")*, \"<<description)" ", " "}"
+	findinline "}" 1 1
+	if ", {"
+		say "; "
+	endif
+while ", {"
+gotochar 1#>
+
+#< ## FORMAT MEDIATYPE # #>	#>
+
+#< ## COUNTRY # 
+outputto "Discogs_Country"
+sayregexp "(?<=\"country\": \").+?(?=\")"	#>
+
+#< ## Track Credits with Headline - Primary Name # #>
+
+#< ## Track Credits with Headline - Name Variation # #>
+
+#< ## ALBUM CREDITS - Extra Fields - Primary Names # 	#>
+
+#< ## ALBUM CREDITS - Extra Fields - Name Variations # 	#>
+
+#< ## ALBUM CREDITS - Main Section # 
+findinline "\"albumextraartists\":" 1 1
+if " [{"
+	
+	
+	outputto "Discogs_Credits"
+	
+	sayregexp "(?<=\"extraanv&role album\": \").+?(?=\")" "\\u000d\\u000a" "}],"
+	
+endif
+gotochar 1#>
+
+#< ## NOTES # 
+regexpreplace "<[^>\"]+>([^<\"]+)</[^>\"]+>" "$1"
+regexpreplace "\"notes\": \"(?:\\\\u000d|\\\\u000a)+" "\"notes\": \""
+regexpreplace "(?:\\\\u000d|\\\\u000a)+\"" "\""
+
+findinline "\"notes\":" 1 1
+if " \""
+	outputto "Discogs_Notes"
+	
+	movechar 2
+	sayuntil "\""
+	
+endif
+gotochar 1	#>
+
+#< ## COMPANIES - extra fields # 	#>
+
+#< ## COMPANIES - main section # 
+findinline "\"companies\":" 1 1
+if " [{"
+	outputto "Discogs_Companies"
+	
+	do
+		if ","
+			say "\\u000d\\u000a"
+		endif
+		sayregexp "(?<=\"entity_type_name\": \").+?(?=\")" ", " "}"
+		say ": "
+		sayregexp "(?<=\"name\": \").+?(?=\")" ", " "}"
+		findinline "\"catno\": \"" 1 1
+		ifnot " \""
+			say " - "
+			sayuntil "\""
+		endif
+		findinline "}" 1 1
+	while ","
+	
+endif
+gotochar 1	#>
+
+#< ## IDENTIFIERS - Extra Fields # 	#>
+
+#< ## IDENTIFIERS - Main Section # 	#>
+
+#< ## ID & URL Section #
+findinline "\"resource_url\": \"http\\u003a//api.discogs.com/releases" 1 1
+if "/" 				# release page
+	movechar 1
+	#< ## DISCOGS_RELEASE ID # 
+	outputto "DISCOGS_RELEASE_ID"
+	sayuntil "\""
+	findinline "/" -1 1	
+	movechar 2 	#>
+
+	#< ## DISCOGS_RELEASE URL # 	#>
+	
+	gotochar 1
+	#< ## DISCOGS_MASTER ID # 
+	outputto "DISCOGS_MASTER_RELEASE_ID"
+	sayregexp "(?<=\"master_id\": )\d+(?=,)"	#>
+		
+	#< ## WWW MASTER # 	#>
+else 		# master page
+	gotochar 1
+	findinline "\"resource_url\": \"http\\u003a//api.discogs.com/masters" 1 1
+	if "/"
+		movechar 1
+		#< ## DISCOGS_MASTER ID # 
+		outputto "DISCOGS_MASTER_RELEASE_ID"
+		sayuntil "\""
+		findinline "/" -1 1	
+		movechar 2 	#>
+		
+		#< ## WWW MASTER # 	#>
+		gotochar 1
+	endif
+endif		#>
+
+#< ## Totaldisc 2 #  #>
+
+#< ## TRACKLIST # 
+#< ## Tracklist replacements #
+# delete everything but tracklist
+regexpreplace ".+\"tracklist\": \[" ""
+regexpreplace "((?:\{.*?(?:\{.+?\}.*?)*\}\s*,?\s*)+(?:<<Credits (?:Anv|Name)::.+?>>)*).+" "$1"
+
+# markers for every track & dummy artists
+regexpreplace "(\{.*?(\{.+?\}.*?)*\})\s*,?\s*" "<<next track>>$1<</track>>"
+regexpreplace "<<next track>>\{[^\{]*\"title\": \" \"[^\}]*\}<</track>>" ""
+replace "}<</track>>" ", \"artists\": [{}], \"x\": []}<</track>>"
+regexpreplace "^|$" " "
+
+# ##################################################################################
+#< ## Multi-Song-Tracks Block #
+#regexpreplace "(<<next track>>.+?\"position\": \"([^\"]+?)\",)" "<<check>>$2$1"		# track position is moved copied into "<<check>> <<next track>>"
+#regexpreplace "<<check>>[^\"]*([A-z])<<next track>>" "<<check>>$1<<next track>>"		# if last character is a letter, everything before is removed
+#regexpreplace "<<check>>[^\"]*?(\d[^\"]*)<<next track>>" "<<check>>$1<<next track>>"	# everything before the first number is removed
+#regexpreplace "<<check>>[^\"]*\.(\d+)<<next track>>" "<<check>>xxx$1<<next track>>"		# numbers after a dot get an xxx marker
+#regexpreplace "<<check>>(?:A|a|xxx0*1|[^A-z]+)<<next track>>" "<<next track>>"			# A, a, xxx01 no letter => next track
+#regexpreplace "<</track>><<check>>[^\"]*?<<next track>>" "<</track>continuing track>>"
+## #
+## #regexpreplace "(<</track>continuing track>>.+?\"anv joined\": \")([^\"]+\")" "$1 / $2"	#>
+# ####################################################################################
+
+
+
+regexpreplace "(\"position\": \"[^\"]+\", )" "$1\"disc\": \" \", "
+regexpreplace "(\"position\": \"[^\"]*?0*(\d+)(?:-|\.)[^\"]*\", \"disc\": \") \"" "$1$2\""
+
+
+
+
+regexpreplace "(\"position\": \"([^\"]*?)\d*\", )" "$1\"vinylnumber\": \"\l$2\", "
+replace "\"vinylnumber\": \"a\"" "\"vinylnumber\": \"1\""
+replace "\"vinylnumber\": \"b\"" "\"vinylnumber\": \"1\""
+replace "\"vinylnumber\": \"aa\"" "\"vinylnumber\": \"1\""
+replace "\"vinylnumber\": \"c\"" "\"vinylnumber\": \"2\""
+replace "\"vinylnumber\": \"d\"" "\"vinylnumber\": \"2\""
+replace "\"vinylnumber\": \"e\"" "\"vinylnumber\": \"3\""
+replace "\"vinylnumber\": \"f\"" "\"vinylnumber\": \"3\""
+replace "\"vinylnumber\": \"g\"" "\"vinylnumber\": \"4\""
+replace "\"vinylnumber\": \"h\"" "\"vinylnumber\": \"4\""
+replace "\"vinylnumber\": \"i\"" "\"vinylnumber\": \"5\""
+replace "\"vinylnumber\": \"j\"" "\"vinylnumber\": \"5\""
+replace "\"vinylnumber\": \"k\"" "\"vinylnumber\": \"6\""
+replace "\"vinylnumber\": \"l\"" "\"vinylnumber\": \"6\""
+replace "\"vinylnumber\": \"m\"" "\"vinylnumber\": \"7\""
+replace "\"vinylnumber\": \"n\"" "\"vinylnumber\": \"7\""
+replace "\"vinylnumber\": \"o\"" "\"vinylnumber\": \"8\""
+replace "\"vinylnumber\": \"p\"" "\"vinylnumber\": \"8\""
+replace "\"vinylnumber\": \"q\"" "\"vinylnumber\": \"9\""
+replace "\"vinylnumber\": \"r\"" "\"vinylnumber\": \"9\""
+replace "\"vinylnumber\": \"s\"" "\"vinylnumber\": \"10\""
+replace "\"vinylnumber\": \"t\"" "\"vinylnumber\": \"10\""
+replace "\"vinylnumber\": \"u\"" "\"vinylnumber\": \"11\""
+replace "\"vinylnumber\": \"v\"" "\"vinylnumber\": \"11\""
+replace "\"vinylnumber\": \"w\"" "\"vinylnumber\": \"12\""
+replace "\"vinylnumber\": \"x\"" "\"vinylnumber\": \"12\""
+replace "\"vinylnumber\": \"y\"" "\"vinylnumber\": \"13\""
+replace "\"vinylnumber\": \"z\"" "\"vinylnumber\": \"13\""
+
+
+regexpreplace "(\"position\": \"[^\"]+\", )" "$1\"position multi cd without zero\": \" \", "
+regexpreplace "(\"position\": \"[^\"]+?(?:-|\.)0*(\d+)[^\"]*\", \"position multi cd without zero\": \") \"" "$1$2\""
+
+regexpreplace "(\"position multi cd without zero\": \"([^\"]+)\", )" "$1\"position multi cd\": \"$2\", " 
+regexpreplace "\"position multi cd\": \"(\d)\"" "\"position multi cd\": \"0$1\""  #>
+
+
+#< ## TRACK CREDITS - Extra Fields - Primary Name & Name Variations # 	#>
+
+#< ## Main Track Loop #
+do
+	findinline "\"position\": " 1 1	
+	if "\" \""
+		findinline "<<next track>>" -1 1
+		set "chapter temp"	#< ## Chapter #
+		outputto "chapter temp"
+		sayregexp "(?<=\"title\": \").+?(?=(?:\(*\d+\\\\u003a\d+\)*|\\\\u003a|\(*(?:cd|disc|disk)\s*d+\)*)*\")" ", " "<</track>>"
+	else
+		findinline "<<next track>>" -1 1
+		outputto "CHAPTER"
+		sayoutput "chapter temp"
+		say "|" #>
+		
+		outputto "tracks"	# Tracks = Title
+		sayregexp "(?<=\"title\": \").+?(?=\")" " / " "<</track>>"
+		say "|"
+		
+		#< ## Discnumber #  # Standard Discnumber
+		outputto "Discnumber"
+		sayregexp "(?<=\"disc\": \").+?(?=\")" "+" "<</track>" 
+		sayoutput "totaldiscs temp"
+		say "|"	
+		
+		# Vinyldiscnumber
+		outputto "Vinylnumber temp"
+		sayregexp "(?<=\"Vinylnumber\": \").+?(?=\")" "/" "<</track>"
+		sayoutput "totaldiscs temp"
+		say "|" #>
+				
+		#< ## Track Temp Position # 
+		outputto "track temp position"
+		sayregexp "(?<=\"position\": \").+?(?=\")" "/" "<</track>>"
+		say "|" #>
+				
+		#< ## Track Temp Multi Disc # 
+		outputto "track temp multi cd"
+		
+		sayregexp "(?<=\"position multi cd without zero\": \").+?(?=\")" ", " "<</track>>"
+		say "|" #>
+		
+		outputto "_length" 
+		sayregexp "(?<=\"duration\": \").+?(?=\")" "/" "<</track>>"
+		
+		say "|"
+		
+		#< ## Mixartist fields #
+		
+		outputto "MIXARTIST"
+		sayregexp "(?<=\"extraanv&role track\": \").+?(?=\")" "; " "<</track>>"
+		say "|" #>
+		
+		#< ## Artist fields #
+		findinline "\"artists\":" 1 1
+		if " [{}],"
+			
+			outputto "ARTIST"
+			sayoutput "Artist - Name Variation temp"
+			say "|"
+		else
+			
+			outputto "ARTIST"
+			sayregexp "(?<=\"anv joined\": \").+?(?=\")" "" "<</track>>"
+			say "|"	#>
+		endif
+	endif
+	findinline "<</track>>" 1 1
+while "<<next track>>" #>
+set "chapter temp"
+set "totaldiscs temp"
+
+set "Artist - Name Variation temp" #>
+
+#< ## Delete Albumartist for single-artist-releases & Set COMPILATION  # 
+replace "\"artists\": [{}]" ""
+regexpreplace "(.+\"artists\": \[\{)" "<<<Multi-Artist-Release>>>$1"
+if "<<<Multi-Artist-Release>>>"
+	
+else
+	
+	set "ALBUMARTIST"
+endif
+
+outputto "track temp number"
+say ""	#>
+
+#< ## TACKCOUNTER # 
+regexpreplace   "\"position\": \" \".+?<</track>>" ""
+regexpreplace   ".+?<</track>>" "I"
+unspace
+do													# get seperated tracknumbers
+	regexpreplace "^(I)(I+)" "$2|$1$2"
+	findinline "I"
+while "I"
+unspace
+replace "IIIIIIIIII" "X"
+replace "XXXXXXXXXX" "C"
+replace "CI" "C0I"
+regexpreplace "X($|\|)" "X0$1"
+regexpreplace "C($|\|)" "C00$1"
+replace "CCCCCCCCC" "9"
+replace "CCCCCCCC" "8"
+replace "CCCCCCC" "7"
+replace "CCCCCC" "6"
+replace "CCCCC" "5"
+replace "CCCC" "4"
+replace "CCC" "3"
+replace "CC" "2"
+replace "C" "1"
+replace "XXXXXXXXX" "9"
+replace "XXXXXXXX" "8"
+replace "XXXXXXX" "7"
+replace "XXXXXX" "6"
+replace "XXXXX" "5"
+replace "XXXX" "4"
+replace "XXX" "3"
+replace "XX" "2"
+replace "X" "1"
+replace "IIIIIIIII" "9"
+replace "IIIIIIII" "8"
+replace "IIIIIII" "7"
+replace "IIIIII" "6"
+replace "IIIII" "5"
+replace "IIII" "4"
+replace "III" "3"
+replace "II" "2"
+replace "I" "1"
+
+
+
+
+
+#< # check how many digits totaltracks has
+replace "|" "-|-"
+regexpreplace "(^|$)" "-"
+findinline "@@@" 1 1     							#move to end of line
+movechar -1
+findinline "|" -1 1
+if "-|"
+	movechar 4
+endif
+if "-"    											#one digit
+	
+else
+	movechar 1
+	if "-"											#two digits
+		regexpreplace "-(\d)-" "-0$1-"
+	else
+		movechar 1
+		if "-"										#three digits
+			regexpreplace "-(\d)-" "-0$1-"
+			regexpreplace "-(\d\d)-" "-0$1-"
+		else										#four digits
+			regexpreplace "-(\d)-" "-0$1-"
+			regexpreplace "-(\d\d)-" "-0$1-"
+			regexpreplace "-(\d\d\d)-" "-0$1-"
+		endif
+	endif
+endif
+replace "-" ""	#>
+
+
+#< ## TRACK NUMBER WITH LEADING ZEROS / TOTALTRACKS #
+outputto "track temp number"
+unspace
+sayuntil "|" 
+say "/"
+sayregexp "\d+$"
+if "|"
+	do
+		say "|"
+		movechar 1
+		sayuntil "|" 
+		say "/"
+		sayregexp "\d+$"
+	while "|"
+endif	
+unspace
+sayregexp "\d+$"
+say "|"	#>	#>
+
+#< ## TRACK NUMBER FIX: MULTI DISC # 
+findline "<<_GO-TO-START_>>" -1 1
+findline "{" 1 1
+regexpreplace ".+\"formats\": \[" ""
+regexpreplace "((?:\{.*?(\{.+?\}.*?)*\}\s*,?\s*)+).+" "$1"
+regexpreplace ".*\"name\": \"(?:CD|CDr)\".*\"name\": \"(?:CD|CDr)\"" "<<<MULTI CD>>>"
+regexpreplace ".*\"qty\": \"(?:[23456789]|\d\d+)\"|\"name\": \"(?:CD|CDr)\"[^\{]*\"qty\": \"(?:[23456789]|\d\d+)\"|\"name\": \"(?:CD|CDr)\"" "<<<MULTI CD>>>"
+if "<<<MULTI CD>>>"
+	findline "{" -1 1
+	findline "\"tracklist\": " 1 1
+	regexpreplace ".+?\"position\": \"([^\"]+)\".+" "$1"
+	regexpreplace "[^\"]*?(?:-|\.)0*\d+[^\"]*" "<<<correct format>>>"
+	if "<<<correct format>>>"
+		set "track temp number"
+		outputto "track temp number"
+		sayoutput "track temp multi cd"
+	endif
+endif
+set "track temp multi cd"	#>
+
+#< ## TRACK & DISC FIX for VINYL # 
+findline "<<_GO-TO-START_>>" -1 1
+findline "{" 1 1
+regexpreplace ".+\"formats\": \[" ""
+regexpreplace "((?:\{.*?(?:\{.+?\}.*?)*\}\s*,?\s*)+).+" "$1"
+regexpreplace ".*\"name\": \"(?:Vinyl|Cassette|Acetate|Shellac|Microcassette|Lathe Cut)\".*" "<<<VINYL / CASSETTES>>>"
+if "<<<VINYL / CASSETTES>>>"
+	
+
+	
+
+	
+	findline "<<_GO-TO-START_>>" -1 1
+	findline "{" 1 1
+	regexpreplace ".+\"formats\": \[" ""
+	regexpreplace "((?:\{.*?(?:\{.+?\}.*?)*\}\s*,?\s*)+).+" "$1"
+	regexpreplace ".*\"name\": \"[^\"]+?\".*\"name\": \"[^\"]+?\"" "<<<MULTI VINYL>>>"
+	regexpreplace ".*\"qty\": \"(?:[23456789]|\d\d+)\"|\"name\": \"[^\"]+?\"[^\{]*\"qty\": \"(?:[23456789]|\d\d+)\"|\"name\": \"[^\"]+?\"" "<<<MULTI VINYL>>>"
+	if "<<<MULTI VINYL>>>"
+		set "Discnumber"
+		outputto "Discnumber"
+		sayoutput "vinylnumber temp"
+	endif
+	
+	
+else
+	set "track temp position"
+endif
+set "vinylnumber temp"	#>
+
+#< ## Track Position in other field than TRACK # 
+outputto "Position"
+sayoutput "track temp position"
+set "track temp position"	#>
+
+#< ## Track Number to other field than TRACK # 	#>
+
+#< ## Additional Code #
+
+#
+
+#>
+
+#< ## Set fields for Master Releases - part 1# 
+findline "<<_GO-TO-START_>>" -1 1
+findline "{" 1 1
+findinline "\"resource_url\": \"http://api.discogs.com/releases" 1 1
+ifnot "/"
+	#< ## COVER for Master Releases# 
+	outputto "coverurl"	
+	gotochar 1
+	findinline "\"type\": \"primary\"" 1 1
+	if ","
+		findinline "{" -1 1
+	else
+		gotochar 1	
+		findinline "\"images\":" 1 1
+	endif
+	findinline "\"resource_url\": \"" 1 1
+	if 	"http://api.discogs.com/image/"
+		sayuntil "\""
+	endif #>
+	
+	set "ALBUMARTIST"
+	set "ARTIST"
+	set "MIXARTIST"
+	set "YEAR"
+	set "GENRE"
+	set "NOTES"
+	set "WWW"
+	
+endif	#>
+
+#< ## Dublicate Fields ##>
+
+#< ## TITLE field modifications # 
+outputto "title"
+sayoutput "tracks"	#>
+
+#< ## TRACK field modifications # 
+# Change TRACK Field
+outputto "track"
+
+sayoutput "track temp number"
+set "track temp number"	#>
+
+#< ## Set fields for Master Releases - part 2 # 
+ifnot "/"
+	set "title"
+	outputto "title"
+	say "|"
+	set "track"
+	outputto "track"
+	say "|"	
+endif	
+#> 

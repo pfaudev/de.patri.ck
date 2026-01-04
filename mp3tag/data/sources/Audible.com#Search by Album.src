@@ -1,0 +1,335 @@
+# ###################################################################
+# Mp3tag parsing for Audible.com.
+# Initially created by dano on 2013-03-11
+# After 11.04.2020, improved by romano, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# 22.12.2021: Fix a rare error in series name appearing as "Audible Original Stories"
+# 03.12.2022: Fix a small html error.
+#
+#
+# This file should be in your sources dir. 
+# On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+# ####################################################################
+
+[Name]=Audible.com [v.03.12.2022]
+[BasedOn]=www.audible.com
+[IndexUrl]=https://www.audible.com/search?keywords=
+[AlbumUrl]=https://www.audible.com
+[WordSeparator]=+
+[IndexFormat]=%_url%|% ↓ Album%|% ↓ Author%|% ↓ Duration%|% ↓ Year%|% ↓ Language%
+[SearchBy]=Enter Artist and/or Album||%artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[Encoding]=url-utf-8
+
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
+
+#Only select the area we need instead of everyting.
+findline "center-3"
+joinuntil "center-4"
+
+#Matches any whitespace character (spaces, tabs, line breaks).
+regexpreplace "\s\s+" " "
+
+#Matches a TAB character
+regexpreplace "\t+" " "
+replace "\" >" "\">"
+replace "> <" "><"
+replace "Running Time:" ""
+
+findinline "results"
+findinline "<h3 class=\"bc-heading"
+
+#this \" is iqual to "
+do	
+	#  Url		
+	findinline "href=\""
+	sayuntil "\""
+	say "|"
+	
+	# Album
+	findinline ">"
+	sayuntil "<"
+	
+	findinline "</li>"
+	if "<li class=\"bc-list-item subtitle"
+		say " - "
+		findinline "bc-color-secondary\">"
+		sayuntil "<"
+		
+	else
+		if  "<li class=\"bc-list-item bc"
+			say " - "
+			findinline ">"
+			sayuntil "<"
+		endif
+	
+	endif
+	say "|" 
+	
+	#Author
+	findinline "authorLabel\">"
+	findinline "href="
+	findinline ">"
+	sayuntil "<"
+	say "|"
+	
+	#Series
+	#findinline "Series:" 1 1
+	#findinline "href=\"/series/" 1 1
+	#findinline "\">" 1 1
+	#sayuntil "<"
+	#findinline "Book " 1 1
+	#say " "
+	#saynextnumber
+	#say "|"
+	
+    # Duration
+    findinline "runtimeLabel\">"
+    findinline "Length: "
+    sayuntil "<"
+    say "|"
+	
+    # Year
+    findinline "Release date:"
+	sayuntil "<"
+	say "|"
+   
+    # Language
+	findinline "languageLabel\">"
+	findinline "Language:"
+	sayuntil "<"
+
+    
+	saynewline
+	 
+   	findinline "<h3 class=\"bc-heading " 1 1
+    
+while "bc-color-link" 99
+
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+
+# Asin
+findline "<input type=\"hidden\" name=\"asin\" value=\""
+findinline "<input type=\"hidden\" name=\"asin\" value=\""
+outputto "Asin"
+sayuntil "\""
+gotoline 1
+
+# Album
+findline "<h1  class=\"bc-heading"
+joinuntil "authorLabel"
+findinline ">"
+findinline ":" 1 1
+movechar -1
+if ":"
+	findline "<h1  class=\"bc-heading"
+	joinuntil "authorLabel"
+	findinline ">"
+	outputto "Album"
+	regexpreplace "</?[^><]+>" ""
+	unspace
+	regexpreplace "  +" " "
+	sayuntil ":"
+	outputto "subtitle"
+	movechar 2
+	sayuntil "<"
+else
+	findline "<h1  class=\"bc-heading"
+	joinuntil "authorLabel"
+	findinline ">" 1 1
+	outputto "Album"
+	sayuntil "<"
+endif
+
+# Subtitle of Album
+regexpreplace "  +" " "
+replace "<span class=\"bc-text bc-size-medium\" ></span>" ""
+findinline "bc-text bc-size-medium\" " 1 1
+if ">"
+	movechar 1
+	outputto "Subtitle"
+	sayuntil "<"
+else
+	gotoline 1
+endif
+
+# Author
+outputto "Artist"
+findline "authorLabel"
+moveline 3 1
+joinuntil "</li>"
+regexpreplace "</?[^><]+>" ""
+unspace
+regexpreplace "  +" " "
+regexpreplace ".+By:" ""
+sayrest
+
+# narratorLabel
+outputto "Composer"
+findline "narratorLabel"
+moveline 3 1
+joinuntil "</li>"
+regexpreplace "</?[^><]+>" ""
+unspace
+#join more than one space
+regexpreplace "  +" " "
+replace "Narrated by: " ""
+sayrest
+
+# Grouping / Series
+findline "seriesLabel" 1 1
+unspace
+if "seriesLabel"
+	outputto "SERIES"
+	findline "href="
+	findinline ">"
+	if "Audible Original Stories" 
+		sayoutput ""
+	else
+		sayuntil "<"
+		outputto "series-part"
+		findinline "a>, Book " 1 1
+		SayRegexp "^[.?\d]+$"
+	endif
+else
+	gotoline 1
+endif
+
+# 1st Genre
+findline "categoriesLabel" 1 1
+unspace
+if "categoriesLabel"
+	outputto "tmp_Genre1"
+	findinline "categoriesLabel" 1 1
+	joinuntil "</li>"
+	findinline "href="
+	findinline ">"
+	sayuntil "<"
+# 2nd Genre
+	findinline "href=" 1 1
+	movechar -1
+	if "="
+		findinline ">"
+		outputto "tmp_Genre2"
+		sayuntil "<"
+		outputto "genre"
+		sayoutput "tmp_Genre1"
+		say "/"
+		sayoutput "tmp_Genre2"
+	else
+		outputto "genre"
+		sayoutput "tmp_Genre1"
+	endif
+else
+	gotoline 1
+endif
+
+# Rating
+outputto "RATING WINAMP"
+findline "ratingsLabel" 1 1
+unspace
+if "ratingsLabel"
+	findline "bc-pub-offscreen" 
+	findinline ">" 
+	saynextnumber
+else
+	gotoline 1
+endif
+
+
+# Description
+findline "Publisher's Summary"
+outputto "Comment"
+findline "<span class"
+joinuntil "</span>"
+regexpreplace "</?[^><]+>" ""
+unspace
+regexpreplace "  +" " "
+replace "bc-color-secondary\" >" ""
+sayrest
+
+# © Year, ©, Release Year, Publisher, the closest we can get to Original Pub year, Audible is not consistent with dates
+findline "</div>"
+joinuntil "</span>"
+findinline "(P)" 1 1
+movechar -17
+if "Public Domain"
+	outputto "Copyright"
+	say "Public Domain"
+	outputto "year"
+	findinline "(P)"
+	SayNChars 4
+	outputto "Publisher"
+	movechar 1
+	sayuntil "<"
+else
+	gotoline 1
+	findline "©"
+	findinline "©"
+	outputto "Year"
+	SayNChars 4
+	gotoline 1
+	findline "©"
+	replace "(P)" "; "
+	findinline "©"
+	outputto "Copyright"
+	sayuntil ";"
+	movechar 2
+	outputto "RELEASETIME"
+	SayNChars 4
+	outputto "Publisher"
+	movechar 1
+	sayuntil "<"
+endif
+
+# Cover
+outputto "Coverurl"
+findline "\"image\": \""
+replace "_SL175_" "_SS500_"
+replace "_SL300_" "_SS500_"
+findinline "\"image\": \""
+sayuntil "\""
+
+# Set "Albumsort"
+IfOutput "series"
+	outputto "Albumsort"
+	sayoutput "series"
+	say " "
+	sayoutput "series-part"
+	say " "
+	say "- "
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+else
+	outputto "Albumsort"
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+endif
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
+
+# Set Disknumber
+outputto "DISCNUMBER"
+sayoutput "series-part"
+
+# Set Audible Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
+
+# Set Comment to DESCRIPTION for better MP4 support
+outputto "DESCRIPTION"
+sayoutput "Comment"

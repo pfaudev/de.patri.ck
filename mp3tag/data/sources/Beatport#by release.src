@@ -1,0 +1,166 @@
+# mp3tag parsing for beatport api
+# version 1.5
+#
+# this version is by searching by release (album) name - including artist is optional
+# put this in your %appdata%\mp3tag\data\sources directory.
+#
+# here's a few things you may want to know.
+# 1. album artists
+# if a release just has one "artist" on it, then that's the album artist.
+# if a release has two artists on it, then the album artist is "artist one & artist two"
+# if a release has more than two artists on it, the album artist is "Various Artists"
+# you may prefer "Various" or "VA", just change it in the code below.
+#
+# 2. mix names
+# i strip out all of the "Original Mix" mix names
+
+[Name]=beatport.com
+[BasedOn]=http://api.beatport.com
+[IndexUrl]=http://api.beatport.com/catalog/search?v=2.0&perPage=50&format=xml&query=%s&facets[]=fieldType:release
+[AlbumUrl]=http://api.beatport.com/catalog/releases/detail?v=1.0&format=xml&id=
+[WordSeperator]=+
+[IndexFormat]=%_url%|%_preview%|%Artists%|%Album%|%Released%|%Label%|%Catalog%
+[SearchBy]=%artist% %album%
+
+[ParserScriptIndex]=...
+replace "|" "/"
+findline "<document"
+do
+	joinuntil "</document>"
+	regexpreplace ">\s+<" "><"
+	findinline "<release"
+	findinline " id=\""
+	sayuntil "\">"
+	say "|"
+	say "http://www.beatport.com/release/"
+	findinline "<urlName>"
+	sayuntil "</"
+	say "/"
+	gotochar 1
+	findinline "<release"
+	findinline " id=\""
+	sayuntil "\">"
+	say "|"
+	findinline "<performer ref=\"Artist\""
+	findinline "<name>"
+	sayuntil "</"
+	findinline "</performer>"
+	if "<performer ref=\"Artist\""
+		say ", "
+		findinline "<name>"
+		sayuntil "</"
+		findinline "</performer>"
+		if "<performer ref=\"Artist\""
+			say ", and more..."
+		endif
+	endif
+	say "|"
+	gotochar 1
+	findinline "<name>"
+	sayuntil "</"
+	say "|"
+	gotochar 1
+	findinline "<dateReleased>"
+	sayuntil "</"
+	say "|"
+	gotochar 1
+	findinline "<label"
+	findinline "<name>"
+	sayuntil "</"
+	say "|"
+	gotochar 1
+	findinline "<catalogNumber>"
+	sayuntil "</"
+	moveline 1
+	saynewline
+	unspace
+while "<document"
+
+[ParserScriptAlbum]=...
+outputto "coverurl"
+findline "width=\"60\" height=\"60\" ref=\"release\""
+moveline 1
+findinline "url=\""
+sayuntil "\" "
+outputto "album"
+findline "<name>"
+findinline "<name>"
+sayuntil "</"
+outputto "year"
+findline "<dateReleased>"
+findinline "<dateReleased>"
+sayuntil "-"
+outputto "releasetime"
+sayoutput "year"
+sayuntil "</"
+outputto "discogs_catalog"
+findline "<catalogNumber>"
+findinline "<catalogNumber>"
+sayuntil "</"
+outputto "catalog #"
+sayoutput "discogs_catalog"
+outputto "publisher"
+findline "<label"
+findline "<name>"
+findinline "<name>"
+sayuntil "</"
+outputto "albumartist"
+findline "<performer ref=\"Artist\""
+joinuntil "</performer>"
+findinline "<name>"
+sayuntil "</"
+moveline 1
+unspace
+if "<performer ref=\"Artist\""
+	joinuntil "</performer>"
+	say " & "
+	findinline "<name>"
+	sayuntil "</"
+	moveline 1
+	unspace
+	if "<performer ref=\"Artist\""
+		set "albumartist", "Various Artists"
+	endif
+endif
+replace "|" "/"
+findline "<track"
+do
+	outputto "tracks"
+	findline "<name>"
+	findinline ">"
+	sayuntil "</"
+	findline "<mixName>"
+	findinline ">"
+	if "Original Mix"
+		say "|"
+	else
+		say " ("
+		sayuntil "</"
+		say ")|" 
+	endif
+	outputto "_length"
+	findline "<trackLength>"
+	findinline ">"
+	sayuntil "</"
+	say "|"
+	outputto "genre"
+	findline "<genre"
+	joinuntil "</genre>"
+	findinline "<name>"
+	sayuntil "</"
+	say "|"
+	findline "<performer"
+	unspace
+	joinuntil "</track>"
+	regexpreplace ">\s+<" "><"
+	regexpreplace "<performer ref=\"([^\"]+)\"[^>]+><name>([^\"]+)</name></performer>" "<$1>$2"
+	outputto "artist"
+	sayregexp "(?<=<Artist>)[^<]+" ", " "</track>"
+	say "|"
+	gotochar 1
+	outputto "mixartist"
+	sayregexp "(?<=<Remixer>)[^<]+" ", " "</track>"
+	say "|"
+	moveline 1
+	unspace
+while "<track"

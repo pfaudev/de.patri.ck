@@ -1,0 +1,322 @@
+﻿# Itunes WS Query Script > International Version
+#
+# beta version 200191130_0
+# 2019/11/30 rev.0
+#
+# Made by rboss, inspired by pone
+#########
+# Instructions:
+
+Query box > Fields:
+
+
+"Country": [clear]  // "XX"
+2-letter code for avaliable countries
+List of countries/codes available in https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+[clear] = Empty field wil default to United States of America ("US") as the search country
+
+
+"Language:" [clear] // "en_us" // "ja_jp"
+Language for displaying results
+"en_us" = results in english (if provided)
+"ja_jp" = results in japanese (if provided)
+[clear] = results displayed in their original language
+
+
+"Query:" [clear]    // [query value]
+The URL-encoded text string you want to search for. For example: "jack johnson"
+The script will load artist and album info onto the field (if available) or the unique itunes collection ID code (if available)
+
+--
+# Known issues:
+
+- [Query field] only supports UTF-8-compatible characters (A-Z, a-z, 0-9). Foreign writing systems (japanese kanji/kana) or special
+characters (eg.: ç, é, ö) will return an invalid url error. Queries in English should be safe, as well as [CollectionId] number queries
+
+
+#########
+# DO NOT CHANGE ANYTHING BELOW TIHS LINE, UNLESS YOU REALLY WANT TO, OR YOU KNOW WHAT YOU ARE DOING
+#########
+# File Format for Itunes query
+#########
+
+[Name]=Itunes
+
+[BasedOn]=http://itunes.apple.com/
+
+[IndexUrl]=http://itunes.apple.com/search?entity=album%s
+
+[AlbumUrl]=http://itunes.apple.com/lookup?entity=song&limit=200
+
+[WordSeparator]=+
+
+[IndexFormat]=%_preview%|%_url%|%Artist%|%Album%|%Total Tracks%|%Explicitness%|%Year%
+
+[SearchBy]=Country||&country=%s|Language||&lang=%s|Query|[$if2([$meta(CollectionID)],$if2(%albumartist%,%artist%)[ %album%])]|&term=%s
+
+[Encoding]=utf-8
+
+#########
+# // INDEX INFO
+#########
+
+[ParserScriptIndex]=...
+
+FindLine "{\"wrapperType\":"
+Joinuntil "}"
+Replace "?uo=4" ""
+Replace "&uo=4" ""
+
+	# _COUNTRY_CODE
+	OutputTo "_COUNTRY_CODE"
+	FindLine "\"collectionViewUrl\":\""
+	FindInLine "\"collectionViewUrl\":\""
+	FindInLine "//"
+	FindInLine "/"
+	SayUntil "/"
+
+	# _LANGUAGE_CODE
+	OutputTo "_LANGUAGE_CODE"
+	Replace "?l=en" "?l=en&lang=en_us"
+	FindinLine "?l=en&lang=" 1 1
+	SayUntil "\", "
+	Replace "?l=ja" "?l=ja&lang=ja_jp"
+	FindinLine "?l=ja&lang=" 1 1
+	SayUntil "\", "
+
+OutputTo "Output"
+
+FindLine "{\"wrapperType\":"
+Do
+Joinuntil "}"
+Replace "?uo=4" ""
+Replace "&uo=4" ""
+Replace "\\\"" "&quot;"
+
+	# _PREVIEW
+	FindLine "\"collectionViewUrl\":\""
+	FindInLine "\"collectionViewUrl\":\""
+	SayUntil "\", "
+	Say "|"
+
+	# _COUNTRY_CODE_+
+	Say "&country="
+	SayOutput "_COUNTRY_CODE"
+	#
+	# _URL_+
+	FindLine "\"collectionId\":"
+	FindInLine "\"collectionId\":"
+	Say "&id="
+	SayUntil ", "
+	#
+	# _LANGUAGE_CODE
+	Say "&lang="
+	SayOutput "_LANGUAGE_CODE"
+	Say "|"
+
+	# ARTIST
+	FindLine "\"artistName\":\""
+	FindInLine "\"artistName\":\""
+	SayUntil "\", "
+	Say "|"
+
+	# ALBUM
+	FindLine "\"collectionCensoredName\":\""
+	FindInLine "\"collectionCensoredName\":\""
+	SayUntil "\", "
+	Say "|"
+
+	# TOTAL_TRACKS
+	FindLine "\"trackCount\":"
+	FindInLine "\"trackCount\":"
+	SayUntil ", "
+	Say "|"
+
+	# EXPLICITNESS
+	replace "notExplicit" "Not Explicit"
+	replace "explicit" "Explicit"
+	replace "cleaned" "Cleaned"
+	replace "collectionP" "Collectionp"
+	FindLine "\"collectionExplicitness\":\""
+	FindInLine "\"collectionExplicitness\":\""
+	SayUntil "\", "
+	Say "|"
+
+	# YEAR
+	FindLine "\"releaseDate\":\""
+	FindInLine "\"releaseDate\":\""
+	SayUntil "-"
+
+SayNewline
+MoveLine 1
+While "{\"wrapperType\":"
+
+#########
+# End of INDEX Script
+#########
+#########
+# // ALBUM INFO
+#########
+
+[ParserScriptAlbum]=...
+
+FindLine "{\"wrapperType\":"
+Joinuntil "}"
+Replace "?uo=4" ""
+Replace "&uo=4" ""
+Replace "\\\"" "&quot;"
+
+	OutputTo "COVERURL"
+	replace "100x100bb" "600x600bb" 
+	FindLine "\"artworkUrl100\":\""
+	FindInLine "\"artworkUrl100\":\""
+	SayUntil "\", "
+
+	OutputTo "ALBUMARTIST"
+	FindLine "\"artistName\":\""
+	FindInLine "\"artistName\":\""
+	SayUntil "\", "
+
+	OutputTo "COPYRIGHT"
+	FindLine "\"copyright\":\""
+	FindInLine "\"copyright\":\""
+	SayUntil "\", "
+
+	OutputTo "COLLECTIONTYPE"
+	FindLine "\"collectionType\":\""
+	FindInLine "\"collectionType\":\""
+	SayUntil "\", "
+
+	OutputTo "COUNTRY"
+	FindLine "\"country\":\""
+	FindInLine "\"country\":\""
+	SayUntil "\", "
+
+	OutputTo "GENRE"
+	FindLine "\"primaryGenreName\":\""
+	FindInLine "\"primaryGenreName\":\""
+	SayUntil "\"},"
+
+	OutputTo "YEAR"
+	FindLine "\"releaseDate\":\""
+	FindInLine "\"releaseDate\":\""
+	SayUntil "\", "
+
+	OutputTo "COLLECTIONID"
+	FindLine "\"collectionId\":"
+	FindInLine "\"collectionId\":"
+	SayUntil ", "
+
+	OutputTo "TOTALTRACKS"
+	FindLine "\"trackCount\":"
+	FindInLine "\"trackCount\":"
+	SayUntil ", "
+
+	OutputTo "AMGARTISTID"
+	FindLine "{\"wrapperType\":"
+	FindInLine "\"amgArtistId\":" 1 1
+	SayUntil ", "
+
+	OutputTo "COLLECTIONEXPLICITNESS"
+	FindLine "\"collectionExplicitness\":\""
+	FindInLine "\"collectionExplicitness\":\""
+	SayUntil "\", "
+
+#########
+# // TRACK COMMON INFO / LOOP
+#########
+
+FindLine "{\"wrapperType\":" 2
+Do
+Joinuntil "}"
+Replace "?uo=4" ""
+Replace "&uo=4" ""
+Replace "\\\"" "&quot;"
+
+	OutputTo "ALBUM"
+	FindLine "\"collectionCensoredName\":\""
+	FindInLine "\"collectionCensoredName\":\""
+	SayUntil "\", "
+	Say "|"
+
+	OutputTo "TOTALDISCS"
+	FindLine "\"discCount\":"
+	FindInLine "\"discCount\":"
+	SayUntil ", "
+	Say "|"
+
+#########
+# // TRACK BODY INFO / LOOP
+#########
+
+	OutputTo "TRACKS"
+	FindLine "\"trackCensoredName\":\""
+	FindInLine "\"trackCensoredName\":\""
+	SayUntil "\", "
+	Say "|"
+
+	OutputTo "ARTIST"
+	FindLine "\"artistName\":\""
+	FindInLine "\"artistName\":\""
+	SayUntil "\", "
+	Say "|"
+
+	OutputTo "ARTISTID"
+	FindLine "\"artistId\":"
+	FindInLine "\"artistId\":"
+	SayUntil ", "
+	Say "|"
+
+	Outputto "ITUNESADVISORY"
+	replace "notExplicit" "0"
+	replace "cleaned" "2"
+	replace "explicit" "4"
+	FindLine "\"trackExplicitness\":\""
+	FindInLine "\"trackExplicitness\":\""
+	SayUntil "\", "
+	Say "|"
+
+	Outputto "ITUNESMEDIATYPE"
+	replace "book" "Audiobook"
+	replace "album" "Album"
+	replace "coached-audio" "Coached Audio"
+	replace "feature-movie" "Feature Movie"
+	replace "interactive- booklet" "Interactive Booklet"
+	replace "music-video" "Music Video"
+	replace "pdf podcast" "PDF Podcast"
+	replace "podcast-episode" "Podcast Episode"
+	replace "software-package" "Software Package"
+	replace "song" "Normal"
+	replace "tv- episode" "TV Episode"
+	replace "artist" "Artist"
+	FindLine "\"kind\":\""
+	FindInLine "\"kind\":\""
+	SayUntil "\", "
+	Say "|"
+
+	OutputTo "DISCNUMBER"
+	FindLine "\"discNumber\":"
+	FindInLine "\"discNumber\":"
+	SayUntil ", "
+	Say "|"
+
+	OutputTo "TRACKID"
+	FindLine "\"trackId\":"
+	FindInLine "\"trackId\":"
+	SayUntil ", "
+	Say "|"
+
+	OutputTo "_LENGTH"
+	FindLine "\"trackTimeMillis\":"
+	FindInLine "\"trackTimeMillis\":"
+	SayUntil ", "
+	Say "|"
+
+MoveLine 1
+While "{\"wrapperType\":"
+#########
+# End of ALBUM Script
+#########
+#########
+# End of Script
+#########
