@@ -1,0 +1,339 @@
+﻿[#0]
+T=5
+F=ALBUM
+1=$regexp(%album%,web scripts: .+,web scripts: 4.4)
+
+[#1]
+T=5
+F=ARTIST
+1=$if($eql($regexp(%album%,setting file: 4.4 /.+,ok),ok),Discogs Pone Mod 4.4,update setting file before you create web scripts!)
+
+[#2]
+T=15
+F=Discogs Pone Create Direct by Discogs-ID
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Direct by Discogs &ID.src
+2=0
+3=0
+
+[#3]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Direct by Discogs &ID.src
+2=1
+3=0
+
+[#4]
+T=15
+F=Discogs Pone Create Direct by URL (WWW)
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Direct by URL (&www).src
+2=0
+3=0
+
+[#5]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Direct by URL (&www).src
+2=1
+3=0
+
+[#6]
+T=15
+F=Discogs Pone Create API-List Artist
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# API-List &Artist.src
+2=0
+3=0
+
+[#7]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# API-List &Artist.src
+2=1
+3=0
+
+[#8]
+T=15
+F=Discogs Pone Create API-List Label
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# API-List &Label.src
+2=0
+3=0
+
+[#9]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# API-List &Label.src
+2=1
+3=0
+
+[#10]
+T=15
+F=Discogs Pone Create API-List Master Release Page
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# API-List Master Release &Page.src
+2=0
+3=0
+
+[#11]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# API-List Master Release &Page.src
+2=1
+3=0
+
+[#12]
+T=15
+F=Discogs Pone Create Search by (Album)Artist
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by & (Album)Artist.src
+2=0
+3=0
+
+[#13]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by & (Album)Artist.src
+2=1
+3=0
+
+[#14]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by & (Album)Artist.src
+2=1
+3=0
+
+[#15]
+T=15
+F=Discogs Pone Create Search by (Album)Artist - Title
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + &Title.src
+2=0
+3=0
+
+[#16]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + &Title.src
+2=1
+3=0
+
+[#17]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + &Title.src
+2=1
+3=0
+
+[#18]
+T=15
+F=Discogs Pone Create Search by (Album)Artist - Year
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + &Year.src
+2=0
+3=0
+
+[#19]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + &Year.src
+2=1
+3=0
+
+[#20]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + &Year.src
+2=1
+3=0
+
+[#21]
+T=15
+F=Discogs Pone Create Search by (Album)Artist - Album
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + Albu&m.src
+2=0
+3=0
+
+[#22]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + Albu&m.src
+2=1
+3=0
+
+[#23]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + Albu&m.src
+2=1
+3=0
+
+[#24]
+T=15
+F=Discogs Pone Create Search by (Album)Artist - Label
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + La&bel.src
+2=0
+3=0
+
+[#25]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + La&bel.src
+2=1
+3=0
+
+[#26]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by (Album)Artist + La&bel.src
+2=1
+3=0
+
+[#27]
+T=15
+F=Discogs Pone Create Search by Album
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Alb&um.src
+2=0
+3=0
+
+[#28]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Alb&um.src
+2=1
+3=0
+
+[#29]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Alb&um.src
+2=1
+3=0
+
+[#30]
+T=15
+F=Discogs Pone Create Search by Album + Title
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album &+ Title.src
+2=0
+3=0
+
+[#31]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album &+ Title.src
+2=1
+3=0
+
+[#32]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album &+ Title.src
+2=1
+3=0
+
+[#33]
+T=15
+F=Discogs Pone Create Search by Album + Label
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album + Lab&el.src
+2=0
+3=0
+
+[#34]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album + Lab&el.src
+2=1
+3=0
+
+[#35]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album + Lab&el.src
+2=1
+3=0
+
+[#36]
+T=15
+F=Discogs Pone Create Search by Album)Artist + Year
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album + Yea&r.src
+2=0
+3=0
+
+[#37]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album + Yea&r.src
+2=1
+3=0
+
+[#38]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Album + Yea&r.src
+2=1
+3=0
+
+[#39]
+T=15
+F=Discogs Pone Create Search by Label + Catalog#
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Label + Catalog&#.src
+2=0
+3=0
+
+[#40]
+T=15
+F=Discogs Pone Create ParserScriptIndex Advanced Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Label + Catalog&#.src
+2=1
+3=0
+
+[#41]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Search by Label + Catalog&#.src
+2=1
+3=0
+
+[#42]
+T=15
+F=Discogs Pone Create Standard Search
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Standard &Search.src
+2=0
+3=0
+
+[#43]
+T=15
+F=Discogs Pone Create ParserScriptAlbum Standard
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# Standard &Search.src
+2=1
+3=0
+
+[#44]
+T=15
+F=Discogs Pone Create tracklist for albums with multi song tracks
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# tracklist for albums with multi s&ong tracks.src
+2=0
+3=0
+
+[#45]
+T=15
+F=Discogs Pone Create tracklist for DJ Sets in one file
+1=$getenv(mp3tagappdata)\\data\\sources\\Discogs &Pone# tracklist for &DJ Sets in one file.src
+2=0
+3=0
+
+[#46]
+T=15
+F=Discogs Pone Create Cue Sheet Creator Export
+1=$getenv(mp3tagappdata)\\export\\Discogs Pone Create Cue Sheet.mte
+2=0
+3=0
+
+[#47]
+T=15
+F=Discogs Pone Create Cue Sheet Creator Action
+1=$getenv(mp3tagappdata)\\data\\actions\\Discogs &Pone#&Create Cue Sheet.mta
+2=0
+3=0
+
+[#48]
+T=15
+F=Discogs Pone Create tracklist clean-up
+1=$getenv(mp3tagappdata)\\data\\actions\\Discogs &Pone#&Delete Tracklist from Tags after creating a Cue Sheet.mta
+2=0
+3=0
+

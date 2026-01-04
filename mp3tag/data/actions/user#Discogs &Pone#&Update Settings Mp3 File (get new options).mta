@@ -1,0 +1,15 @@
+﻿[#0]
+T=5
+F=ALBUM
+1=$regexp(%album%,setting file: .+ /,setting file: 4.4 /)
+
+[#1]
+T=5
+F=WWW
+1=http://forums.mp3tag.de/index.php?showtopic\u003d10431
+
+[#2]
+T=5
+F=COMMENT
+1=$getenv(username), this file holds your personal settings for the web script. Don''t delete it! You need if you want to change your settings or when you update the script.
+

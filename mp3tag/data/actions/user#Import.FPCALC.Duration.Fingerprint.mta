@@ -1,0 +1,19 @@
+﻿[#0]
+T=14
+F=FP_TEMP
+1=%_filename%'.fingerprint'
+
+[#1]
+T=5
+F=ACOUSTID_FINGERPRINT
+1=$if(%FP_TEMP%, $regexp(%FP_TEMP%, '\\A(?:.*\\n)?FINGERPRINT\u003d(.+?)\\r.*\\Z', '$2', 1), %ACOUSTID_FINGERPRINT%)
+
+[#2]
+T=5
+F=DURATION
+1=%_length_seconds%
+
+[#3]
+T=9
+F=FP_TEMP
+

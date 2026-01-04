@@ -1,0 +1,5 @@
+﻿[#0]
+T=5
+F=RELEASETIME
+1=$if($eql(%RELEASEDATE%,),%YEAR%-00-00,$replace($replace($replace($replace($replace($replace($replace($replace($replace($replace($replace($replace($regexp($regexp($regexp(%RELEASEDATE%,^(.*?)',' (\\d\\d\\d\\d),\\2 \\1),('['a-z']')'$',\\1 00), (\\d)'$', 0\\1), January ,-01-), February ,-02-), March ,-03-), April ,-04-), May ,-05-), June ,-06-), July ,-07-), August ,-08-), September ,-09-), October ,-10-), November ,-11-), December ,-12-))
+
