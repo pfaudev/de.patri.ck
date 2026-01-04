@@ -1,0 +1,42 @@
+$filename($getEnv('USERPROFILE')'\Desktop\Export.Whatever.txt',UTF-8)$puts(
+)$loop(1,1)$puts(crlf,$char(13)$char(10))$puts(br,'{br}')$loopend()$replace(
+$puts(Terms_of_Usage,'
+================================================================================
+===   Title, Purpose or such text here  ===    (c)Detlev Dalitz.20160310.    ===
+================================================================================
+
+This Mp3tag export script creates a text file of type ".txt" with semicolon separated values per line (SSV).
+...
+...
+
+Note: Here in the part of the usage description, the string delimiter (single apostrophe)
+      has been intentionally written twice, to allow the embedding of such description text
+      area within a Mp3tag export script. In the following part of the actual code scripting,
+      the executable script code uses the string delimiter as a single character,
+      as it must be for functional correctness.
+================================================================================
+')$puts(Terms_of_Usage,)
+
+'This export has been created at '%_datetime%' by the export script:'$get(br)
+$getEnv('APPDATA')'\Mp3tag\export\__Export.Template.mte'$get(br)
+$getEnv('MP3TAGAPPDATA')'\export\__Export.Template.mte'$get(br)
+
+$repeat('-',80)$get(br)$get(br)
+
+'some text'$get(br)
+'some text'$get(br)
+'some text'$get(br)
+$loop(%_path%)$replace(
+
+'here is the loop code ...'$get(br)
+
+'here is some example output ...'$get(br)
+'"'%ARTIST%'";"'%TITLE%'";"'%ALBUM%'";";"'%_path%'"'$get(br)
+'"'$get(SX_ARTIST)'";"'$get(SX_TITLE)'";"'$get(SX_ALBUM)'";"'$get(SX_FN_EXT)'";"'%_path%'"'$get(br)
+
+,$get(crlf),,$get(br),$get(crlf))$loopend()
+'some text'$get(br)
+'some text'$get(br)
+'some text'$get(br)
+,$get(crlf),,$get(br),$get(crlf))
+'End of report.'

@@ -1,0 +1,24 @@
+$filename(00 tag dump of %_workingdir% -- %_tag_read%.html,utf-8)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title></title>
+<style type="text/css">body {font-size:60%%;} th { background: #FF0180; color: #FFFFFF; text-align: left; border-bottom-width:1px; border-style:solid; border-color: black; padding: 2px; }td { border-style:solid; border-color: black; background-color: #ffffff; padding: 2px; }table.tags { border-style: none; border-spacing: 0px; }.odd {background-color: #f0f0f0;} th.links, td.links { text-align: left; } th.mitte, td.mitte { text-align: center; }</style>
+</head>
+<body>
+
+  <table border="1" width="100%%" class="tags"><tr><th class="links">ARTIST</th><th class="links">TITLE</th><th class="links">ALBUM</th><th class="mitte">KEY</th><th class="mitte">OPENKEY</th><th class="mitte">CAMELOT</th><th class="links">ACOUST_ID</th></tr>
+	$loop(a)
+	<tr>
+  	  <td class="links$if($odd(%_counter%), odd,)">$if(%ARTIST%,$meta_sep(ARTIST,\\),&nbsp;)</td>
+  	  <td class="links$if($odd(%_counter%), odd,)">$if(%TITLE%,$meta(TITLE),&nbsp;)</td>
+  	  <td class="links$if($odd(%_counter%), odd,)">$if(%ALBUM%,$meta_sep(ALBUM,\\),&nbsp;)</td>
+  	  <td class="mitte$if($odd(%_counter%), odd,)">$if(%INITIALKEY%,<a href="https://dev.clipperdb.app/switch.php?key=%INITIALKEY%">%INITIALKEY%</a>,&nbsp;)</td>
+  	  <td class="mitte$if($odd(%_counter%), odd,)">$if(%OPENKEY%,<a href="https://dev.clipperdb.app/switch.php?key=%OPENKEY%">%OPENKEY%</a>,&nbsp;)</td>
+  	  <td class="mitte$if($odd(%_counter%), odd,)">$if(%CAMELOT%,<a href="https://dev.clipperdb.app/switch.php?key=%CAMELOT%">%CAMELOT%</a>,&nbsp;)</td>
+  	  <td class="mitte$if($odd(%_counter%), odd,)">$if(%ACOUSTID_ID%,%ACOUSTID_ID%,<a href="https://api.acoustid.org/v2/lookup?client=pRScNQrNxy&duration=%DAUER%&fingerprint=%ACOUSTID_FINGERPRINT%">SUCHE</a>)</td>
+    </tr>
+  $loopend()
+  </table>
+</body>
+</html>

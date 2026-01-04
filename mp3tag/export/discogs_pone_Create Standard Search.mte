@@ -1,0 +1,142 @@
+﻿$filename(,utf-8)'[Name]=discogs.com (Pone Mod 4.4)
+[BasedOn]=www.discogs.com
+[IndexUrl]=https://api.discogs.com/database/search?type=release&per_page=100&q=
+[AlbumUrl]=https://api.discogs.com/releases/
+[WordSeperator]=%20
+[IndexFormat]=%Cover%|%_url%|%_preview%|%Artist%|%Album%|%Year%|%Publisher%|%Catalog%|%Format%|%Country%|
+[SearchBy]=$repl($regexp($regexp($regexp($regexp($if2(%'$regexp($regexp(%artist names%,.*?^Album Artist - Name Variation:\s+>(.*?)$.*,$1),^$,albumartist)'%,$if2(%albumartist%,$if2(%album artist%,$if2(%band%,$if2(%'$regexp($regexp(%artist names%,.*?Album Artist - Primary Name:\s+>(.*?)$.*,$1),^$,albumartist)'%,$if2(%'$regexp($regexp(%artist names%,.*?^Artist - Name Variation:\s+>(.*?)$.*,$1),^$,artist)'%,$if2(%artist%,%'$regexp($regexp(%artist names%,.*?^Artist - Primary Name:\s+>(.*?)$.*,$1),^$,discogs_artist_name)'%))))))),^(va|various artists|v\.a\.)$,Various,1),The (.*),$1,1),''''''s( |$),$1,1), (featuring|feat|ft|presents|pres|and|vs|w/|\+|/|&)\.* , ,1),'''','''',)  $trim($regexp($regexp($regexp($repl($regexp(%'$regexp($regexp(%other fields & options%,'.*?Album:\s+>(.*?)\r\n.*',$1),^$,album)'%,''''(\(|\[).*(\)|\]).*'''',),-, ,_, ,/, ,:, ,., ,", ,!, ,?, ,&, ,#, ), (web|cd *\d*|vinyl|ep|e p ) *$,,1), (web|cd *\d*|vinyl|ep|e p ) *$,,1),''''''s( |$),$1))  $replace($regexp($if2(%'$regexp($regexp(%other fields & options%,.*?Title:\s+>(.*?)$.*,$1),'^$',title)'%,%title%),''''(\(|\[| )(featuring|feat|ft).* .+'''',,1),-, ,_, ,/, ,:, ,., ,", ,!, ,?, ,&, ,#, )
+[UserAgent]=1
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+# Pone Mod 4.4
+
+#< ## JSON REPLACMENTS
+# replace syntax characters in non-syntax position
+regexpreplace ":(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u003a"	
+regexpreplace ",(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u002c"	
+regexpreplace "\[(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u005b"	
+regexpreplace "\](?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u005d"	
+regexpreplace "\{(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u007b"	
+regexpreplace "\}(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u007d"	
+
+regexpreplace "\"videos\": \[[^\[]*?\]," ""
+regexpreplace "\"images\": \[[^\[]*?\]," ""
+regexpreplace "\"community\": \{[^\{]*?\}," ""
+regexpreplace "\}$" ", \"end_of_document\": []}"
+
+# replace special JSON characters
+replace "\\\\" "\\u005c"
+replace "\\\"" "\\u0022"	# =	"&quot;"
+replace "\\b" "\\u0008"		# backspace
+replace "\\f" "\\u000c"		# formfeed
+replace "\\n" "\\u000a"		# newline
+replace "\\r" "\\u000d"		# carriage return
+replace "\\t" "\\u0009"		# horizontal tab
+
+# replace problematic characters for Mp3tag
+replace "|" "ǀ"
+#replace "|" "\\u007c"												# not working anymore
+#replace "|" "$verticalBar()"										# does not work in UNSYNCEDLYRICS field
+replace "\\u005c\\u005c" "\\u005c\\u200b\\u005c\\u200b"
+replace "\"\"" "\" \""
+regexpreplace "\s\s+" " " #>
+
+findinline "\"results\":"
+#regexpreplace "\}, \{" "\}\n\{"
+do
+	#Skip Master Pages
+	findinline "\"type\":" 1 1
+	movechar 2
+	ifnot "release"
+		findinline "}" 1 1
+	else
+		findinline "{" -1 1
+	endif
+
+	#Cover
+	findinline "\"thumb\":" 1 1
+	movechar 2
+	if "https\u003a//api.discogs.com/images/default-release"
+		say "    ╳"
+	else
+		say "✔"
+	endif
+	say "|"
+	
+	#URL
+	findinline "{" -1 1
+	findinline "\"id\"" 1 1
+	movechar 2
+	saynextnumber
+	say "|"
+	
+	#Preview
+	findinline "{" -1 1
+	findinline "\"uri\""
+	movechar 3
+	say "https://www.discogs.com"
+    sayuntil "\"" 
+    say "|"
+	
+	#Artist
+	findinline "{" -1 1
+	findinline "\"title\""
+	movechar 3
+	sayuntil " - " 
+    say "|"
+
+	#Album
+	movechar 2
+	sayuntil "\"" 
+	say "|"
+	
+	#Year
+	findinline "{" -1 1
+	
+	sayregexp "(?<=\"year\": \").+?(?=\")" "" "}"
+	
+	#findinline "\"year\"" 1 1
+	#movechar 3
+	#saynextnumber
+	say "|"
+	
+	#Publisher
+	#findinline "{" -1 1
+	findinline "\"label\""
+	movechar 4
+    sayuntil "\"" 
+    say "|"
+	
+	#Catalog
+	findinline "{" -1 1
+	findinline "\"catno\""
+	movechar 3
+    sayuntil "\"" 
+    say "|"
+	
+	#Format
+	findinline "{" -1 1
+	findinline "\"format\""
+	movechar 2
+	if "["
+		sayregexp "(?<=\").+?(?=\")" "" "]"
+	else
+		sayuntil "\"" 
+		movechar 1
+	endif
+	say "|"
+	
+	#Country
+	findinline "{" -1 1
+	findinline "\"country\""
+	movechar 3
+    sayuntil "\"" 
+    say "|"
+	
+	saynewline
+	findinline "}"
+	
+while ", {" 110
+
+#'

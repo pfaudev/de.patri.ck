@@ -1,0 +1,79 @@
+$filename(zz%_directory%.html)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta name="GENERATOR" content="Mp3tag - http://www.mp3tag.de">
+	<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+	<title>%artist% : %album%</title>
+	<style type="text/css"><!--	
+		h1 { font-family: Arial; font-size: 12pt }
+		body { font-family: Arial; font-size: 8pt }
+		table { font-family: Arial; font-size: 9pt }
+		a {color: #960000; text-decoration: none }
+		a:hover {color: #960000; text-decoration: none}
+	--></style>
+</head>
+<body>
+	<table border="0" width="100'%'">
+		<tr>
+			<td width="150">
+				<table border="0" width="100'%'">
+					<tr>
+						<td width="150" valign="top">
+							<h1>Artist: </h1>
+						</td>
+						<td width="60'%'" valign="top">
+							<h1>%artist%</h1>
+						</td>
+						<td width="25'%'" rowspan=4 valign="top" align="right">
+							<a href="zzthumb.jpg"><img alt="Cover" src="zzthumb.jpg" width="150" height="150" border="0"></a>
+						</td>
+					</tr>
+					<tr>
+						<td width="15'%'" valign="top">
+							<h1>Album: </h1>
+						</td>
+						<td width="60'%'" valign="top">
+							<h1><a href="__%_directory%.m3u">%album%</a></h1>
+						</td>
+					</tr>
+					<tr>
+						<td width="15'%'" valign="top">
+							<h1>Genre: </h1>
+						</td>
+						<td width="60'%'" valign=top>
+							<h1>%genre%</h1>
+						</td>
+					</tr>
+					<tr>
+						<td width="15'%'" valign=top>
+							<h1>Year: </h1>
+						</td>
+						<td width="60'%'" valign=top>
+							<h1>%year%</h1>
+						</td>
+					</tr>
+				</table>
+			</td>			
+		</tr>
+	</table>
+
+	<table border="0" width="100'%'">
+		<tr bgcolor="#aaaaaa">
+			<td><b>Track</b></td>
+			<td><b>Title</b></td>
+			<td><b>Length</b></td>
+			<td><b>Bitrate</b></td>
+		</tr>
+
+$loop(%_path%)		<tr>
+			<td width=30 valign="top">$num(%track%,2)</td>
+			<td valign="top"><a href="%_filename_ext%">%title%</a></td>
+			<td width=50 valign="top">%_length%</td>
+			<td width=70 valign="top">%_bitrate%</td>
+		</tr>
+$loopend()
+
+</table>
+<br><br><b>Mp3tag</b> - the <b>universal multi-format</b> Tag editor <a href="http://www.mp3tag.de/en/">www.mp3tag.de</a><br>
+</body>
+</html>

@@ -1,0 +1,23 @@
+$filename(E:\Music\_labels\%PUBLISHER%\%_DIRECTORY%\$if($geql(%TOTALDISCS%,2),0,)00 $replace($replace($regexp(%BAND% - %ALBUM% '('%YEAR%')','['\\|<>\?\*:"']',), / , & ),/, ).nfo,ansi)ARTIST.....: %BAND%
+ALBUM......: %ALBUM%
+LABEL......: %PUBLISHER%
+CATALOG....: %CATALOG%
+FORMAT.....: [$if($geql(%TOTALVINYLS%,2),%TOTALVINYLS% x ,)][$if($geql(%TOTALDISCS%,2),%TOTALDISCS% x ,)]%MEDIATYPE%[, %RELEASETYPE%]
+COUNTRY....: %COUNTRY%
+RELEASED...: $if($geql(%RELEASEDATE%,),%YEAR%,%RELEASEDATE%)
+GENRE......: %GENRE%
+STYLE......: %STYLE%
+
+CODEC......: %_codec%
+QUALITY....: [%_vbr% ]%_bitrate% kBit/s
+SAMPLERATE.: %_samplerate% kHz %_mode%
+TRACKS.....: %_total_files%
+SIZE.......: %_total_size%
+PLAYTIME...: %_total_time%
+
+Nº$if($geql(%TOTALDISCS%,2),$repeat( ,$len(%TOTALDISCS%)) ,)  $if($eql(%BAND%,%ARTIST%),TITLE         ,ARTIST - TITLE)$if($eql(%BAND%,%ARTIST%),,$repeat( ,30))                             TIME
+$if($geql(%TOTALDISCS%,2),$repeat(-,$len(%TOTALDISCS%))-,)--  $if($eql(%BAND%,%ARTIST%),,$repeat(-,30))----------------------------------------  -----
+$loop(%_path%)$if($geql(%TOTALDISCS%,2),$num(%DISCNUMBER%,$len(%TOTALDISCS%)).,)$if($eql(%VINYLTRACK%,),$num(%TRACK%,2),$if($eql($len(%VINYLTRACK%),1),%VINYLTRACK% ,%VINYLTRACK%))  $if($eql(%BAND%,%ARTIST%),$iflonger(%TITLE%,40,$left(%TITLE%,40)  $repeat( ,$sub(40,$len($left(%TITLE%,40))))%_length%
+$if($geql(%TOTALDISCS%,2),$repeat( ,$len(%TOTALDISCS%)) ,)    $mid(%TITLE%,41,40)  $repeat( ,$sub(40,$len($mid(%TITLE%,41,40)))),$left(%TITLE%,40)  $repeat( ,$sub(40,$len($left(%TITLE%,40))))%_length%),$iflonger(%ARTIST% - %TITLE%,70,$left(%ARTIST% - %TITLE%,70)  $repeat( ,$sub(70,$len($left(%ARTIST% - %TITLE%,70))))%_length%
+$if($geql(%TOTALDISCS%,2),$repeat( ,$len(%TOTALDISCS%)) ,)    $mid(%ARTIST% - %TITLE%,71,70)  $repeat( ,$sub(70,$len($mid(%ARTIST% - %TITLE%,71,70)))),$left(%ARTIST% - %TITLE%,70)  $repeat( ,$sub(70,$len($left(%artist% - %title%,70))))%_length%))
+$loopend()$if($geql(%TOTALDISCS%,2),$repeat(-,$len(%TOTALDISCS%))-,)--  $if($eql(%BAND%,%ARTIST%),,$repeat(-,30))----------------------------------------  -----

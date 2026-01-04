@@ -1,0 +1,84 @@
+These templates have been created to catalogue my music collection,
+I have uploaded them here in case someone else finds them useful.
+(Also handy for spotting errors in the MP3 tags)
+
+I have very limited knowledge of HTML or Java, so I have adopted most of the code from Dano's original templates, but have deliberately excluded some funtionality such as being able to play a  selected MP3, and opening the directory for it. This can be easily added back in if required.
+(I just wanted a listing that can be used for reference when I have no access to the actual MP3's)
+
+The 'r' series are generally intended for viewing on a PC.
+The 's' series is based on the equivalent 'r' report, but somewhat trimmed for viewing on a smaller screen (intended for viewing on my iPod Touch).
+
+
+_r1_ARTIST_by_folder_and_filename.mte
+======================================
+This report relies on a directory structure consisting of Artist folder + Album subfolders rather than using MP3 tags 
+- its good if your files are well organised but poorly tagged. 
+
+When an album has many artists I store it underneath a folder called 'Various'.  e.g.
+
+Bob Dylan
+   Biograph
+      *.mp3
+   Blonde On Blonde
+      *.mp3
+   Blood On The Tracks
+      *.mp3
+Bob Dylan and The Grateful Dead
+   Dylan & The Dead
+      *.mp3
+Various
+   The Finest of Hard Rock Vol. 3
+      *.mp3
+   The Finest of Hard Rock Vol. 4
+      *.mp3
+
+
+_r2_ARTIST_by_mp3_tags.mte
+======================================
+This report assumes you have your MP3 files appropriately tagged (the best solution)
+
+It uses the following MP3 tags
+- Band (aka Album Artist), Artist, Album, Discnumber, Track (number), Title (track name), Year, and Genre
+
+In my MP3's I use the Album Artist field for multi-artist albums (i.e. to record 'Various' or alternatively the primary artists (or bands) name)
+If you do not do this, you will see a separate track listing for each unique artist name on the album.
+
+Sorting = Artist, Album, Discnumber, Track 
+
+If Album is not populated it will print ".unknown."
+If Band is not populated it will use Artist, and if Artist is also not populated it will print ".unknown."
+If Discnumber is not populated it will not be shown and will not influence the track sorting.
+If Track number is not populated it will not be shown and tracks will not be sorted.
+If Title (track name) is not populated, it will print the filepath+filename (helpful for identification of any untagged MP3s)
+If Year, and Genre are not populated they will not be shown
+
+
+_r3_ALBUM_by_mp3_tags.mte
+======================================
+This report assumes you have your MP3 files appropriately tagged (the best solution)
+
+It uses the following MP3 tags
+- Artist, Album, Discnumber, Track (number), Title (track name), Year, and Genre
+(This report does not use Band/Album Artist, as I show the artists' name against each track.)
+
+Sorting = Album, Discnumber, Track, filepath+filename
+
+Albums of the same name in the same directory will be reported as one album.
+Albums of the same name but stored in different directories will be reported as different albums.
+If Album is not populated it will print ".unknown." (and the above 2 rules will apply to this assigned album name)
+If Discnumber is not populated it will not be shown and will not influence the track sorting.
+If Track number is not populated it will not be shown and tracks will not be sorted.
+If Title (track name) is not populated, it will instead print the filepath+filename (helpful for identification of any untagged MP3s)
+
+If Year, Genre and Artist are not populated they will not be shown
+
+
+I originally had many different combinations of these reports, but over time have settled on these 3 as the best for what I personally want.
+
+Brian Evans September 2009
+
+PS - Mp3tag v2.38 required!
+   - Copy the *.mte files into your Mp3tag profile folder (...%appdata%\Mp3tag\export)
+     e.g. for me in XP it is C:\Documents and Settings\BJE\Application Data\Mp3tag\export
+          for me in Vista it is  C:\Users\BJE\AppData\Roaming\Mp3tag\export
+

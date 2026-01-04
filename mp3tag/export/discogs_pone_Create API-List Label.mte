@@ -1,0 +1,46 @@
+﻿$filename(,utf-8)'[Name]=discogs.com (Pone Mod 4.4)
+[BasedOn]=www.discogs.com
+[IndexUrl]=https://api.discogs.com/label/%s?f=xml&releases=1
+[AlbumUrl]=https://api.discogs.com/releases/
+[WordSeperator]=+
+[IndexFormat]=%_url%|%_preview%|%Cover%|%Catalog #%|%Artist%|%Album%|%Format%
+[SearchBy]=$regexp($if2(%'$regexp($regexp(%label & series%,.*?Label:\s+>(.*?)$.*,$1),^$,publisher)'%,$if2(%publisher%,$if2(%copyright%,%label%))),^The (.*),$1''',''' The)
+[UserAgent]=1
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+joinuntil "</releases>"
+replace "|" "ǀ"
+regexpreplace "<thumb>https://api.discogs.com/images/spacer.gif</thumb>" "<thumb>&nbsp;&nbsp;&nbsp;&nbsp;╳</thumb>"
+regexpreplace "<thumb>https://api.discogs.com/image/.+?</thumb>" "<thumb>✔</thumb>"
+findinline "<releases>"
+do
+    # Url
+	sayregexp "(?<=<release id=\")\d+(?=\")" "," "</release>"
+	say "?"
+	say "|"
+	# Preview
+	say "https://www.discogs.com/release/"
+	sayregexp "(?<=<release id=\")\d+(?=\")" "," "</release>"
+	say "|"
+	# Cover
+	sayregexp "(?<=<thumb>).+?(?=</thumb>)" ", " "</release>"
+	say "|"
+	# Catno	
+	sayregexp "(?<=<catno>).+?(?=</catno>)" ", " "</release>"
+	say "|"
+	# Artist
+	sayregexp "(?<=<artist>).+?(?=</artist>)" ", " "</release>"
+	say "|"
+	# Album
+	findinline "<title>"
+	sayuntil "</title>"
+	say "|"
+	# Format
+	sayregexp "(?<=<format>).+?(?=</format>)" ", " "</release>"
+	
+	saynewline
+	findinline "</release>"
+while "<release id" 2000
+
+#'

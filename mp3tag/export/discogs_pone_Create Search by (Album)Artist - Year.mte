@@ -1,0 +1,10 @@
+﻿$filename(,utf-8)'[Name]=discogs.com (Pone Mod 4.4)
+[BasedOn]=www.discogs.com
+[IndexUrl]=https://api.discogs.com/database/search?type=release&per_page=100&artist=%s
+[AlbumUrl]=https://api.discogs.com/releases/
+[WordSeperator]=%20
+[IndexFormat]=%Cover%|%_url%|%_preview%|%Artist%|%Album%|%Year%|%Publisher%|%Catalog%|%Format%|%Country%|
+[SearchBy]=$repl($regexp($regexp($regexp($regexp($if2(%'$regexp($regexp(%artist names%,.*?^Album Artist - Name Variation:\s+>(.*?)$.*,$1),^$,albumartist)'%,$if2(%albumartist%,$if2(%album artist%,$if2(%band%,$if2(%'$regexp($regexp(%artist names%,.*?Album Artist - Primary Name:\s+>(.*?)$.*,$1),^$,albumartist)'%,$if2(%'$regexp($regexp(%artist names%,.*?^Artist - Name Variation:\s+>(.*?)$.*,$1),^$,artist)'%,$if2(%artist%,%'$regexp($regexp(%artist names%,.*?^Artist - Primary Name:\s+>(.*?)$.*,$1),^$,discogs_artist_name)'%))))))),^(va|various artists|v\.a\.)$,Various,1),The (.*),$1,1),''''''s( |$),$1,1), (featuring|feat|ft|presents|pres|and|vs|w/|\+|/|&)\.* , ,1),'''','''',)&year=$regexp($if2(%'$regexp($regexp(%year & date%,'.*?Year:\s+>(.*?)\r\n.*',$1),^$,year)'%,$if2(%'$if($eql($regexp($regexp(%year & date%,.*?date format:\s+>(.*?)$.*,$1),.*YYYY.*,yes),yes),$regexp($regexp(%year & date%,'.*?Date:\s+>(.*?)\r\n.*',$1),^$,year),year)'%,$if2(%year%,%date%))),.*(\d\d\d\d).*,$1)
+[UserAgent]=1
+[Encoding]=utf-8
+#'

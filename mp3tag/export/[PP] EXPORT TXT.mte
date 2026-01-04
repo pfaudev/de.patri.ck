@@ -1,0 +1,30 @@
+$filename($getEnv('USERPROFILE')'\Desktop\TAG_EXPORT\make_'%kategorie%'_'%_directory%'.cmd', utf-8)'@ECHO OFF'
+'MODE 600'
+'SETLOCAL DisableDelayedExpansion'
+'CHCP 1252 1>NUL 2>NUL'
+'MKDIR C:\Users\patrick\Desktop\TAG_EXPORT\'%kategorie%' - '%_directory%
+
+$loop(%_filename_ext%)
+'SET FILENAME="'$getEnv('USERPROFILE')'\Desktop\TAG_EXPORT\'%kategorie%'-'%_directory%'\'$regexp(%_filename_ext%,[char(196)|char(214)|char(220)|char(228)|char(146)|char(252)|char(248)],[AE|OE|UE|ae|oe|ue|o])'.txt"'
+
+'ECHO.'%artist%' >%FILENAME%'
+'ECHO.'%title%' >>%FILENAME%'
+'ECHO.'%album%' >>%FILENAME%'
+'ECHO.'%label%' >>%FILENAME%'
+'ECHO.'%kategorie%' >>%FILENAME%'
+'ECHO.'%bpm%' >>%FILENAME%'
+'ECHO.'%genre%' >>%FILENAME%'
+'ECHO.'%year%' >>%FILENAME%'
+'ECHO.'$if2(%initialkey%,%initial key%)' >>%FILENAME%'
+'ECHO.'%energylevel%' >>%FILENAME%'
+'ECHO.'%isrc%' >>%FILENAME%'
+'ECHO.'$if2(%dauer%,%_length_seconds%)' >>%FILENAME%'
+'ECHO.'%replaygain_track_gain%' >>%FILENAME%'
+'ECHO.'%acoustid_id%' >>%FILENAME%'
+'ECHO.'$if2(%acoustid_fingerprint%,%acoustid fingerprint%)' >>%FILENAME%'
+$loopend()
+
+'ECHO.Ready.'
+'ECHO.'
+'PAUSE'
+':EOB'

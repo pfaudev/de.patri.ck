@@ -1,0 +1,8 @@
+﻿$filename(,utf-8)'[Name]=discogs.com (Pone Mod 4.4)
+[BasedOn]=https://api.discogs.com
+[PreviewUrl]=https://www.discogs.com/release/%s
+[AlbumUrl]=https://api.discogs.com/releases/%s
+[SearchBy]=$if2(%'$regexp($regexp(%discogs id & url%,.*?Discogs Release ID:\s+>(.*?)$.*,$1),^$,discogs_release_id)'%,$if2(%DISCOGS_RELEASE_ID%,$if2(%DISCOGSID%,%DISCOGS-ID%)))
+[UserAgent]=1
+[ParserScriptIndex]=...
+#'

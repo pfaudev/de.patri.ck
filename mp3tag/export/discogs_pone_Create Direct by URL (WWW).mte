@@ -1,0 +1,17 @@
+﻿$filename(,utf-8)'[Name]=discogs.com (Pone Mod 4.4)
+[BasedOn]=www.discogs.com
+[IndexUrl]=
+[AlbumUrl]=
+[IndexFormat]=%_preview%|%_url%|
+[SearchBy]=$lower($regexp($if2(%'$regexp($regexp(%discogs id & url%,.*?Discogs Release URL:\s+>(.*?)$.*,$1),^$,www)'%,%'$regexp($regexp(%discogs id & url%,.*?Discogs Master URL:\s+>(.*?)$.*,$1),^$,www)'%),^www,https://www,1))
+[UserAgent]=1
+[ParserScriptIndex]=...
+findline "<link rel=\"canonical\""
+say "https://www.discogs.com/"
+sayregexp "(?:release|master)/\d+(?=\">)"
+
+say "|"
+regexpreplace ".+(release|master)/(\d+)\">.*" "https://api.discogs.com/$1s/$2"
+sayrest
+say "|"
+#'

@@ -1,0 +1,23 @@
+
+$filename($getEnv('USERPROFILE')'\Desktop\TAG_EXPORT\'%_directory%'.csv', utf-8)
+
+$loop(%_path%)
+'"'$if2($lower(%_extension%),)'"
+"'$if2($lower(%_extension%),)'";
+"'$if2(%artist%,)'";
+"'$if2(%title%,)'";
+"'$if2(%album%,)'";
+"'$if2(%label%,)'";
+"'$if2(%kategorie%,)'";
+"'$if2(%bpm%,)'";
+"'$if2(%genre%,)'";
+"'$if2(%year%,)'";
+"'$if2(%initialkey%,)'";
+"'$if2(%energylevel%,)'";
+"'$if2(%isrc%,)'";
+"'$if2(%dauer%,%_length_seconds%)'";
+"'$if2(%replaygain_track_gain%,)'";
+"'$if2(%acoustid_id%,)'";
+"'$if2(%acoustid_fingerprint%,)'"'
+
+$loopend()

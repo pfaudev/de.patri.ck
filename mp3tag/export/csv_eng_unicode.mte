@@ -1,0 +1,3 @@
+$filename(Mp3tag csv -%_workingdir%- Unicode.csv,utf-16)"Artist"$char(9)"Title"$char(9)"Album"$char(9)"Track"$char(9)"Total tracks"$char(9)"Year"$char(9)"Length"$char(9)"Size MB"$char(9)"Modified"$char(9)"Path"$char(9)"File name"
+$loop(%_path%)"$replace(%artist%,","")"$char(9)"$replace(%title%,","")"$char(9)"$replace(%album%,","")"$char(9)[$num(%track%,1)]$char(9)%_total%$char(9)%year%$char(9)%_length%$char(9)%_file_size_mb%$char(9)%_file_mod_date%$char(9)"%_folderpath%"$char(9)"%_filename_ext%"
+$loopend()

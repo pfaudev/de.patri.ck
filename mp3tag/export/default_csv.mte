@@ -1,0 +1,3 @@
+$filename(AudioDB.csv,utf-16)ARTIST;TITLE;ALBUM;GENRE;JAHR;BPM;INITIALKEY;TRAKTOR;CAMELOT;REKORDBOX;FBPM;ENERGY;ISRC;FBPMQ;ORDNER;ACOUSTID_ID;FINGERPRINT
+$loop(%_filename_ext%)%artist%;%title%;%album%;%genre%;%year%;%bpm%;%initialkey%;%trak%;%cam%;%rec%;%fbpm%;%energylevel%;%isrc%;%fbpmquality%;%ordner%;%acoustid_id%;%acoustid_fingerprint%
+$loopend()

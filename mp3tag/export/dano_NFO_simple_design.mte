@@ -1,0 +1,19 @@
+$filename(%_folderpath%$lower($replace(00-%artist%-%album%-%year%, ,_))-Mp3tag.nfo,ansi)Artist.......: %artist%
+Album........: %album%
+Genre........: %genre%
+Year.........: %year%
+Label........: %publisher%
+Tracks.......: %_total_files%
+Playtime.....: %_total_time%
+Size.........: %_total_size%
+Codec........: %_codec%
+Quality......: $loop(%_filename_ext%)$puts(Vbitrate,$add($get(Vbitrate),%_bitrate%))$puts(cnt1,$add($get(cnt1),1))$loopend()$div($get(Vbitrate),$get(cnt1)) kbps %_vbr%
+Channels.....: %_samplerate% khz / %_mode%[
+Encoder......: %encodersettigns%]
+Tags.........: %_tag%
+
+
+$loop($num(%discnumber%,3)$num(%track%,4)%_filename_ext%)$num(%track%,2). %title%$repeat( ,$sub(57,$len(%title%)))   [$replace(%_length%,_,:)]
+$loopend()
+
+NFO made on %_datetime% with %_app%

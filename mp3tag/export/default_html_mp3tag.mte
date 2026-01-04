@@ -1,0 +1,76 @@
+﻿$filename(html,utf-8)
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Datei&uuml;bersicht \\ %_path%</title>
+  <style type="text/css">
+	body { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 8pt; background: #fff }
+	table, tr, td { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 9pt; color: #000; }
+	th, td { padding: 5px; }
+	a:link, a:visited, a:active { text-decoration: none; color: #03f; }
+	a:hover { text-decoration: none; color: #f03; }
+	.head { background-color: #232323; font-weight: bold; padding: 7px; margin: 0px; color: #FF0180; }
+	.odd { background-color: #e0e0e0; }
+	.1A, .1B { background-color: #A64A96; }
+    .2A, .2B { background-color: #6E519D; }
+    .3A, .3B { background-color: #4E7FC0; }
+    .4A, .4B { background-color: #32BEF0; }
+    .5A, .5B { background-color: #56BFCC; }
+    .6A, .6B { background-color: #4FB585; }
+    .7A, .7B { background-color: #48AD3C; }
+    .8A, .8B { background-color: #7DB928; }
+    .9A, .9B { background-color: #FDD400; }
+    .10A, .10B { background-color: #EC6723; }
+    .11A, .11B { background-color: #E94C33; }
+    .12A, .12B { background-color: #E7344B; }
+  </style>
+</head>
+<body>
+
+  <table>
+	<tr>
+	  <th class="head">PP-iD</th>
+	  <th class="head">Interpret</th>
+	  <th class="head">Titel</th>
+	  <th class="head">Album</th>
+	  <th class="head">Label</th>
+	  <th class="head">Genre</th>
+	  <th class="head">Jahr</th>
+	  <th class="head">BPM</th>
+	  <th class="head">Key</th>
+	  <th class="head">OpenKey</th>
+	  <th class="head">Camelot</th>
+	  <th class="head">Energie</th>	  
+	  <th class="head">Dauer</th>
+	  <th class="head">iSRC</th>
+	  <th class="head">Acoustid_id</th>
+	  <th class="head">Fingerprint</th>
+	</tr>
+
+    $loop(%_filename_ext%)
+	  <tr$if($odd(%_counter%), class="odd" style="display:inline;", style="display:inline;")>
+		<td class="pp-id">'$if2(%pp_id%,%_md5%)'</td>
+		<td class="artist">'$if2(%artist%,)'</td>
+		<td class="title">'$if2(%title%,)'</td>
+		<td class="album">$if2(%album%,)</td>
+		<td class="label">$if(%label%,$if2(%publisher%,))</td>		
+		<td class="genre">$if2($meta_sep(genre,'\\'),)</td>
+		<td class="jahr">$if2(%year%,)</td>		
+		<td class="bpm">$if2(%bpm%,)</td>
+		<td class="$if2(%camelot%,)">$if2(%initialkey%,)</td>
+		<td class="$if2(%camelot%,)">$if2(%openkey%,)</td>
+		<td class="$if2(%camelot%,)">$if2(%camelot%,)</td>		
+		<td class="energy">$if2(%energylevel%,)</td>
+		<td class="dauer">$if2(%dauer%,%_length_seconds%)</td>
+		<td class="isrc">$if2(%isrc%,)</td>
+		<td class="acoustid_id">$if2(%acoustid_id%,)</td>
+		<td class="fingerprint">$if2(%acoustid_fingerprint%,)</td>
+	  </tr>
+    $loopend()
+
+  </table>
+
+</body>
+</html>

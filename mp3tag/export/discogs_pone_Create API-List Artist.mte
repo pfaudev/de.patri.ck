@@ -1,0 +1,156 @@
+﻿$filename(,utf-8)'[Name]=discogs.com (Pone Mod 4.4)
+[BasedOn]=www.discogs.com
+[IndexUrl]=https://api.discogs.com/artist/%s?f=json&releases=1
+[AlbumUrl]=https://api.discogs.com/
+[WordSeperator]=+
+[IndexFormat]=%Cover%|%_url%|%_preview%|%Artist%|%Album%|%Year%|%Discogs Status: Publisher / Format%|%Artist''''s Role%|
+[SearchBy]=$regexp($if2(%'$regexp($regexp(%artist names%,.*?^Artist - Primary Name:\s+>(.*?)$.*,$1),^$,discogs_artist_name)'%,$if2(%discogs_artist_name%,$if2(%discogs_artist%,$if2(%discogs artist name%,$if2(%discogs artist%,$if2(%'$regexp($regexp(%artist names%,.*?^Artist - Name Variation:\s+>(.*?)$.*,$1),^$,artist)'%,%artist%)))))),^The (.*),$1''',''' The)
+[UserAgent]=1
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+# Pone Mod 4.4
+
+#< ## JSON REPLACMENTS
+# replace syntax characters in non-syntax position
+regexpreplace ":(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u003a"	
+regexpreplace ",(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u002c"	
+regexpreplace "\[(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u005b"	
+regexpreplace "\](?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u005d"	
+regexpreplace "\{(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u007b"	
+regexpreplace "\}(?=[^\"]*\"[\s,\[\]\{\}]+\"[^\"]+\":)" "\\\\u007d"	
+
+regexpreplace "\"videos\": \[[^\[]*?\]," ""
+regexpreplace "\"images\": \[[^\[]*?\]," ""
+regexpreplace "\"community\": \{[^\{]*?\}," ""
+regexpreplace "\}$" ", \"end_of_document\": []}"
+
+# replace special JSON characters
+replace "\\\\" "\\u005c"
+replace "\\\"" "\\u0022"	# =	"&quot;"
+replace "\\b" "\\u0008"		# backspace
+replace "\\f" "\\u000c"		# formfeed
+replace "\\n" "\\u000a"		# newline
+replace "\\r" "\\u000d"		# carriage return
+replace "\\t" "\\u0009"		# horizontal tab
+
+# replace problematic characters for Mp3tag
+replace "|" "ǀ"
+replace "\\u005c\\u005c" "\\u005c\\u200b\\u005c\\u200b"
+replace "\"\"" "\" \""
+regexpreplace "\s\s+" " " #>
+
+replace "\"thumb\": \"https\u003a//api.discogs.com/images/spacer.gif\"" "&nbsp;&nbsp;&nbsp;&nbsp;╳"
+replace "\"thumb\":" "✔   "
+findinline "\"releases\":"
+
+do
+	#Master or Release?
+	findinline "\"type\": \"" 1 1
+	if "release"
+	#Only Release
+		# Cover
+		findinline "{" -1 1
+		sayregexp "✔   " "" "}"
+		sayregexp "&nbsp;&nbsp;&nbsp;&nbsp;╳" "" "}"
+		say "|"
+		# URL
+		say "releases/"
+		sayregexp "(?<=\"id\": )\d+" "" "}"
+		say "|"
+		# Preview
+		say "https://www.discogs.com/release/"
+		sayregexp "(?<=\"id\": )\d+" "" "}"
+		say "|"
+		# Artist
+		sayregexp "(?<=\"artist\": \").+?(?=\")" "" "}"
+		say "|"
+		# Album
+		sayregexp "(?<=\"title\": \").+?(?=\")" "" "}"
+		say "|"
+		# Year
+		sayregexp "(?<=\"year\": )\d+" "" "}"
+		say "|"
+		# Discogs Status: Publisher (Format)
+		say "→ Only Release:   "
+		sayregexp "(?<=\"label\": \").+?(?=\")" "" "}"
+		say " / "
+		sayregexp "(?<=\"format\": \").+?(?=\")" "" "}"
+		say "|"
+		# Artists Role
+		sayregexp "(?<=\"role\": \").+?(?=\")" "" "}"
+		sayregexp "(?<=\"trackinfo\").+?(?=\")" "" "}"
+		say " "
+		sayregexp "(?<=\"trackinfo\": \").+?(?=\")" "" "}"
+		say "|"
+		
+	else
+	# Master Release	
+		# Cover
+		findinline "{" -1 1
+		sayregexp "✔   " "" "}"
+		say "|"
+		# URL
+		say "masters/"
+		sayregexp "(?<=\"id\": )\d+" "" "}"
+		say "|"
+		# Preview
+		say "https://www.discogs.com/master/"
+		sayregexp "(?<=\"id\": )\d+" "" "}"
+		say "|"
+		# Artist
+		sayregexp "(?<=\"artist\": \").+?(?=\")" "" "}"
+		say "|"
+		# Album
+		sayregexp "(?<=\"title\": \").+?(?=\")" "" "}"
+		say "|"
+		# Year
+		sayregexp "(?<=\"year\": )\d+" "" "}"
+		say "|"
+		# Discogs Status: Publisher (Format)
+		say "Master Page|"
+		# Artists Role
+		sayregexp "(?<=\"role\": \").+?(?=\")" "" "}"
+		sayregexp "(?<=\"trackinfo\").+?(?=\")" "" "}"
+		say " "
+		sayregexp "(?<=\"trackinfo\": \").+?(?=\")" "" "}"
+		say "|"
+		saynewline
+		
+	# Main Release	
+		# Cover
+		sayregexp "✔   " "" "}"
+		say "|"
+		# URL
+		say "releases/"
+		sayregexp "(?<=\"main_release\": ).+?(?=,)" "" "}"
+		say "|"
+		# Preview
+		say "https://www.discogs.com/release/"
+		sayregexp "(?<=\"main_release\": ).+?(?=,)" "" "}"
+		say "|"	
+		# Artist
+		sayregexp "(?<=\"artist\": \").+?(?=\")" "" "}"
+		say "|"
+		# Album
+		sayregexp "(?<=\"title\": \").+?(?=\")" "" "}"
+		say "|"
+		# Year
+		sayregexp "(?<=\"year\": )\d+" "" "}"
+		say "|"
+		# Discogs Status: Publisher (Format)
+		say "↳   Main Release from Master Page|"
+		# Artists Role
+		sayregexp "(?<=\"role\": \").+?(?=\")" "" "}"
+		sayregexp "(?<=\"trackinfo\").+?(?=\")" "" "}"
+		say " "
+		sayregexp "(?<=\"trackinfo\": \").+?(?=\")" "" "}"
+		say "|"
+		
+	endif
+	saynewline
+	findinline "}"
+	
+while ", {" 2000
+
+#'

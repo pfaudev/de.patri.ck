@@ -1,0 +1,97 @@
+$filename($getEnv('USERPROFILE')'\Desktop\PLATTEN_'%_directory%'.html',utf-8)<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>%_directory%</title>
+  <style type="text/css">
+	body { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 8pt; background: #f0f0f0; }
+	table, tr, td { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 8pt; color: #000; padding: 0px; }
+	td { padding: 0px; vertical-align: middle; word-wrap: break-word; }
+	
+	td #label { width:10%; max-width:10%; overflow:hidden; }
+	td #value { width:85%; max-width:85%; overflow:hidden; }
+	
+	
+	a:link, a:visited, a:active { text-decoration: none; color: #03f; }	
+	a:hover { text-decoration: none; color: #f03; }
+	#label { border: 1px solid #ff0180; background-color: #fff; font-weight: bold; padding: 3px; margin: 0px; color: #FF0180; }
+	#value { border: 1px solid #ff0180; background-color: #fff; font-weight: normal; padding: 3px; margin: 0px; color: #000000; }
+	#value.key-1A,  #value.key-1B  { color: #A64A96; }
+	#value.key-2A,  #value.key-2B  { color: #6E519D; }
+	#value.key-3A,  #value.key-3B  { color: #4E7FC0; }
+	#value.key-4A,  #value.key-4B  { color: #32BEF0; }
+	#value.key-5A,  #value.key-5B  { color: #56BFCC; }
+	#value.key-6A,  #value.key-6B  { color: #4FB585; }
+	#value.key-7A,  #value.key-7B  { color: #48AD3C; }
+	#value.key-8A,  #value.key-8B  { color: #7DB928; }
+	#value.key-9A,  #value.key-9B  { color: #FDD400; }
+	#value.key-10A, #value.key-10B { color: #EC6723; }
+	#value.key-11A, #value.key-11B { color: #E94C33; }
+	#value.key-12A, #value.key-12B { color: #E7344B; }
+  </style>
+</head>
+<body>
+
+    $loop(%_filename_ext%)
+	<table>
+    <tr$if($odd(%_counter%), class="odd",)>
+	    <td id="label" class="artist" style="">ARTiST</td>
+		<td id="value" class="artist" style="text-align:left;padding-left:10px;"><i>%artist%</i></td>
+	  </tr>	  <tr>
+	    <td id="label" class="title" style="text-align:left;padding-left:10px;">TiTLE</td>
+		<td id="value" class="title" style="text-align:left;padding-left:10px;"><i>%title%</i></td>
+	  </tr>	  <tr>
+	    <td id="label" class="album" style="text-align:left;padding-left:10px;">ALBUM</td>
+		<td id="value" class="album" style="text-align:left;padding-left:10px;"><i>%album%</i></td>		
+	  </tr>	  <tr>
+	    <td id="label" class="label" style="text-align:left;padding-left:10px;">LABEL</td>	
+		<td id="value" class="label" style="text-align:left;padding-left:10px;">%label%</td>
+	  </tr>	  <tr>
+	    <td id="label" class="genre" style="text-align:left;padding-left:10px;">GENRE</td>
+		<td id="value" class="genre" style="text-align:left;padding-left:10px;"><i>%genre%</i></td>	
+	  </tr>	  <tr>
+	    <td id="label" class="year" style="text-align:left;padding-left:10px;">JAHR</td>
+		<td id="value" class="year" style="text-align:left;padding-left:10px;"><b>%year%</b></td>
+	  </tr>	  <tr>
+	    <td id="label" class="bpm" style="text-align:left;padding-left:10px;">BPM</td>
+		<td id="value" class="bpm" style="text-align:left;padding-left:10px;"><b>%bpm%</b></td>
+	  </tr>	  <tr>
+	    <td id="label" class="key" style="text-align:left;padding-left:10px;">KEY</td>
+		<td id="value" class="key-%camelot%" style="text-align:left;padding-left:10px;"><b>$if(%initialkey%,%initialkey%,<font color="#FF0000">✘</font>)</b></td>
+	  </tr>	  <tr>
+	    <td id="label" class="key" style="text-align:left;padding-left:10px;">CAMELOT</td>
+		<td id="value" class="key-%camelot%" style="text-align:left;padding-left:10px;"><b>$if(%camelot%,%camelot%,<font color="#FF0000">✘</font>)</b></td>
+	  </tr>	  <tr>
+	    <td id="label" class="key" style="text-align:left;padding-left:10px;">OPENKEY</td>
+		<td id="value" class="key-%camelot%" style="text-align:left;padding-left:10px;"><b>$if(%openkey%,%openkey%,<font color="#FF0000">✘</font>)</b></td>
+	  </tr>	  <tr>
+	    <td id="label" class="energy" style="text-align:left;padding-left:10px;">ENERGY</td>
+		<td id="value" class="energy" style="text-align:left;padding-left:10px;"><b>%energylevel%</b></td>
+	  </tr>	  <tr>
+	    <td id="label" class="isrc" style="text-align:left;padding-left:10px;">iSRC</td>
+		<td id="value" class="isrc" style="text-align:left;padding-left:10px;">%isrc%</td>
+	  </tr>	  <tr>
+        <td id="label" class="track_gain" style="text-align:left;padding-left:10px;">TRACK_GAiN</td>
+		<td id="value" class="track_gain" style="text-align:left;padding-left:10px;">%replaygain_track_gain%</td>
+	  </tr>	  <tr>
+	    <td id="label" class="dauer" style="text-align:left;padding-left:10px">DAUER</td>
+		<td id="value" class="dauer" style="text-align:left;padding-left:10px;">%_lengtd_seconds%</td>
+	  </tr>	  <tr>
+	    <td id="label" class="kategorie" style="text-align:left;padding-left:10px;">KATEGORiE</td>
+		<td id="value" class="kategorie" style="text-align:left;padding-left:10px;">%kategorie%</td>
+	  </tr>	  <tr>
+	    <td id="label" class="subkat" style="text-align:left;padding-left:10px;">SUBKATEGORiE</td>
+		<td id="value" class="subkat" style="text-align:left;padding-left:10px;">%subkategorie%</td>
+	  </tr>	  <tr>
+	    <td id="label" class="acoustid" style="text-align:left;padding-left:10px;">ACOUSTID</td>
+		<td id="value" class="acoustid" style="text-align:left;padding-left:10px;">$if(%acoustid_id%,%acoustid_id%,<font color="#FF0000">✘</font>)</td>
+	  </tr>	  <tr>
+	    <td id="label" class="acoustid_fingerprint" style="text-align:left;padding-left:10px;">FINGERPRINT</td>
+	  	<td id="value" class="acoustid_fingerprint" style="text-align:left;padding-left:10px;">$if(%acoustid_fingerprint%,%acoustid_fingerprint%,<font color="#FF0000">✘</font>)</td>
+	  </tr>
+  </table> <br/><br/><br/>
+  $loopend()
+  
+</body>
+</html>

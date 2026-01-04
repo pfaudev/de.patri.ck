@@ -1,0 +1,2 @@
+$filename(E:\Music\_labels\%PUBLISHER%\%_DIRECTORY%\$if($geql(%TOTALDISCS%,2),0,)00 $replace($replace($regexp(%BAND% - %ALBUM% '('%YEAR%')','['\\|<>\?\*:"']',), / , & ),/, ).m3u,ansi)$loop(%_path%)%_filename_ext%
+$loopend()

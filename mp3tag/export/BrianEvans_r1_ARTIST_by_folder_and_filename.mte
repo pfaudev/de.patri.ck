@@ -1,0 +1,96 @@
+$filename(#r1 ARTIST by folder and filename ($replace(%_date%,/,-)).html,utf-8)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<!-- Original concept from Dano, modified by Brian Evans September 2009 -->
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="GENERATOR" content="Mp3tag - http://www.mp3tag.de">
+<title>r1 ARTIST by folder and filename ($replace(%_date%,/,-))</title>
+
+<!-- idea to extend the album list by forum user schneigis -->
+<SCRIPT language=JavaScript type=text/JavaScript>
+<!--
+function show(id) {
+	if(document.getElementById("show" + id).style.display == ''none'') {
+	document.getElementById("show" + id).style.display = '''';
+}else{
+	document.getElementById("show" + id).style.display = ''none'';
+}
+}
+//-->
+</SCRIPT>
+<style type="text/css"><!--
+h1 { font-family: Verdana; font-size: 14pt }
+BODY { font-family: Verdana, Tahoma, Arial, sans-serif;font-size: 11px;margin: 0px;padding: 0px;text-align: center;color: #000;background-color: #FFF; }
+TABLE, TR, TD { font-family: Verdana, Tahoma, Arial, sans-serif;font-size: 11px;color: #000; }
+#ipbwrapper { text-align: left;width: 98%%;margin-left: auto;margin-right: auto; }
+a:link, a:visited, a:active { text-decoration: underline;color: #000; }
+a:hover { text-decoration: underline;color: #465584; }
+.row1 { background-color: #F5F9FD; }
+.row2 { background-color: #DFE6EF; }
+.row3 { background-color: #FAFAFA; }
+.row4 { background-color: #FEF2F7; }
+.titlemedium { font-weight: bold;padding: 7px;margin: 0px;color: #3A4F6C;background-color: #AECEF8; }
+.titlemedium  a:link, .titlemedium  a:visited, .titlemedium  a:active { text-decoration: underline;color: #3A4F6C; }
+.maintitle { vertical-align: middle;font-weight: bold;padding: 8px 0px 8px 5px;color: #FFF;background-color: #1974EA; }
+.maintitle a:link, .maintitle  a:visited, .maintitle  a:active { text-decoration: none;color: #FFF; }
+.maintitle a:hover { text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<div id="ipbwrapper">
+<div class="tableborder">
+<div class="maintitle" align="left">Report = r1 ARTIST by folder and filename ($replace(%_date%,/,-))<br>- Contents of "%_workingdir%": $loop(%_folderpath%,1)$loopend()%_max_counter% Albums | %_total_size% | %_total_files% Files | %_total_time% Hours</div>
+
+<table width="100%%" border="0" cellspacing="1" cellpadding="4">
+	<tr>
+	<th align="center" width="5%%" class="titlemedium">...</th>
+	<th align="left" width="72%%" class="titlemedium">Artist</th>
+	<th align="center" width="5%%" class="titlemedium">Year</th>
+	<th align="center" width="18%%" class="titlemedium">Genre</th>
+	</tr>
+</table>
+
+$loop(%_parent_directory%)
+  <!-- ARTIST START -->
+  <table width="100%%" border=0>
+	<tr>
+	<td class="row2" align="center" width="5%%"><a >$num(%_counter%,3)</a></td>
+	<td id="id$replace(%_parent_directory%,'',)" class="row2" width="40%%">
+	  <b><a href="javascript:show(''$replace(%_parent_directory%,'',)_'');">%_parent_directory%</a></b></td>
+	<td class="row2" align="right" width="32%%">$loop(%_folderpath%,1)$loopend() %_max_counter% Album(s) %_total_size% | %_total_files% Files | %_total_time% hrs </td>
+	<td class="row2" align="center" width="5%%"></td>
+	<td class="row2" align="center" width="18%%">%genre%</td>
+	</tr>
+  </table>
+
+  <table style="display:none;" id="show$replace(%_parent_directory%,'',)_" width="100%%">
+	$loop(%_folderpath%)
+	<!-- ALBUM START -->
+	<tr>
+		<td class="row4" align="center" width="5%%"><a >-$num(%_counter%,2)</a></td>
+		<td id="id$replace(%_parent_directory%%_directory%,'',)" class="row4" width="40%%">
+		  <b><a href="javascript:show(''$replace(%_parent_directory%%_directory%,'',)'');">%_directory%</a></b></td>
+		<td class="row4" align="right" width="32%%">%_total_size% | %_total_files% Files | %_total_time% hrs </td>
+		<td class="row4" align="center" width="5%%">%year%</td>
+		<td class="row4" align="center" width="18%%">%genre%</td>
+	</tr>
+	<tr style="display:none;" id="show$replace(%_parent_directory%%_directory%,'',)">
+		<td class="row3"></td>
+		<td class="row3">$loop(%_filename_ext%)%_filename_ext%<br>$loopend()</td>
+		<td class="row3" align="right">$loop(%_filename_ext%)%_file_size% | [%_bitrate%kbps %_vbr% | ]%_length%min <br>$loopend()</td>
+		<td class="row3" align="center"></td>
+		<td class="row3" align="center">%_total_size%<br>%_total_files% Files<br>$replace(%_codec%,Free Lossless Audio Codec,FLAC)</td>
+	</tr>
+	$loopend()
+  </table>
+$loopend()
+
+</div>
+<br clear=''all'' />
+</div>
+<br>made on %_date% with <a href="http://www.mp3tag.de/" target="_blank">%_app%</a> - the <b>universal</b> Tag Editor<br>
+</body>
+</html>

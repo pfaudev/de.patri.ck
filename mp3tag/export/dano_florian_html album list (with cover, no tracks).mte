@@ -1,0 +1,97 @@
+$filename(html_dano_florian album list (with cover, no tracks).html,utf-8)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta name="GENERATOR" content="Mp3tag - http://www.mp3tag.de">
+	<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+	<title>%_workingdir%</title>
+
+	<style type="text/css"><!--	
+		h1 { font-family: Arial; font-size: 12pt }
+		h2 { font-family: Arial; font-size: 10pt }
+		body { font-family: Arial; font-size: 9pt }
+		table { font-family: Arial; font-size: 9pt }
+		a {color: #960000; text-decoration: none }
+		a:hover {color: #960000; text-decoration: none}
+		#wrap { width: 95%%; }
+		.tbox { padding: 10px; margin: 10px; background-color: #EFEFEF;}
+	--></style>
+</head>
+
+<!--
+	This is a mod of html_Florian_albumcover
+	made by dano
+-->
+
+<body>
+<div id="wrap">
+$loop(%_folderpath%,1)
+<div class="tbox">
+	<table border="0" width="100%%">
+		<tr>
+			<td width="25%%" rowspan=4 valign="top" align="middle">
+				<a href="%_folderpath_rel%Folder.jpg"><img alt="Cover" src="%_folderpath_rel%Folder.jpg" width="150" height="150" border="0"></a>
+			</td>
+			<td width="75%%">
+				<table border="0" width="100%%">
+			
+
+					<tr>
+						<td width="15%%" valign="top">
+							<h2>Artist: </h2>
+						</td>
+						<td width="60%%" valign="top">
+							<h2>$if2(%album artist%,%artist%)</h2>
+						</td>
+						
+					</tr>
+					<tr>
+						<td width="15%%" valign="top">
+							<h2>Album: </h2>
+						</td>
+						<td width="60%%" valign="top">
+							<h2><a href="%_folderpath_rel%%_directory%.m3u">%album%</a></h2>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%%" valign="top">
+							<h2>Genre: </h2>
+						</td>
+						<td width="60%%" valign=top>
+							<h2>%genre%</h2>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%%" valign=top>
+							<h2>Year: </h2>
+						</td>
+						<td width="60%%" valign=top>
+							<h2>%year%</h2>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%%" valign=top>
+							<h2>Length: </h2>
+						</td>
+						<td width="60%%" valign=top>
+							<h2>%_total_time%</h2>
+						</td>
+					</tr>
+				</table>
+			</td>			
+			
+		</tr>
+	</table>
+
+
+
+
+</table>
+</div>
+$loopend()
+
+<div align="center">
+<p><b>Mp3tag</b> - the <b>universal</b> Tag editor <a href="http://www.mp3tag.de/en/">www.mp3tag.de</a></p></div>
+</div>
+</div>
+</body>
+</html>

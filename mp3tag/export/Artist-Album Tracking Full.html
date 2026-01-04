@@ -1,0 +1,650 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META NAME="Author" CONTENT="milka (amilino@gmail.com)">
+<META NAME="Generator" CONTENT="Mp3tag v2.36d - http://www.mp3tag.de">
+<META NAME="Date" CONTENT="28.9.2006">
+<TITLE>---=== Burn ===--- _- Artist-Album Tracking Full -_</TITLE>
+<STYLE TYPE="TEXT/CSS"><!--
+BODY { font-family: Verdana, Tahoma, Arial, sans-serif; margin: 0px;padding: 0px; text-align: center; color: #000000; background-color: #E1DEDE; }
+#ipbwrapper { text-align: left; width: 99%; margin-left: auto; margin-right: auto; }
+table { border-collapse: collapse; font-size: 11px; border-right: solid 1px #FFFFFF; border-left: solid 1px #FFFFFF; }
+img { border-collapse: collapse; border: 1px solid #000000; }
+.maintitle { font-weight: bold; padding: 8px 0px 8px 5px; color: #FFFFFF; background-color: #666666; }
+.titlemedium { padding: 2px; margin: 0px; color: #FFFFFF; background-color: #999999; }
+.titlemedium td { border-right: 1px solid #000000; }
+.style1 { text-decoration: none; font-size: 10px; background-color: #848589; color: #FFFFFF; padding-right: 2px; }
+.style2 { text-decoration: none; background-color: #cccccc; color: #000000; padding-right: 1px; padding-left: 1px; }
+.style3 { text-decoration: none; font-size: 10px; background-color: #848589; color: #000000; padding-left: 50px; }
+.style4 { text-decoration: none; background-color: #848589; color: #FFFFFF; font-size: 10px; }
+.style2 a:link, .style2 a:visited, .style2 a:active { font-weight: bold; text-decoration: none; color: #000000; }
+.style3 a:link, .style3 a:visited, .style3 a:active { text-decoration: none; font-size: 10px; background-color: #848589; color: #FFFFFF;}
+.style4 a:link, .style4 a:visited, .style4 a:active { font-weight: bold; text-decoration: none; color: #FFFFFF; }
+#a:hover { color: #4768BB; }
+#b:hover { color: #D2EBFC; }
+.style2 a:hover { color: #4768BB; }
+.style3 a:hover { color: #D2EBFC; }
+.style4 a:hover { color: #D2EBFC; }
+.songtr { border-collapse: collapse; border-width: 0px; border-style: none; padding: 0px; margin: 0px; }
+.songtable { border-collapse: collapse; border-width: 1px 0px 1px; border-style: solid none solid; border-color: #000000; margin: 0px; padding: 0px; }
+.r{ text-align: right }
+.c{ text-align: center }
+-->
+</STYLE>
+
+<SCRIPT LANGUAGE=JAVASCRIPT TYPE=TEXT/JAVASCRIPT><!--
+// All functions are created by milka.                   //
+// Functions can be used when credit is given. It        //
+// should look like this:                                //
+/* +++ script name by milka +++ */                       //
+
+// When you classify it in such a way, you are free to   //
+// use the script.                                       //
+// this export script was last modified: 26.08.2006      //
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+// ++++++++++++++++++ DEFINE THE NAMES ++++++++++++++++++ //
+// Here you can define the names of the covers & reviews. //
+// You can even define the whole name of the file!!!      //
+
+// Define name for covers & reviews:
+var cover = "cover.jpg";
+var review = "review.txt";
+
+
+var artist_count = 7;
+var unknownartist = 0;
+var artist_real = artist_count - unknownartist;
+var album_count = 2;
+var album_real = 2;
+var mix_count = 12;
+
+/* +++ Smart counters by milka +++ */
+function smart_counters(){
+	if (unknownartist == 1) {
+		if(artist_count == 1){
+			document.write(artist_real,' Artist + Unknown Artist(s)');
+		}else{
+			document.write(artist_real,' Artists + Unknown Artist(s)');
+		}
+	}else{
+		if(artist_count == 1){
+			document.write(artist_count,' Artist');
+		}else{
+			document.write(artist_count,' Artists');
+		}
+        }
+	if (album_real <= 1) {
+		if(album_real == 0) {
+			document.write(' | ','No Albums')
+		}else{
+			document.write(' | ',album_real,' Album');
+		}
+	}else{
+		document.write(' | ',album_real,' Albums');
+	}
+	if (mix_count <= 1) {
+		if(mix_count == 0) {
+		}else{
+			document.write(' & ',mix_count,' Mix');
+		}
+	}else{
+		document.write(' & ',mix_count,' Mixes');
+	}
+	
+}
+/* +++ Show/hide by milka +++ */
+function show(id) {
+	if(document.getElementById("show" + id).style.display == "none") {
+		document.getElementById("show" + id).style.display = "";
+		if(document.getElementById("c" + id))
+			document.getElementById("c" + id).style.display = "";
+	}else{
+		document.getElementById("show" + id).style.display = "none";
+		if(document.getElementById("c" + id))
+			document.getElementById("c" + id).style.display = "none";
+	}
+}
+function show2(id) {
+	if(document.getElementById("show" + id).style.display == "none") {
+		var arry = document.getElementById("infoform").value;
+		var amount = arry.split(";");
+			for (var i = 0; i< (amount.length-1); i++) {
+				document.getElementById("show" + amount[i]).style.display = "none";
+				if(document.getElementById("c" + amount[i]))
+					document.getElementById("c" + amount[i]).style.display = "none";
+			}
+		document.getElementById("show" + id).style.display = "";
+		if(document.getElementById("c" + id))
+			document.getElementById("c" + id).style.display = "";
+		document.getElementById("infoform").value = id + ";";
+	}else{
+		document.getElementById("show" + id).style.display = "none";
+		if(document.getElementById("c" + id))
+			document.getElementById("c" + id).style.display = "none";
+	}
+}
+function show_album(id) {
+	if(document.getElementById("n" + id).style.display == "none") {
+		document.getElementById("n" + id).style.display = "";
+		document.getElementById("p" + id).innerText = "-";
+		document.getElementById("p" + id).style.padding = "2px";
+	}else{
+		document.getElementById("n" + id).style.display = "none";
+		document.getElementById("p" + id).innerText = "+";
+		document.getElementById("p" + id).style.padding = "0.5px";
+	}
+}
+function hide_show_all(){
+	if(artist_count){ document.write('<A href="javascript:show_all()" id="a" class="style2" style="font-size: 10px">SHOW ALL</A>'); }
+}
+function show_all() {
+	for (i=1; i<=artist_count; i++) {
+		document.getElementById("show" + i).style.display = "";
+		if(document.getElementById("c" + i) != null)
+			document.getElementById("c" + i).style.display = "";
+	}
+	document.getElementById("a").href = "javascript:hide_all()";
+	document.getElementById("a").innerText = "HIDE ALL";
+}
+function hide_all() {
+	for (i=1; i<=artist_count; i++) {
+		document.getElementById("show" + i).style.display = "none";
+		if(document.getElementById("c" + i) != null)
+			document.getElementById("c" + i).style.display = "none";
+	}
+	document.getElementById("a").href = "javascript:show_all()";
+	document.getElementById("a").innerText = "SHOW ALL";
+}
+function hide_show_albums_all(){
+	if(album_count){ document.write('<A href="javascript:show_albums_all()" id="b" class="style1" style="font-size: 10px">SHOW ALL</A>'); }
+}
+function show_albums_all() {
+	for (i=1; i<=album_count; i++) {
+		document.getElementById("n" + i).style.display = "";
+		document.getElementById("p" + i).innerText = "-";
+		document.getElementById("p" + i).style.padding = "2px";
+	}
+	for (i=1; i<=artist_count; i++) {
+		if(document.getElementById("c" + i) != null)
+			document.getElementById("c" + i).innerText = "HIDE ALL";
+	}
+	document.getElementById("b").href = "javascript:hide_albums_all()";
+	document.getElementById("b").innerText = "HIDE ALL";
+}
+function hide_albums_all() {
+	for (i=1; i<=album_count; i++) {
+		document.getElementById("n" + i).style.display = "none";
+		document.getElementById("p" + i).innerText = "+";
+		document.getElementById("p" + i).style.padding = "0.5px";
+	}
+	for (i=1; i<=artist_count; i++) {
+		if(document.getElementById("c" + i) != null)
+			document.getElementById("c" + i).innerText = "SHOW ALL";
+	}
+	document.getElementById("b").href = "javascript:show_albums_all()";
+	document.getElementById("b").innerText = "SHOW ALL";
+}
+function show_album_all(id) {
+	var temp = new Array();
+	temp = id.split('|');
+	if(document.getElementById("n" + temp[temp.length-2]).style.display == "none") {
+		for (i=temp[0]; i<=temp[temp.length-2]; i++) {
+			document.getElementById("n" + i).style.display = "";
+			document.getElementById("p" + i).innerText = "-";
+			document.getElementById("p" + i).style.padding = "2px";
+		}
+		temp = id.split(',');
+		document.getElementById("c" + temp[temp.length-1]).innerText = "HIDE ALL";
+	}else{
+		temp = id.split('|');
+		for (i=temp[0]; i<=temp[temp.length-2]; i++) {
+			document.getElementById("n" + i).style.display = "none";
+			document.getElementById("p" + i).innerText = "+";
+			document.getElementById("p" + i).style.padding = "0.5px";
+		}
+		temp = id.split(',');
+		document.getElementById("c" + temp[temp.length-1]).innerText = "SHOW ALL";
+	}
+}
+/* +++ Highlight by milka +++ */
+function highlight_on(id){
+	if(document.getElementById("light" + id)) {
+		document.getElementById("light" + id).style.color = "#D2EBFC";
+	}
+}
+function highlight_out(id){
+		document.getElementById("light" + id).style.color = "#FFFFFF";
+}
+function highlight_on_a(id){
+	if(document.getElementById("a_light" + id)) {
+		document.getElementById("a_light" + id).style.color = "#D2EBFC";
+	}
+}
+function highlight_out_a(id){
+		document.getElementById("a_light" + id).style.color = "#FFFFFF";
+}
+function highlight_on_m(id){
+	if(document.getElementById("m_light" + id)) {
+		document.getElementById("m_light" + id).style.color = "#D2EBFC";
+	}
+}
+function highlight_out_m(id){
+		document.getElementById("m_light" + id).style.color = "#FFFFFF";
+}
+/* +++ Find-in-page script by Mark Wilton-Jones +++ */
+function searchForText( toFind, frameToSearch ) {
+   if( !toFind ) { window.alert( 'You have not entered any text to search for' ); return; }
+   if( frameToSearch.focus ) { frameToSearch.focus(); }
+   if( window.find ) {
+      //Netscape compatible browsers provide the window.find method
+      if( document.layers ) {
+         //Against the JS spec, Netscape 4 will produce errors if too many arguments are given
+         var ifFound = frameToSearch.find( toFind, false, false );
+      } else {
+         var ifFound = frameToSearch.find( toFind, false, false, true, false, true, false );
+      }
+   } else if( frameToSearch.document.body && frameToSearch.document.body.createTextRange ) {
+      //IE or compatible use various TextRange features
+      if( frameToSearch.document.selection && frameToSearch.document.selection.type != 'None' ) {
+         //If some text is selected already (previous search or if they have selected it)
+         //make that the text range. Then move to the end of it to search beyond it
+         var theRange = frameToSearch.document.selection.createRange();
+         theRange.collapse( false );
+      } else {
+         //If no text is selected, start from the start of the document
+         var theRange = frameToSearch.document.body.createTextRange();
+      }
+      //find the next occurrence of the chosen string
+      var ifFound = theRange.findText( toFind );
+      if( ifFound ) { theRange.select(); }
+   } else {
+      alert ( 'Please use your browser\'s search facility' );
+   }
+   if( !ifFound ) { alert ( 'Could not find text:\n' + toFind ); }
+}
+/* +++ Clear default form value by Ada Shimar +++ */
+function clearText(thefield){
+	if (thefield.defaultValue==thefield.value) { thefield.value = ""; }
+}
+/* +++ PreLoad Wait +++ */
+function waitPreloadPage() { //DOM
+	if (document.getElementById){
+		document.getElementById('prepage').style.visibility='hidden';
+	}else{
+		if (document.layers){ //NS4
+			document.prepage.visibility = 'hidden';
+		}
+		else { //IE4
+			document.all.prepage.style.visibility = 'hidden';
+		}
+	}
+}
+/* +++ Auto-Sizing Image Popup Window +++ */
+/* +++ script by SquallLeonhart38 +++ */
+/* +++ Edited by milka +++ */
+
+// Set the horizontal and vertical position for the popup
+var Start_X = 100;
+var Start_Y = 100;
+
+// Set these value approximately 20 pixels greater than the
+// size of the largest image to be used (needed for Netscape)
+var img_Width  = 500;
+var img_Height = 500;
+
+// Do not edit below this line...
+// ================================
+if(navigator.userAgent.indexOf("Opera") != -1) {defaultWidth = screen.availWidth;defaultHeight = screen.availHeight;}
+var img_option = "scrollbars=no, status=no, toolbar=no, menubar=no, dependent=yes, location=no, resizable=no, width=" + img_Width + ", height=" + img_Height + ", left=" + Start_X + ", top=" + Start_Y;
+function popImage(id) {
+	var imageURL = a[id][1] + cover;
+	var imageTitle = a[id][0];
+	var image_window=window.open("about:blank","Albumcover",img_option);
+	with(image_window.document) {
+		writeln("<html><head><title>" + imageTitle + "<\/title><script><!--");
+		writeln("var isNN,isIE,isOO;");
+			writeln("isNN = (navigator.appName == \"Netscape\" && navigator.userAgent.indexOf(\"Opera\") == -1)?1:0;");
+			writeln("isOO = (navigator.userAgent.indexOf(\"Opera\") != -1)?1:0;");
+			writeln("isIE = (navigator.appName.indexOf(\"Microsoft\") != -1 && navigator.userAgent.indexOf(\"Opera\") == -1)?1:0;");
+		writeln("function resizepopup() {");
+			writeln("if(isIE) {");
+				writeln("window.resizeTo(100,100);");
+				writeln("width = 100-(document.body.clientWidth-document.images[0].width);");
+				writeln("height = 100-(document.body.clientHeight-document.images[0].height);");
+				writeln("window.resizeTo(width,height);}");
+			writeln("if(isNN) {");       
+				writeln("window.innerWidth=document.images[0].width;");
+				writeln("window.innerHeight=document.images[0].height;}");
+			writeln("if(isOO) {");
+				writeln("window.resizeTo(100,100);");
+				writeln("width = 100-(document.body.clientWidth-document.images[0].width)+12;");
+				writeln("height = 100-(document.body.clientHeight-document.images[0].height)-16;");
+				writeln("window.resizeTo(width,height);}}");
+		writeln("//--><\/script><\/head>");
+		writeln("<body style=\"margin: 0px; padding: 0px\" onload=\"resizepopup();self.focus()\">");
+		writeln("<img name=\"cover\" src=\"" + imageURL + "\"><\/body><\/html>");
+	close();
+	}
+}
+/* +++ PopUp-Window for Reviews +++ */
+/* +++ script by SquallLeonhart38 +++ */
+/* +++ Edited by milka +++ */
+
+// this values specify the width and the height of the review
+// popup. You can change them or leave them as they are.
+var rev_Width  = 550;
+var rev_Height = 500;
+
+var rev_option = "resizable=no, menubar=no, status=no, scrollbars=no, toolbar=no, location=no, dependent=yes, width=" + rev_Width + ", height=" + rev_Height;
+function popReview(id) {
+	var reviewURL = a[id][1] + review;
+	var review_window = window.open("about:blank", "Review",rev_option);
+	with(review_window.document) {
+		writeln("<html><head><title>Review of: " + a[id][0] + "<\/title><\/head>");
+		writeln("<body style=\"margin: 0px; padding: 0px\">");
+		writeln("<iframe src=\"" + reviewURL + "\" scrolling=\"yes\" width=\"" + rev_Width + "\" height=\"" + rev_Height + "\" frameborder=\"0\">");
+		writeln("<\/body><\/html>");
+	close();
+	}
+}
+// +++ Arrayed Java Export by nickless +++ //
+// +++ Edited by milka +++ //
+
+var a = new Array();	//main export array for songs
+
+/* history of subarray fields usage
+a[n] = new Array(2);	//creates a new subarray in the n-th line of table
+a[n][0] = name of directory
+a[n][1] = folderpath without workingpath
+*/
+
+a[1] = new Array(2);
+a[1][0] = "High Contrast - High Society [2004]";
+a[1][1] = "High Contrast - High Society [2004]/";
+a[2] = new Array(2);
+a[2][0] = "LTJ Bukem - Journey Inwards [2000]";
+a[2][1] = "LTJ Bukem - Journey Inwards [2000]/";
+//-->
+</SCRIPT>
+</HEAD>
+
+<BODY name="top" onload="waitPreloadPage()">
+<!-- Loading Page Message //-->
+<DIV id="prepage" align="center">
+<TABLE class="c"><TR><TD><B>LOADING PAGE... PLEASE WAIT!</B></TD></TR></TABLE>
+</DIV>
+<!-- Loading Page Message End //-->
+
+<!-- field used for show2(id)-function -->
+<INPUT type="text" id="infoform" value="" style="display: none">
+<!-- field used for show2(id)-function End -->
+
+<DIV id="ipbwrapper">
+<TABLE width="100%" height="43px" class="maintitle">
+	<TD width="78%">---=== Burn ===--- Artist-Album Tracking Full<BR>
+		<SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT">smart_counters()</SCRIPT> | 1,02 GB | 38 Files | 15:36:51 Hours</TD>
+	<TD width="17%" nowrap><SCRIPT TYPE=TEXT/JAVASCRIPT>
+		if( ( document.body && document.body.createTextRange ) || window.find ) {
+			document.write( '<form action="" onSubmit="searchForText( this.elements[0].value, window ); return false;">'+
+			'<input type="text" value="Type words to search" onFocus="clearText(this)" class="style2" style="font-size: 11px; position: relative; width: 128px; height: 20px; top: 6px;"> <input type="submit" value="FIND ON PAGE" class="style1" style="position: relative; width: 84px; height: 19px; top: 6px;"><\/form>' );
+		}</SCRIPT></TD>
+</TABLE>
+<TABLE width="100%" style="border: 1px solid #000000;">
+<TR class="titlemedium">
+	<TD width="3%" rowspan="2" class="c">Nr.</TD>
+	<TD width="34%" rowspan="2"><B><FONT style="color: #000000">Artist</FONT> <SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT">hide_show_all()</SCRIPT>
+		<br><FONT style="padding-left: 10px; font-size: 10px">Album(s)</FONT> <SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT">hide_show_albums_all()</SCRIPT></B>
+		<br><FONT style="padding-left: 20px; font-size: 10px">Track(s)</FONT></TD>
+	<TD width="34%" colspan="4" align="center" style="border-bottom: 1px solid #000000;">Album Info</TD>
+	<TD width="5%" rowspan="2" class="c">Year</TD>
+	<TD width="18%" rowspan="2" class="c">Genre</TD></TR>
+<TR class="titlemedium" align="right">
+	<TD width="13%">Albums and Mixes</TD>
+	<TD width="6%">Files</TD>
+	<TD width="8%">Total Time</TD>
+	<TD width="8%">Total Size</TD><TR></TABLE>
+<TABLE width="100%" class="style2" cellpadding="0" style="border-top: 1px solid #FFFFFF;">
+<TR>
+	<TD width="3%" class="c"><A href="javascript:show('1');">1</A></TD>
+	<TD width="34%"><A href="javascript:show2('1');">Adamf And Jmajik Mcmc</A></TD>
+	<TD width="13%" class="r">2 Mixes</TD>
+	<TD width="6%" class="r">2 Files</TD>
+	<TD width="8%" class="r">1:54:21 hrs</TD>
+	<TD width="8%" class="r">104,54 MB</TD>
+	<TD width="23%">&nbsp;</TD></TR></TABLE>
+<TABLE style="display:none;" id="show1" width="100%" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+<TR class="style1" id="m_light1">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(1)" onMouseOut="javascript:highlight_out_m(1)"><A href="Adamf And Jmajik Mcmc - Sub 1 (15.4.1999).mp3"><B>Sub 1 (15.4.1999)</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">42:16 min</TD>
+	<TD class="r">38,65 MB</TD>
+	<TD class="c">1999</TD>
+	<TD class="c">Hard Drum'n'bass</TD></TR>
+<TR class="style1" id="m_light2">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(2)" onMouseOut="javascript:highlight_out_m(2)"><A href="Adamf And Jmajik Mcmc - Sub 2 (15.4.1999).mp3"><B>Sub 2 (15.4.1999)</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">72:05 min</TD>
+	<TD class="r">65,89 MB</TD>
+	<TD class="c">1999</TD>
+	<TD class="c">Hard Drum'n'bass</TD></TR></TABLE>
+<TABLE width="100%" class="style2" cellpadding="0" style="border-top: 1px solid #FFFFFF; background-color: #DDDDDD">
+<TR>
+	<TD width="3%" class="c"><A href="javascript:show('2');">2</A></TD>
+	<TD width="34%"><A href="javascript:show2('2');">Aphrodite</A></TD>
+	<TD width="13%" class="r">1 Mix</TD>
+	<TD width="6%" class="r">1 File</TD>
+	<TD width="8%" class="r">54:16 min</TD>
+	<TD width="8%" class="r">62,06 MB</TD>
+	<TD width="23%">&nbsp;</TD></TR></TABLE>
+<TABLE style="display:none;" id="show2" width="100%" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+<TR class="style1" id="m_light3">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(3)" onMouseOut="javascript:highlight_out_m(3)"><A href="Aphrodite - Live At Hultsfred Festival, Sweden.mp3"><B>Live At Hultsfred Festival, Sweden</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">54:16 min</TD>
+	<TD class="r">62,06 MB</TD>
+	<TD class="c">----</TD>
+	<TD class="c">Jungle</TD></TR></TABLE>
+<TABLE width="100%" class="style2" cellpadding="0" style="border-top: 1px solid #FFFFFF;">
+<TR>
+	<TD width="3%" class="c"><A href="javascript:show('3');">3</A></TD>
+	<TD width="34%"><A href="javascript:show2('3');">Dj Marky & Xrs</A></TD>
+	<TD width="13%" class="r">1 Mix</TD>
+	<TD width="6%" class="r">1 File</TD>
+	<TD width="8%" class="r">1:59:55 hrs</TD>
+	<TD width="8%" class="r">164,44 MB</TD>
+	<TD width="23%">&nbsp;</TD></TR></TABLE>
+<TABLE style="display:none;" id="show3" width="100%" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+<TR class="style1" id="m_light4">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(4)" onMouseOut="javascript:highlight_out_m(4)"><A href="Dj Marky & Xrs Em - Essential Mix (21.03.2004).mp3"><B>Essential Mix (21.03.2004)</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">119:55 min</TD>
+	<TD class="r">164,44 MB</TD>
+	<TD class="c">2004</TD>
+	<TD class="c">Drum'n'bass</TD></TR></TABLE>
+<TABLE width="100%" class="style2" cellpadding="0" style="border-top: 1px solid #FFFFFF; background-color: #DDDDDD">
+<TR>
+	<TD width="3%" class="c"><A href="javascript:show('4');">4</A></TD>
+	<TD width="34%"><A href="javascript:show2('4');">Goldie</A></TD>
+	<TD width="13%" class="r">1 Mix</TD>
+	<TD width="6%" class="r">1 File</TD>
+	<TD width="8%" class="r">58:40 min</TD>
+	<TD width="8%" class="r">46,90 MB</TD>
+	<TD width="23%">&nbsp;</TD></TR></TABLE>
+<TABLE style="display:none;" id="show4" width="100%" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+<TR class="style1" id="m_light5">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(5)" onMouseOut="javascript:highlight_out_m(5)"><A href="Goldie - Therapy (18.12.2003).mp3"><B>Therapy (18.12.2003)</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">58:40 min</TD>
+	<TD class="r">46,90 MB</TD>
+	<TD class="c">2003</TD>
+	<TD class="c">Hard Drum'n'bass</TD></TR></TABLE>
+<TABLE width="100%" class="style2" cellpadding="0" style="border-top: 1px solid #FFFFFF;">
+<TR>
+	<TD width="3%" class="c"><A href="javascript:show('5');">5</A></TD>
+	<TD width="34%"><A href="javascript:show2('5');">High Contrast</A> <font class="style4"><A href="javascript:show_album_all('1|,5')" id="c5" style="display:none">SHOW ALL</A></font></TD>
+	<TD width="13%" class="r">1 Album & 2 Mixes</TD>
+	<TD width="6%" class="r">14 Files</TD>
+	<TD width="8%" class="r">3:12:52 hrs</TD>
+	<TD width="8%" class="r">264,78 MB</TD>
+	<TD width="23%">&nbsp;</TD></TR></TABLE>
+<TABLE style="display:none;" id="show5" width="100%" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+<TR class="style1" id="m_light6">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(6)" onMouseOut="javascript:highlight_out_m(6)"><A href="High Contrast - Essential Mix 06.04.2003 Part 1.mp3"><B>Essential Mix 06.04.2003 Part1</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">60:58 min</TD>
+	<TD class="r">83,75 MB</TD>
+	<TD class="c">2003</TD>
+	<TD class="c">Progressive Vocal Jungle</TD></TR>
+<TR class="style1" id="m_light7">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(7)" onMouseOut="javascript:highlight_out_m(7)"><A href="High Contrast - Essential Mix 06.04.2003 Part 2.mp3"><B>Essential Mix 06.04.2003 Part2</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">58:42 min</TD>
+	<TD class="r">80,63 MB</TD>
+	<TD class="c">2003</TD>
+	<TD class="c">Progressive Vocal Jungle</TD></TR>
+<TR class="style1" id="a_light6">
+	<TD class="style3" onMouseOver="javascript:highlight_on_a(6)" onMouseOut="javascript:highlight_out_a(6)"><A href="javascript:show_album('1')"><B><FONT id="p1">+</FONT> High Society</B></A></TD>
+	<TD class="r">Album</TD>
+	<TD class="r">12 Files</TD>
+	<TD class="r">1:13:12 hrs</TD>
+	<TD class="r">100,40 MB</TD>
+	<TD class="c">2004</TD>
+	<TD class="c">Drum & Bass</TD></TR>
+<TR style="display:none;" class="songtr" id="n1">
+	<TD colspan="7">
+	<TABLE width="100%" rules="none" class="songtable" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+	<TR class="style1">
+		<TD class="style3" align="center"><A href="High Contrast - High Society [2004]/High Contrast - High Society [2004].m3u"><B>Play Album</B></A> | <A href="javascript:popReview('1')"><B>Review</B></A></TD>
+		<TD class="r" valign="top" rowspan="13"><BR>
+		<A href="javascript:popImage('1')"><script>document.write("<IMG src=\"" + a[1][1] + cover + "\" width=\"55\" /*height=\"55\"*/ class=\"r\" style=\"border: #000000 1px grove\">");</script></A></TD>
+		<TD colspan="3"></TD>
+		<TD class="c" style="vertical-align: middle" rowspan="13">2004</TD>
+		<TD class="c" style="vertical-align: middle" rowspan="13">Drum & Bass</TD></TR>
+	<TR class="style1" id="light8"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/01. High Contrast - Lovesick.mp3" onMouseOver="javascript:highlight_on(8)" onMouseOut="javascript:highlight_out(8)">01. High Contrast - Lovesick</A></TD><TD class="r">1 File</TD><TD class="r">7:15 min</TD><TD class="r">9,95 MB</TD></TR>
+	<TR class="style1" id="light9"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/02. High Contrast - Tutti Frutti.mp3" onMouseOver="javascript:highlight_on(9)" onMouseOut="javascript:highlight_out(9)">02. High Contrast - Tutti Frutti</A></TD><TD class="r">1 File</TD><TD class="r">6:07 min</TD><TD class="r">8,39 MB</TD></TR>
+	<TR class="style1" id="light10"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/03. High Contrast - High Society feat. Dynamite Mc.mp3" onMouseOver="javascript:highlight_on(10)" onMouseOut="javascript:highlight_out(10)">03. High Contrast - High Society feat. Dynamite Mc</A></TD><TD class="r">1 File</TD><TD class="r">5:26 min</TD><TD class="r">7,45 MB</TD></TR>
+	<TR class="style1" id="light11"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/04. High Contrast - Brief Encounter.mp3" onMouseOver="javascript:highlight_on(11)" onMouseOut="javascript:highlight_out(11)">04. High Contrast - Brief Encounter</A></TD><TD class="r">1 File</TD><TD class="r">5:45 min</TD><TD class="r">7,88 MB</TD></TR>
+	<TR class="style1" id="light12"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/05. High Contrast - Racing Green.mp3" onMouseOver="javascript:highlight_on(12)" onMouseOut="javascript:highlight_out(12)">05. High Contrast - Racing Green</A></TD><TD class="r">1 File</TD><TD class="r">6:47 min</TD><TD class="r">9,31 MB</TD></TR>
+	<TR class="style1" id="light13"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/06. High Contrast - Natural High.mp3" onMouseOver="javascript:highlight_on(13)" onMouseOut="javascript:highlight_out(13)">06. High Contrast - Natural High</A></TD><TD class="r">1 File</TD><TD class="r">6:26 min</TD><TD class="r">8,82 MB</TD></TR>
+	<TR class="style1" id="light14"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/07. High Contrast - Angels And Fly feat. Nolay.mp3" onMouseOver="javascript:highlight_on(14)" onMouseOut="javascript:highlight_out(14)">07. High Contrast - Angels And Fly feat. Nolay</A></TD><TD class="r">1 File</TD><TD class="r">5:13 min</TD><TD class="r">7,15 MB</TD></TR>
+	<TR class="style1" id="light15"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/08. High Contrast - The Persistence Of Memory.mp3" onMouseOver="javascript:highlight_on(15)" onMouseOut="javascript:highlight_out(15)">08. High Contrast - The Persistence Of Memory</A></TD><TD class="r">1 File</TD><TD class="r">6:30 min</TD><TD class="r">8,92 MB</TD></TR>
+	<TR class="style1" id="light16"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/09. High Contrast - Twiligh's Last Gleaming.mp3" onMouseOver="javascript:highlight_on(16)" onMouseOut="javascript:highlight_out(16)">09. High Contrast - Twiligh's Last Gleaming</A></TD><TD class="r">1 File</TD><TD class="r">7:37 min</TD><TD class="r">10,46 MB</TD></TR>
+	<TR class="style1" id="light17"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/10. High Contrast - Only Two Can Play feat. Spoonface.mp3" onMouseOver="javascript:highlight_on(17)" onMouseOut="javascript:highlight_out(17)">10. High Contrast - Only Two Can Play feat. Spoonface</A></TD><TD class="r">1 File</TD><TD class="r">4:33 min</TD><TD class="r">6,24 MB</TD></TR>
+	<TR class="style1" id="light18"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/11. High Contrast - Yesterday's Colours.mp3" onMouseOver="javascript:highlight_on(18)" onMouseOut="javascript:highlight_out(18)">11. High Contrast - Yesterday's Colours</A></TD><TD class="r">1 File</TD><TD class="r">5:51 min</TD><TD class="r">8,02 MB</TD></TR>
+	<TR class="style1" id="light19"><TD class="style3"><A style="padding-left: 20px;" href="High Contrast - High Society [2004]/12. High Contrast - The Basement Track (Bonus Track).mp3" onMouseOver="javascript:highlight_on(19)" onMouseOut="javascript:highlight_out(19)">12. High Contrast - The Basement Track (Bonus Track)</A></TD><TD class="r">1 File</TD><TD class="r">5:42 min</TD><TD class="r">7,83 MB</TD></TR>
+	</TABLE></TD></TR></TABLE>
+<TABLE width="100%" class="style2" cellpadding="0" style="border-top: 1px solid #FFFFFF; background-color: #DDDDDD">
+<TR>
+	<TD width="3%" class="c"><A href="javascript:show('6');">6</A></TD>
+	<TD width="34%"><A href="javascript:show2('6');">Ltj Bukem</A> <font class="style4"><A href="javascript:show_album_all('2|,6')" id="c6" style="display:none">SHOW ALL</A></font></TD>
+	<TD width="13%" class="r">1 Album & 2 Mixes</TD>
+	<TD width="6%" class="r">16 Files</TD>
+	<TD width="8%" class="r">3:36:54 hrs</TD>
+	<TD width="8%" class="r">211,58 MB</TD>
+	<TD width="23%">&nbsp;</TD></TR></TABLE>
+<TABLE style="display:none;" id="show6" width="100%" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+<TR class="style1" id="m_light20">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(20)" onMouseOut="javascript:highlight_out_m(20)"><A href="LTJ Bukem - 2 Step Drum & Bass Mix.mp3"><B>2 Step Drum & Bass Mix</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">53:26 min</TD>
+	<TD class="r">46,69 MB</TD>
+	<TD class="c">----</TD>
+	<TD class="c">Drum'n'Bass</TD></TR>
+<TR class="style1" id="a_light9">
+	<TD class="style3" onMouseOver="javascript:highlight_on_a(9)" onMouseOut="javascript:highlight_out_a(9)"><A href="javascript:show_album('2')"><B><FONT id="p2">+</FONT> Journey Inwards</B></A></TD>
+	<TD class="r">Album</TD>
+	<TD class="r">14 Files</TD>
+	<TD class="r">1:35:59 hrs</TD>
+	<TD class="r">87,70 MB</TD>
+	<TD class="c">2000</TD>
+	<TD class="c">-----</TD></TR>
+<TR style="display:none;" class="songtr" id="n2">
+	<TD colspan="7">
+	<TABLE width="100%" rules="none" class="songtable" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+	<TR class="style1">
+		<TD class="style3" align="center"><A href="LTJ Bukem - Journey Inwards [2000]/LTJ Bukem - Journey Inwards [2000].m3u"><B>Play Album</B></A> | <A href="javascript:popReview('2')"><B>Review</B></A></TD>
+		<TD class="r" valign="top" rowspan="15"><BR>
+		<A href="javascript:popImage('2')"><script>document.write("<IMG src=\"" + a[2][1] + cover + "\" width=\"55\" /*height=\"55\"*/ class=\"r\" style=\"border: #000000 1px grove\">");</script></A></TD>
+		<TD colspan="3"></TD>
+		<TD class="c" style="vertical-align: middle" rowspan="15">2000</TD>
+		<TD class="c" style="vertical-align: middle" rowspan="15">-----</TD></TR>
+	<TR class="style1" id="light22"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/01. Ltj Bukem - Journey Inwards.mp3" onMouseOver="javascript:highlight_on(22)" onMouseOut="javascript:highlight_out(22)">01. Ltj Bukem - Journey Inwards</A></TD><TD class="r">1 File</TD><TD class="r">7:06 min</TD><TD class="r">6,49 MB</TD></TR>
+	<TR class="style1" id="light23"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/02. Ltj Bukem - Watercolours.mp3" onMouseOver="javascript:highlight_on(23)" onMouseOut="javascript:highlight_out(23)">02. Ltj Bukem - Watercolours</A></TD><TD class="r">1 File</TD><TD class="r">7:39 min</TD><TD class="r">6,99 MB</TD></TR>
+	<TR class="style1" id="light24"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/03. Ltj Bukem - Rhodes To Freedom.mp3" onMouseOver="javascript:highlight_on(24)" onMouseOut="javascript:highlight_out(24)">03. Ltj Bukem - Rhodes To Freedom</A></TD><TD class="r">1 File</TD><TD class="r">9:11 min</TD><TD class="r">8,39 MB</TD></TR>
+	<TR class="style1" id="light25"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/04. Ltj Bukem - Our World.mp3" onMouseOver="javascript:highlight_on(25)" onMouseOut="javascript:highlight_out(25)">04. Ltj Bukem - Our World</A></TD><TD class="r">1 File</TD><TD class="r">5:07 min</TD><TD class="r">4,67 MB</TD></TR>
+	<TR class="style1" id="light26"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/05. Ltj Bukem - Undress Your Mind.mp3" onMouseOver="javascript:highlight_on(26)" onMouseOut="javascript:highlight_out(26)">05. Ltj Bukem - Undress Your Mind</A></TD><TD class="r">1 File</TD><TD class="r">7:45 min</TD><TD class="r">7,09 MB</TD></TR>
+	<TR class="style1" id="light27"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/06. Ltj Bukem - Point Of View.mp3" onMouseOver="javascript:highlight_on(27)" onMouseOut="javascript:highlight_out(27)">06. Ltj Bukem - Point Of View</A></TD><TD class="r">1 File</TD><TD class="r">3:10 min</TD><TD class="r">2,89 MB</TD></TR>
+	<TR class="style1" id="light28"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/07. Ltj Bukem - Viewpoint.mp3" onMouseOver="javascript:highlight_on(28)" onMouseOut="javascript:highlight_out(28)">07. Ltj Bukem - Viewpoint</A></TD><TD class="r">1 File</TD><TD class="r">8:06 min</TD><TD class="r">7,39 MB</TD></TR>
+	<TR class="style1" id="light29"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/08. Ltj Bukem - Sunrain.mp3" onMouseOver="javascript:highlight_on(29)" onMouseOut="javascript:highlight_out(29)">08. Ltj Bukem - Sunrain</A></TD><TD class="r">1 File</TD><TD class="r">7:28 min</TD><TD class="r">6,82 MB</TD></TR>
+	<TR class="style1" id="light30"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/09. Ltj Bukem - Deserted Vaults (Instrumental).mp3" onMouseOver="javascript:highlight_on(30)" onMouseOut="javascript:highlight_out(30)">09. Ltj Bukem - Deserted Vaults (Instrumental)</A></TD><TD class="r">1 File</TD><TD class="r">4:26 min</TD><TD class="r">4,05 MB</TD></TR>
+	<TR class="style1" id="light31"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/10. Ltj Bukem - Inner Guidance.mp3" onMouseOver="javascript:highlight_on(31)" onMouseOut="javascript:highlight_out(31)">10. Ltj Bukem - Inner Guidance</A></TD><TD class="r">1 File</TD><TD class="r">5:18 min</TD><TD class="r">4,84 MB</TD></TR>
+	<TR class="style1" id="light32"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/11. Ltj Bukem - Close To The Source.mp3" onMouseOver="javascript:highlight_on(32)" onMouseOut="javascript:highlight_out(32)">11. Ltj Bukem - Close To The Source</A></TD><TD class="r">1 File</TD><TD class="r">7:46 min</TD><TD class="r">7,10 MB</TD></TR>
+	<TR class="style1" id="light33"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/12. Ltj Bukem - Suspended Space.mp3" onMouseOver="javascript:highlight_on(33)" onMouseOut="javascript:highlight_out(33)">12. Ltj Bukem - Suspended Space</A></TD><TD class="r">1 File</TD><TD class="r">8:25 min</TD><TD class="r">7,70 MB</TD></TR>
+	<TR class="style1" id="light34"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/13. Ltj Bukem - Unconditional Love.mp3" onMouseOver="javascript:highlight_on(34)" onMouseOut="javascript:highlight_out(34)">13. Ltj Bukem - Unconditional Love</A></TD><TD class="r">1 File</TD><TD class="r">6:06 min</TD><TD class="r">5,57 MB</TD></TR>
+	<TR class="style1" id="light35"><TD class="style3"><A style="padding-left: 20px;" href="LTJ Bukem - Journey Inwards [2000]/14. Ltj Bukem - Feel What You Feel.mp3" onMouseOver="javascript:highlight_on(35)" onMouseOut="javascript:highlight_out(35)">14. Ltj Bukem - Feel What You Feel</A></TD><TD class="r">1 File</TD><TD class="r">8:26 min</TD><TD class="r">7,71 MB</TD></TR>
+	</TABLE></TD></TR>
+<TR class="style1" id="m_light35">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(35)" onMouseOut="javascript:highlight_out_m(35)"><A href="LTJ Bukem - Live At Ministry Of Sound [2000].mp3"><B>Logical Progression</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">67:29 min</TD>
+	<TD class="r">77,20 MB</TD>
+	<TD class="c">2000</TD>
+	<TD class="c">Drum'n'bass</TD></TR></TABLE>
+<TABLE width="100%" class="style2" cellpadding="0" style="border-top: 1px solid #FFFFFF;">
+<TR>
+	<TD width="3%" class="c"><A href="javascript:show('7');">7</A></TD>
+	<TD width="34%"><A href="javascript:show2('7');">Shroombab</A></TD>
+	<TD width="13%" class="r">3 Mixes</TD>
+	<TD width="6%" class="r">3 Files</TD>
+	<TD width="8%" class="r">2:59:53 hrs</TD>
+	<TD width="8%" class="r">192,38 MB</TD>
+	<TD width="23%">&nbsp;</TD></TR></TABLE>
+<TABLE style="display:none;" id="show7" width="100%" cellpadding="0">
+<COLGROUP><COL width="37%"><COL WIDTH="13%"><COL width="6%"><COL width="8%"><COL width="8%"><COL width="5%"><COL width="18%"></COLGROUP>
+<TR class="style1" id="m_light36">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(36)" onMouseOut="javascript:highlight_out_m(36)"><A href="Shroombab - Illness Mix Part 1 (06.01. 2004).mp3"><B>Illness Mix Part 1 (06.01.2004)</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">59:05 min</TD>
+	<TD class="r">54,12 MB</TD>
+	<TD class="c">2004</TD>
+	<TD class="c">-----</TD></TR>
+<TR class="style1" id="m_light37">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(37)" onMouseOut="javascript:highlight_out_m(37)"><A href="Shroombab - Illness Mix Part 2 (Studiomix At Wien, 01.08.2004).mp3"><B>Illness Mix Part 2 (Studiomix at Wien, 01.08.2004)</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">60:00 min</TD>
+	<TD class="r">82,42 MB</TD>
+	<TD class="c">2004</TD>
+	<TD class="c">-----</TD></TR>
+<TR class="style1" id="m_light38">
+	<TD class="style3" onMouseOver="javascript:highlight_on_m(38)" onMouseOut="javascript:highlight_out_m(38)"><A href="Shroombab - Tolerance Mix [2004].mp3"><B>Tolerance Mix</B></A></TD>
+	<TD class="r">Mix</TD>
+	<TD class="r">1 File</TD>
+	<TD class="r">60:48 min</TD>
+	<TD class="r">55,84 MB</TD>
+	<TD class="c">2004</TD>
+	<TD class="c">Drum'n'bass</TD></TR></TABLE>
+<DIV class="style1" align="center" style="border-top: 1px solid #FFFFFF;"><A href="#top" class="style2">BACK ON TOP</A></DIV>
+</DIV>
+</BODY>
+</HTML>

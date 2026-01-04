@@ -1,0 +1,10 @@
+﻿$filename(,utf-8)'[Name]=discogs.com (Pone Mod 4.4)
+[BasedOn]=www.discogs.com
+[IndexUrl]=https://api.discogs.com/database/search?type=release&per_page=100&label=%s
+[AlbumUrl]=https://api.discogs.com/releases/
+[WordSeperator]=%20
+[IndexFormat]=%Cover%|%_url%|%_preview%|%Artist%|%Album%|%Year%|%Publisher%|%Catalog%|%Format%|%Country%|
+[SearchBy]=$regexp($if2(%'$regexp($regexp(%label & series%,.*?Label:\s+>(.*?)$.*,$1),^$,publisher)'%,$if2(%publisher%,$if2(%copyright%,%label%))),''''''s( |$),$1)&catno=$repl($if2(%'$regexp($regexp(%label & series%,'.*?Label #:\s+>(.*?)$.*',$1),^$,catalog #)'%,$if2(%catalog #%,%isrc%)), ,,-,,#,)
+[UserAgent]=1
+[Encoding]=utf-8
+#'

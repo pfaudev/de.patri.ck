@@ -1,0 +1,19 @@
+$filename(00 tag dump of %_workingdir% -- %_tag_read% (Frames).html,utf-8)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Tag dump of "%_workingdir%" -- %_tag_read% (Frames)</title>
+<style type="text/css"><!-- 
+TH {text-align: left;
+border-bottom-width:2px;
+border-style:solid;
+border-color: green;
+padding: 2px;}
+TD {border-style:solid;
+border-color: green;
+background-color: rgb(255, 245, 238);
+padding: 2px;}
+table.tags {border-style: none;border-spacing: 0px;}
+.odd {background-color: rgb(255, 240, 192);}
+//--></style></head>
+<body><h2>Tag dump of "%_workingdir%"  -- %_tag_read% (Frames)</h2><table border="1" width="100%%" class="tags"><tr><th NOWRAP>File name</th><th NOWRAP>ACOUSTID_FINGERPRINT</th><th NOWRAP>ACOUSTID_ID</th><th NOWRAP>ALBUM (TALB)</th><th NOWRAP>ARTIST (TPE1)</th><th NOWRAP>DAUER</th><th NOWRAP>ENCODERSETTINGS (TSSE)</th><th NOWRAP>GENRE (TCON)</th><th NOWRAP>replaygain_album_gain</th><th NOWRAP>REPLAYGAIN_ALGORITHM</th><th NOWRAP>replaygain_track_gain</th><th NOWRAP>TITLE (TIT2)</th><th NOWRAP>YEAR (TYER)</th></tr>
+$loop(a)<tr><td NOWRAP$if($odd(%_counter%), class="odd",)>%_filename_ext%</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%ACOUSTID_FINGERPRINT%,$meta_sep(ACOUSTID_FINGERPRINT,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%ACOUSTID_ID%,$meta_sep(ACOUSTID_ID,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%ALBUM%,$meta_sep(ALBUM,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%ARTIST%,$meta_sep(ARTIST,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%DAUER%,$meta_sep(DAUER,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%ENCODERSETTINGS%,$meta_sep(ENCODERSETTINGS,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%GENRE%,$meta_sep(GENRE,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%replaygain_album_gain%,$meta_sep(replaygain_album_gain,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%REPLAYGAIN_ALGORITHM%,$meta_sep(REPLAYGAIN_ALGORITHM,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%replaygain_track_gain%,$meta_sep(replaygain_track_gain,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%TITLE%,$meta_sep(TITLE,\\),&nbsp;)</td><td NOWRAP$if($odd(%_counter%), class="odd",)>$if(%YEAR%,$meta_sep(YEAR,\\),&nbsp;)</td></tr>
+$loopend()</table></body></html>

@@ -1,0 +1,141 @@
+﻿$filename(-- Full tags+info of %_workingdir%.json,utf-8)$puts(dummy,
+# ###############################################################################
+# Export all used tags & info fields to a JSON formatted file.
+# ###############################################################################
+)$loop(,1)$puts(dummy,
+	$puts(TagBeg,'TagBeg')
+	$puts(TagEnd,'TagEnd')
+	$puts(ValBeg,'ValBeg')
+	$puts(ValEnd,'ValEnd')
+	$puts(TagBegList,$char(13)'TagBeg'$char(10))
+	$puts(TagEndList,$char(13)'TagEnd'$char(10))
+	$puts(ValBegList,$char(13)'ValBeg'$char(10))
+	$puts(ValEndList,$char(13)'ValEnd'$char(10))
+	$puts(ValPatt,'\r'$get(ValBeg)'\n(.*?)\r'$get(ValEnd)'\n')
+	$puts(TagPatt,'\r'$get(TagBeg)'\n(.*?)\r'$get(TagEnd)'\n')
+	# Update List of standard (if ever changes) 					<<<<<<<<<<<<<<<<<<<<<<<<< UPDATE 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	$puts(tagsStnd,'ALBUM\r\nALBUMARTIST\r\nALBUMARTISTSORT\r\nALBUMSORT\r\nARTIST\r\nARTISTSORT\r\nBPM\r\nCOMMENT\r\nCOMPILATION\r\nCOMPOSER\r\nCOMPOSERSORT\r\nCONDUCTOR\r\nCONTENTGROUP\r\nCOPYRIGHT\r\nDESCRIPTION\r\nDIRECTOR\r\nDISCNUMBER\r\nENCODEDBY\r\nENCODERSETTINGS\r\nENCODINGTIME\r\nFILEOWNER\r\nFILETYPE\r\nGENRE\r\nGROUPING\r\nINITIALKEY\r\nINVOLVEDPEOPLE\r\nISRC\r\nITUNESACCOUNT\r\nITUNESADVISORY\r\nITUNESCATALOGID\r\nITUNESGAPLESS\r\nITUNESHDVIDEO\r\nITUNESMEDIATYPE\r\nITUNESOWNER\r\nITUNESPURCHASEDATE\r\nLANGUAGE\r\nLENGTH\r\nLYRICIST\r\nMEDIATYPE\r\nMIXARTIST\r\nMOOD\r\nMOVEMENT\r\nMOVEMENTNAME\r\nMOVEMENTTOTAL\r\nMUSICIANCREDITS\r\nNETRADIOOWNER\r\nNETRADIOSTATION\r\nORIGALBUM\r\nORIGARTIST\r\nORIGFILENAME\r\nORIGLYRICIST\r\nORIGYEAR\r\nPODCAST\r\nPODCASTCATEGORY\r\nPODCASTDESC\r\nPODCASTID\r\nPODCASTKEYWORDS\r\nPODCASTURL\r\nPOPULARIMETER\r\nPUBLISHER\r\nRATING MM\r\nRATING WMP\r\nRELEASETIME\r\nSETSUBTITLE\r\nSHOWMOVEMENT\r\nSUBTITLE\r\nTAGGINGTIME\r\nTITLE\r\nTITLESORT\r\nTRACK\r\nTVEPISODE\r\nTVEPISODEID\r\nTVNETWORK\r\nTVSEASON\r\nTVSHOW\r\nTVSHOWSORT\r\nUNSYNCEDLYRICS\r\nWORK\r\nWWW\r\nWWWARTIST\r\nWWWAUDIOFILE\r\nWWWAUDIOSOURCE\r\nWWWCOMMERCIALINFO\r\nWWWCOPYRIGHT\r\nWWWPAYMENT\r\nWWWPUBLISHER\r\nWWWRADIOPAGE\r\nYEAR')
+	$puts(tagsStnd,$lower($get(tagsStnd)))
+	$puts(tagsStnd,$replace($get(tagsStnd),'«','\\u00AB','»','\\u00BB'))
+	$puts(tagsStnd,$replace('«'$get(tagsStnd)'»','\r\n','»«'))
+	$puts(SectionSep,»»««)
+	$puts(OK,'OK')
+	$puts(indent0,$char(13)$char(10))
+	$puts(indent1,$char(13)$char(10)$char(9))
+	$puts(indent2,$char(13)$char(10)$char(9)$char(9))
+)$loopend()$puts(dummy,
+)'['$puts(dummy,
+)$loop(%_path%)$puts(dummy,
+	# Read Tag+Values
+	$puts(tagsTrack,$list($get(TagBegList),$get(TagEndList)$get(ValBegList),$get(ValEndList)))
+	# Escape «». Convert tag+values to format «tag»: »value»,
+	$puts(tagsTrack,$replace($get(tagsTrack),'«','\\u00AB','»','\\u00BB'))
+	$puts(tagsTrack,$regexp($get(tagsTrack),$get(ValPatt),'»\1»'))
+	$puts(tagsTrack,$regexp($get(tagsTrack),$get(TagPatt),',«\1»: '))
+	$puts(tagsTrack,$regexp($get(tagsTrack),'«\K(?<value>[^»]+?)(?=»)','\L$+{value}'))
+	$puts(tagsTrack,$replace($get(tagsTrack),'\','\\',$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f'))
+	$puts(tagsTrack,$replace($get(tagsTrack),'"','\"'))
+	# Mark User tags
+	$puts(tagsTrack,$get(tagsTrack)$get(SectionSep)$get(tagsStnd))													# Concatenate Used Tags »»«« Standard Tags
+	$puts(tagsTrack,$regexp($get(tagsTrack),'(«[^«»]+?»)\K(?=.*?'$get(SectionSep)'.*?\1)',$get(OK)))				# Mark standard Tags
+	$puts(tagsTrack,$regexp($get(tagsTrack),$get(SectionSep)'.*$',))												# Remove auxiliary tags (after »»««)
+	$puts(tagsTrack,$regexp($get(tagsTrack),'«[^«»]+?\K(»)(?!'$get(OK)')',' (user)$1'))							# Delete unused tags
+	$puts(tagsTrack,$regexp($get(tagsTrack),$get(OK),))															# Remove OK marks
+
+	$puts(tagsTrack,$replace($get(tagsTrack),'«',$get(indent2)'"','»','"'))
+	$puts(tagsTrack,$replace($get(tagsTrack),'\\u00AB','«','\\u00BB','»'))
+	$puts(tagsTrack,$regexp($get(tagsTrack),'^,',))
+
+	)$puts(dummy,
+# Output data now >>>>>>>>>>>>>>>>>>>>>>
+# Object separator (comma)
+	)$if($eql(%_counter%,1),,',')$puts(dummy,
+# Object start
+	)$get(indent1)'{'$puts(dummy,
+
+# Remove comma from the first one.
+# A. Info fields (copy/paste from the bottom list)
+	)' '$get(indent2)'"_folderpath (info)": "'$replace($regexp(%_folderpath%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 		# Folder
+	)','$get(indent2)'"_filename (info)": "'$replace($regexp(%_filename%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 			# Filename without extension
+	)','$get(indent2)'"_extension (info)": "'$replace($regexp(%_extension%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 			# Extension
+	)','$get(indent2)'"_md5audio (info)": "'$replace($regexp(%_md5audio%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+
+# B. Tags (Standard & User)
+	)$if($eql($get(tagsTrack),),,',')$get(tagsTrack)$puts(dummy,	# Add comma only of file has tags
+
+# C. More info fields (copy/paste from the bottom)
+	)','$get(indent2)'"_bitrate (info)": "'$replace($regexp(%_bitrate%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_bitspersample (info)": "'$replace($regexp(%_bitspersample%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_samplerate (info)": "'$replace($regexp(%_samplerate%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_covers (info)": "'$replace($regexp(%_covers%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_file_size_bytes (info)": "'$replace($regexp(%_file_size_bytes%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_length_seconds (info)": "'$replace($regexp(%_length_seconds%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_mode (info)": "'$replace($regexp(%_mode%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_tag (info)": "'$replace($regexp(%_tag%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_tag_size (info)": "'$replace($regexp(%_tag_size%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_tool (info)": "'$replace($regexp(%_tool%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_codec (info)": "'$replace($regexp(%_codec%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_cover_height (info)": "'$replace($regexp(%_cover_height%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_cover_mimetype (info)": "'$replace($regexp(%_cover_mimetype%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_cover_size (info)": "'$replace($regexp(%_cover_size%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_cover_type (info)": "'$replace($regexp(%_cover_type%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+	)','$get(indent2)'"_cover_width (info)": "'$replace($regexp(%_cover_width%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+
+	)$get(indent1)'}'$puts(dummy,															# Object end
+	)$puts(dummy,
+)$loopend()$puts(dummy,
+#  End of script <<<<<<<<<<<<<<<<<
+)$get(indent0)']'$if($eql(,),,$puts(dummy,
+
+# Copy the lines below you want to include in the extract and paste them above
+# )','$get(indent2)'"_path (info)": "'$replace($regexp(%_path%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_crc (info)": "'$replace($regexp(%_crc%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_md5 (info)": "'$replace($regexp(%_md5%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_md5audio (info)": "'$replace($regexp(%_md5audio%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_bitrate (info)": "'$replace($regexp(%_bitrate%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_bitspersample (info)": "'$replace($regexp(%_bitspersample%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_codec (info)": "'$replace($regexp(%_codec%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_cover_height (info)": "'$replace($regexp(%_cover_height%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_cover_mimetype (info)": "'$replace($regexp(%_cover_mimetype%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_cover_size (info)": "'$replace($regexp(%_cover_size%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_cover_type (info)": "'$replace($regexp(%_cover_type%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_cover_width (info)": "'$replace($regexp(%_cover_width%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_covers (info)": "'$replace($regexp(%_covers%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_directory (info)": "'$replace($regexp(%_directory%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_extension (info)": "'$replace($regexp(%_extension%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_create_date (info)": "'$replace($regexp(%_file_create_date%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_create_datetime (info)": "'$replace($regexp(%_file_create_datetime%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_create_datetime_raw (info)": "'$replace($regexp(%_file_create_datetime_raw%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_mod_date (info)": "'$replace($regexp(%_file_mod_date%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_mod_datetime (info)": "'$replace($regexp(%_file_mod_datetime%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_mod_datetime_raw (info)": "'$replace($regexp(%_file_mod_datetime_raw%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_size (info)": "'$replace($regexp(%_file_size%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_size_bytes (info)": "'$replace($regexp(%_file_size_bytes%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_size_kb (info)": "'$replace($regexp(%_file_size_kb%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_file_size_mb (info)": "'$replace($regexp(%_file_size_mb%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_filename (info)": "'$replace($regexp(%_filename%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_filename_ext (info)": "'$replace($regexp(%_filename_ext%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_filename_rel (info)": "'$replace($regexp(%_filename_rel%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_folderpath (info)": "'$replace($regexp(%_folderpath%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_folderpath_rel (info)": "'$replace($regexp(%_folderpath_rel%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_id3v2_character_encoding (info)": "'$replace($regexp(%_id3v2_character_encoding%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_length (info)": "'$replace($regexp(%_length%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_length_seconds (info)": "'$replace($regexp(%_length_seconds%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_mode (info)": "'$replace($regexp(%_mode%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_parent_directory (info)": "'$replace($regexp(%_parent_directory%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_playlist_filename (info)": "'$replace($regexp(%_playlist_filename%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_playlist_filename_ext (info)": "'$replace($regexp(%_playlist_filename_ext%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_playlist_folderpath (info)": "'$replace($regexp(%_playlist_folderpath%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_samplerate (info)": "'$replace($regexp(%_samplerate%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_tag (info)": "'$replace($regexp(%_tag%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_tag_read (info)": "'$replace($regexp(%_tag_read%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_tag_size (info)": "'$replace($regexp(%_tag_size%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_tag_size_appended (info)": "'$replace($regexp(%_tag_size_appended%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_tag_size_prepended (info)": "'$replace($regexp(%_tag_size_prepended%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_tool (info)": "'$replace($regexp(%_tool%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_vbr (info)": "'$replace($regexp(%_vbr%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_volume (info)": "'$replace($regexp(%_volume%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_workingdir (info)": "'$replace($regexp(%_workingdir%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+# )','$get(indent2)'"_workingpath (info)": "'$replace($regexp(%_workingpath%,'(["\\])','\\$1'),$char(13),'\r',$char(10),'\n',$char(9),'\t',$char(7),'\b',$char(12),'\f')'"'$puts(dummy, 
+
+))

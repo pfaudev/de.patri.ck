@@ -1,0 +1,4 @@
+$filename($getenv(mp3tagappdata)\data\actions\Discogs &Pone#&Delete Tracklist from Tags after creating a Cue Sheet.mta,utf-8)'[#0]
+T=5
+F='$regexp(%CREDITS; NOTES; IDENTIFIERS; COMPANIES%,.*?Tracklist \(only for "tracklist for DJ Sets in one file" script\)\s+>(.*?)$.*,$1)'
+1=$regexp(%'$regexp(%CREDITS; NOTES; IDENTIFIERS; COMPANIES%,.*?Tracklist \(only for "tracklist for DJ Sets in one file" script\)\s+>(.*?)$.*,$1)'%,(\\w\\w\\w\\|\\|)?Tracklist:.+?\\r\\n\\r\\n(Notes:|Credits:|Companies etc:|Barcode and Other Identifiers:|$),$2)'

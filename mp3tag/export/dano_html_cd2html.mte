@@ -1,0 +1,63 @@
+$filename(%artist%-%album%_dano_cd2.html)<html>
+<head>
+  <title>%artist% - %album%</title>
+  <style type="text/css">
+  <!-- 
+    a { color:#000000; font-size:12px; font-family: Arial; }
+    a:link { color:#000000; }
+    a:visited { color:#444444; }
+    a:active { color:#cc0000; }
+    a:hover { color:#ffffff; background:#000000; }
+    p { color: #000000; font-size:12px; font-family: Arial; }
+    body { background: #ffffff; color: #000000; }
+    h1 { font-size:18pt; font-family: Arial; font-weight: normal; text-align: center; }
+    td { text-align: left; vertical-align: top; font-size:12px; font-family: Arial; }
+    th { text-align: left; font-size:12px; font-family: Arial; background: #ff6600; color: #ffffff; }
+    td.small { text-align: left; font-size:10px; font-family: Arial; }
+  //-->
+  </style>
+</head>
+<body>
+<center>
+<h1>%artist% - %album%</h1>
+<p>
+<table border="0" cellpadding="5" cellspacing="0" bgcolor="#ffcc99">
+<tr><td>
+<table border="0" cellpadding="1" cellspacing="0" bgcolor="#ff6600">
+<tr><td>
+<table border="0" cellpadding="3" cellspacing="1" bgcolor="#ffffff">
+<th width="220">Filename</th><th width="220">ID3-Details</th><th width="220">mp3-Details</th><th width="60">Duration</th><th width="60">Filesize</th>
+$loop(%_filename_ext%)<tr$if($odd(%_counter%), bgcolor="#ffddaa", bgcolor="#f0f0f0")>
+  <td>
+    <A HREF="file:///$replace(%_path%,\,/)">%_filename_ext%</A>
+  </td>
+  <td class="small">
+    %artist% &quot;%title%&quot;<br>
+    Album: %album%, %year%<br>
+    Comment: %comment%<br>
+    Genre: %genre%<br>
+  </td>
+  <td class="small" width="140">
+    %_bitrate% %_codec%<br>
+    %_mode%, %_samplerate% Hz<br>
+    Tags: %_tag% Size: %_tag_size%
+  </td>
+  <td>
+   %_length% min
+  </td>
+  <td>
+    %_file_size%
+  </td>
+</tr>$loopend()
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+<p>
+<hr size="1">
+<p>
+Created by <A HREF="http://www.mp3tag.de">%_app%</A> (© 1999-2004, <A HREF="mailto:support@mp3tag.de">Florian Heidenreich</A>)<br>
+Template Design from <b>www.cd2html.de</b>
+</body>
+</html>

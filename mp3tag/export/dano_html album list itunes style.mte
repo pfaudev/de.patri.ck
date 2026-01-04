@@ -1,0 +1,60 @@
+$filename(html_dano album list itunes style.html,utf-8)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mp3tag - http://www.mp3tag.de">
+<title>Mp3tag - Report of %_workingdir%</title>
+
+<style type="text/css"><!--	
+		h1 { font-family: Arial; font-size: 12pt }
+		h2 { font-family: Arial; font-size: 10pt }
+		body { font-family: Arial; font-size: 9pt }
+		table { font-family: Arial; font-size: 9pt }
+		a {color: #960000; text-decoration: none }
+		a:hover {color: #960000; text-decoration: none}
+		#wrap { width: 95%%; }
+		.tbox { padding: 10px; margin: 10px; background-color: #EFEFEF;}
+		.odd { background-color: #F3F7FB; }
+		.bigtable { border:1px solid #C9C9C9; border-collapse:collapse; }
+	--></style>
+</head>
+<body>
+<div id="wrap">
+$loop(%_folderpath%,1)
+
+<table border="1" width="85%%" class="bigtable">
+
+<td align="middle" valign="top" width="200">
+	<div>&nbsp;</div>
+	<img src="%_folderpath_rel%Folder.jpg" width="150" height="150" border="0" />
+	<h2>%album%</h2>
+	<p>$if2(%album artist%,%artist%)</p>
+</td>
+<td valign="top">
+
+	<table width="100%%">
+	<thead>
+	<tr>
+		<th width="35">Track</th><th align="left">Title</th>
+		<th align="right" width="50">Length</th><th align="right" width="70">Size</th><th align="right" width="50">Bitrate</th>
+	</tr>
+	</thead>
+
+	$loop(%_path%)<tr>
+		<td$if($odd(%_counter%), class="odd",) align="middle">$ifgreater($num(%track%,1),9,,&nbsp;)$num(%track%,1)</td>
+		<td$if($odd(%_counter%), class="odd",)>$if(%album artist%,<b>%artist%</b> - ,)%title%</td>
+		<td$if($odd(%_counter%), class="odd",) align="right">%_length%</td>
+		<td$if($odd(%_counter%), class="odd",) align="right">%_file_size%</td>
+		<td$if($odd(%_counter%), class="odd",) align="right">%_bitrate%</td>
+	</tr>
+	$loopend()
+	</table>
+</table>
+$loopend()
+
+<div align="center">
+<p>made on %_date% with %_app% - the <b>universal</b> Tag Editor <a href="http://www.mp3tag.de/" target="_blank">www.mp3tag.de</a></p>
+</div>
+</div>
+</body>
+</html>

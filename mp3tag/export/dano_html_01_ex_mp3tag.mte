@@ -1,0 +1,104 @@
+$filename(%_folderpath%%_directory%_dano_01_ex_mp3tag.html)<html>
+<head>
+<title>Album Display of "%_directory%"</title>
+<style type="text/css"><!--
+BODY { background: #FF9900; color: white; FONT-FAMILY: Verdana,Arial; FONT-SIZE: 9pt; }
+#wrapper { background: #FFFFEE;width: 98%%;margin-left: auto;margin-right: auto; border: 1px solid #960000;}
+.table1 { background: #FFEFA3; FONT-SIZE: 8pt; color: #960000; FONT-FAMILY: Tahoma,Verdana,Arial; margin: 10;}
+.table2 { background: #2C2D2E; FONT-SIZE: 8pt; color: #B9C2C4; FONT-FAMILY: Tahoma,Verdana,Arial; }
+.table3 { background: #111112; FONT-SIZE: 8pt; color: #B9C2C4; FONT-FAMILY: Tahoma,Verdana,Arial; }
+.table4 { FONT-SIZE: 8pt; color: #000000; FONT-FAMILY: Tahoma,Verdana,Arial; }
+a:link, a:visited, a:active { text-decoration: none;color: #000; }
+a:hover { text-decoration: underline;color: #960000; }
+.borderwrap {
+	
+	border: 1px solid #960000;
+	padding: 0; 
+	margin: 0; }
+--></style>
+
+<SCRIPT language=JavaScript>
+<!-- //code by dano
+function create_window() {
+  new_window = open("", "displayWindow", "status=0,resizable=yes,directories=0,scrollbars=yes, toolbar=0,menubar=0,location=0,top=0,left=0");
+  new_window.document.open();
+  with (new_window.document) {
+    write("<html><head>");
+    write("</head>");
+    writeln("<body>");
+    writeln("<SCRIPT language=JavaScript>");
+    writeln("<!--");
+    writeln("self.moveTo(0,0)");
+    writeln("self.resizeTo(screen.availWidth,screen.availHeight)");
+    writeln("//-->");
+    writeln("<\/SCRIPT>");
+    writeln("<a href=\"javascript:window.close()\"><img src=\"folder.jpg\" border=\"0\"><\/a>");
+    writeln("</body>");
+    write("</html>");
+  }
+  new_window.document.close();
+}
+// -->
+</SCRIPT>
+</head>
+<body>
+<div id="wrapper">
+<div align="center">
+<table class="table1" width="80%%" border="0" cellspacing="1" cellpadding="2">
+<tr>
+<th align="left" rowspan="11" width="30%%"><a href="javascript:create_window()">
+<img src="folder.jpg" width="200" border="0" alt="No Cover!" title="View Full Cover of %album%"></a></th>
+<td align="right">Directory:</td>
+<td align="left">%_directory%</td>
+</tr><tr>
+<td align="right">Artist:</td>
+<td align="left">$if(%wwwartist%,<a href="http://%wwwartist%/" target="_blank">%artist%</a>,%artist%)</td>
+</tr><tr>
+<td align="right">Album:</td>
+<td align="left">%album%</td>
+</tr><tr>
+<td align="right">Genre:</td>
+<td align="left">%genre% </td>
+</tr><tr>
+<td align="right">Year:</td>
+<td align="left">%year% </td>
+</tr><tr>
+<td align="right">Codec:</td>
+<td align="left">%_codec%</td>
+</tr><tr>
+<td align="right">Settings:</td>
+<td align="left">$loop(%_filename_ext%)$puts(Vbitrate,$add($get(Vbitrate),%_bitrate%))$puts(cnt1,$add($get(cnt1),1))$loopend()$div($get(Vbitrate),$get(cnt1)) kbps %_vbr% / %_samplerate% khz / %_mode%</td>
+</tr><tr>
+<td align="right">Written Tags:</td>
+<td align="left">%_tag% </td>
+</tr><tr>
+<td align="right">Total Size:</td>
+<td align="left">%_total_size%</td>
+</tr><tr>
+<td align="right">Total Tracks:</td>
+<td align="left">%_total_files%</td>
+</tr><tr>
+<td align="right">Total Length:</td>
+<td align="left">%_total_time%</td>
+</tr></table>
+<table class="table1" width="98%%" border="2" cellspacing="1" cellpadding="1">
+$loop(%_filename_ext%)<tr $if($eql($mod($get(cnt),24),0),bgcolor=#FF9900,$if($or($eql($mod($get(cnt),24),1),$eql($mod($get(cnt),24),23)),bgcolor=#FF9E00,$if($or($eql($mod($get(cnt),24),2),$eql($mod($get(cnt),24),22)),bgcolor=#FFA300,$if($or($eql($mod($get(cnt),24),3),$eql($mod($get(cnt),24),21)),bgcolor=#FFA800,$if($or($eql($mod($get(cnt),24),4),$eql($mod($get(cnt),24),20)),bgcolor=#FFAD00,$if($or($eql($mod($get(cnt),24),5),$eql($mod($get(cnt),24),19)),bgcolor=#FFB200,$if($or($eql($mod($get(cnt),24),6),$eql($mod($get(cnt),24),18)),bgcolor=#FFB700,$if($or($eql($mod($get(cnt),24),7),$eql($mod($get(cnt),24),17)),bgcolor=#FFBC00,$if($or($eql($mod($get(cnt),24),8),$eql($mod($get(cnt),24),16)),bgcolor=#FFC100,$if($or($eql($mod($get(cnt),24),9),$eql($mod($get(cnt),24),15)),bgcolor=#FFC600,$if($or($eql($mod($get(cnt),24),10),$eql($mod($get(cnt),24),14)),bgcolor=#FFCB00,$if($or($eql($mod($get(cnt),24),11),$eql($mod($get(cnt),24),13)),bgcolor=#FFD000,$if($eql($mod($get(cnt),24),12),bgcolor=#FFD500,)))))))))))))>
+<td class="table4" align="center" width="3%%">$num(%_counter%,2)</td>
+<td class="table4" align="left" width="40%%">&nbsp;$replace(%artist% - %track% - ,-  -,-)%title%</td>
+<td class="table4" align="center" width="7%%">%_length%</td>
+<td class="table4" align="center" width="7%%">%_file_size%</td>
+<td class="table4" align="center" width="11%%"> %_bitrate%kbps %_vbr%</td>
+<td class="table4" align="center" width="10%%">%_samplerate%khz</td>
+<td class="table4" align="center" width="10%%">%_mode%</td>
+<td class="table4" align="center" width="6%%">$if($or(%replaygain_track_gain%,%_replaygain_track_gain%),[$left($replace(%replaygain_track_gain%,.,','),5) dB][$left($replace(%_replaygain_track_gain%,.,','),5) dB],-)</td>
+<td class="table4" align="center" width="6%%">$if(%rating%,$replace($replace($replace($replace($replace(%rating%,5,* * * * *),4,* * * *),3,* * *),2,* *),1,*),-)</td>
+</tr>$puts(cnt,$add($get(cnt),1))$loopend()
+</table>
+<table class="table1" width="80%%" border="0" cellspacing="1" cellpadding="2">
+<tr>
+<td align="center">made on %_datetime% with <a href="http://www.mp3tag.de/" target="_blank"><b>%_app%</b></a> - the <b>universal</b> Tag Editor - design by dano</td>
+</tr>
+</table>
+</div></div>
+</body>
+</html>
