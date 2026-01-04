@@ -1,8 +1,0 @@
-@ECHO OFF
-CHCP 1252
-TITLE LiSTMAKER
-CLS
-
-DIR /O /B > "_LiSTE.txt"
-
-EXIT
