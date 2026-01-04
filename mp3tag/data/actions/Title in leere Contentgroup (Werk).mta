@@ -1,0 +1,5 @@
+﻿[#0]
+T=5
+F=CONTENTGROUP
+1=$if($eql($len(%contentgroup%),0),%title%,%contentgroup%)
+

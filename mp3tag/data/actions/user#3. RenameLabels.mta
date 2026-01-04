@@ -1,0 +1,55 @@
+﻿[#0]
+T=5
+F=_FILENAME
+1=$replace($replace($regexp([$if($geql(%TOTALDISCS%,2),%DISCNUMBER%,)]$regexp($if($eql(%VINYLTRACK%,),%TRACK%,%VINYLTRACK%),^'(''['0-9']'')''$',0'\\'1) [$if($eql(%COMPILATION%,'Yes'),%ARTIST% - ,)]%TITLE%,'['\\\\|<>\\?\\*:"']',), / , & ),/, )
+
+[#1]
+T=2
+F=_FILENAME
+1= @ 
+2= At 
+3=0|1
+
+[#2]
+T=15
+F=m3u
+1=E:\\Music\\_labels\\%PUBLISHER%\\%_DIRECTORY%\\$if($geql(%TOTALDISCS%,2),0,)00 $replace($replace($regexp(%BAND% - %ALBUM% '('%YEAR%')','['\\\\|<>\\?\\*:"']',), / , & ),/, ).m3u
+2=0
+3=1
+
+[#3]
+T=15
+F=nfo
+1=E:\\Music\\_labels\\%PUBLISHER%\\%_DIRECTORY%\\$if($geql(%TOTALDISCS%,2),0,)00 $replace($replace($regexp(%BAND% - %ALBUM% '('%YEAR%')','['\\\\|<>\\?\\*:"']',), / , & ),/, ).nfo
+2=0
+3=1
+
+[#4]
+T=15
+F=sfv
+1=E:\\Music\\_labels\\%PUBLISHER%\\%_DIRECTORY%\\$if($geql(%TOTALDISCS%,2),0,)00 $replace($replace($regexp(%BAND% - %ALBUM% '('%YEAR%')','['\\\\|<>\\?\\*:"']',), / , & ),/, ).sfv
+2=0
+3=1
+
+[#5]
+T=5
+F=_DIRECTORY
+1=$replace($replace($regexp($ansi('['%CATALOG%']' %BAND% - %ALBUM% '('%YEAR%')'),'['\\\\|<>\\?\\*:"']',), / , & ),/, )
+
+[#6]
+T=2
+F=_DIRECTORY
+1= @ 
+2= At 
+3=0|1
+
+[#7]
+T=5
+F=_DIRECTORY
+1=E:\\temp\\%_DIRECTORY%
+
+[#8]
+T=5
+F=_DIRECTORY
+1=E:\\Music\\_labels\\%PUBLISHER%\\%_DIRECTORY%
+

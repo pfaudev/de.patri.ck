@@ -1,0 +1,5 @@
+﻿[#0]
+T=5
+1=$if($eql($regexp(%COMMENT%,'\\s',),),,%COMMENT%)
+F=COMMENT
+
