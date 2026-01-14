@@ -1,0 +1,33 @@
+!
+name: "VK ME by Leedborne"
+time: 1580114260
+author: "YTKAB0BP"
+@
+lightStatusBar, parentTheme: 1
+wallpaperId: 0
+wallpaperUsageId: 2
+#
+avatarSavedMessages, badge, bubbleIn_progress, bubbleIn_textLink, bubbleOut_chatVerticalLine, bubbleOut_file, bubbleOut_inlineIcon, bubbleOut_inlineOutline, bubbleOut_inlineText, bubbleOut_messageAuthor, bubbleOut_textLink, chatListAction, chatListVerify, chatSendButton, checkActive, circleButtonRegular, circleButtonTheme, controlActive, file, fillingPositive, headerBarCallIncoming, headerButton, headerIcon, headerTabActive, headerTabActiveText, headerText, icon, iconActive, inlineIcon, inlineOutline, inlineText, inputActive, messageAuthor, messageSwipeBackground, messageVerticalLine, notification, notificationPlayer, notificationSecure, online, passcode, playerButtonActive, profileSectionActive, profileSectionActiveContent, promo, seekDone, sliderActive, textLink, textNeutral, textSearchQueryHighlight, textSecure, togglerActive, unread, waveformActive: #3F8AE0
+background, bubble_chatBackground, bubbleOut_waveformActive, headerBackground, unreadText: #FFF
+badgeMuted, bubbleOut_time, ticks, ticksRead: #8D9398
+bubbleIn_background: #EBECED
+bubbleIn_textLinkPressHighlight: #B5BCE5
+bubbleOut_background: #C2DDFC
+bubbleOut_outline: #B7C8D9
+bubbleOut_progress: #FFFFFFD2
+bubbleOut_textLinkPressHighlight, headerTabInactiveText, statusBarContent: #0009
+bubbleOut_ticks, bubbleOut_ticksRead: #767F88
+bubbleOut_waveformInactive: #B5BAB6
+chatListMute, circleButtonChatIcon, circleButtonOverlayIcon, controlInactive, headerBarCallMuted, headerLightIcon, headerLightText, headerPlaceholder, introSectionActive, progress: #2A2A2A
+circleButtonPositive, iconPositive, inputPositive, togglerPositive: #304FFE
+headerBarCallActive: #398BFF
+headerButtonIcon: #FEFFFF
+iconLight: #838485
+introSection: #D1CFCF
+iv_pageAuthor, iv_pageSubtitle: #99A2AD
+iv_text, textLight: #6D7885
+seekReady, togglerActiveBackground, waveformInactive: #C5DCF6
+statusBar: #0000
+textLinkPressHighlight: #B8BDDA54
+textSelectionHighlight: #596DDE38
+togglerPositiveBackground: #304FFE6F

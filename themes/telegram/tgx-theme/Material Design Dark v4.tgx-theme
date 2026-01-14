@@ -1,0 +1,39 @@
+!
+name: "Material Design Dark v4"
+time: 1580131795
+author: "WSTxda"
+@
+parentTheme: 10
+shadowDepth: 0
+#
+attachContact, attachFile, attachInlineBot, attachLocation, attachPhoto, avatar_content, background, badgeText, bubble_chatBackground, bubble_chatSeparator, bubbleIn_outline, bubbleIn_separator, bubbleOut_outline, chatBackground, chatKeyboard, circleButtonChatIcon, circleButtonNegativeIcon, circleButtonNewChannelIcon, circleButtonNewChatIcon, circleButtonNewGroupIcon, circleButtonNewSecretIcon, circleButtonOverlayIcon, circleButtonPositiveIcon, circleButtonRegularIcon, circleButtonThemeIcon, controlContent, filling, fillingPositive, headerBackground, headerButtonIcon, headerLightBackground, notification, notificationPlayer, passcode, placeholder, playerCoverIcon, promoContent, separator, shareSeparator, togglerPositiveContent: #19191A
+attachText, avatarSavedMessages, badge, bubble_buttonText, bubble_buttonText_noWallpaper, bubble_dateText, bubble_dateText_noWallpaper, bubble_mediaOverlayText, bubble_mediaReplyText, bubble_mediaTimeText, bubble_overlayText, bubble_overlayText_noWallpaper, bubble_unreadText, bubble_unreadText_noWallpaper, bubbleIn_text, bubbleOut_messageAuthor, bubbleOut_progress, bubbleOut_text, chatSendButton, circleButtonChat, circleButtonNewChannel, circleButtonNewChat, circleButtonNewGroup, circleButtonNewSecret, circleButtonOverlay, circleButtonRegular, circleButtonTheme, drawerText, fillingPositiveContent, headerButton, headerIcon, headerLightIcon, headerLightText, headerPickerBackground, headerPickerText, headerTabActive, headerTabActiveText, headerTabInactiveText, headerText, icon, iconLight, inlineIcon, inlineOutline, inlineText, inputActive, online, passcodeIcon, passcodeText, playerCoverPlaceholder, promo, statusBarContent, statusBarLegacyContent, themeBlackWhite, ticks: #E1E3E6
+avatarInactive, introSection, togglerActiveBackground, togglerPositiveBackground: #71AAEB6C
+background_icon, background_text, bubble_mediaReply_noWallpaper, bubble_mediaTime_noWallpaper, controlInactive, playerButton, textLight, textPlaceholder: #BDBDBE
+background_textLight: #878787
+badgeFailed, circleButtonNegative, fileRed, fillingNegative, headerRemoveBackgroundHighlight, iconNegative, inputNegative, textNegative, togglerNegative: #FF4C4C
+badgeMuted, bubble_messageCheckOutlineNoWallpaper, bubbleOut_file, chatListMute, file, fileAttach, fileYellow, inputInactive, overlayFilling, seekEmpty: #3C4043
+badgeMutedText: #FFF
+bubble_button, bubble_button_noWallpaper: #2C2D2EB7
+bubble_buttonRipple, bubble_buttonRipple_noWallpaper, bubble_date, bubble_date_noWallpaper, bubble_overlay, bubble_overlay_noWallpaper, bubbleIn_background: #2C2D2E
+bubble_mediaReplyText_noWallpaper, bubble_mediaTimeText_noWallpaper, fillingPressed, iv_preBlockBackground: #202124
+bubble_messageSelection, bubble_messageSelectionNoWallpaper: #3C404363
+bubble_unread, bubble_unread_noWallpaper: #20212400
+bubbleIn_progress, bubbleIn_textLink, bubbleIn_textLinkPressHighlight, bubbleOut_chatVerticalLine, bubbleOut_inlineIcon, bubbleOut_inlineOutline, bubbleOut_inlineText, bubbleOut_textLink, bubbleOut_textLinkPressHighlight, bubbleOut_waveformActive, chatListAction, checkActive, controlActive, headerBarCallActive, iconActive, introSectionActive, messageAuthor, messageVerticalLine, playerButtonActive, profileSectionActiveContent, progress, seekDone, sliderActive, textLink, textNeutral, textSearchQueryHighlight, ticksRead, togglerActive, waveformActive: #71AAEB
+bubbleIn_time, bubbleOut_time: #76787A
+bubbleOut_background: #454647
+bubbleOut_ticks, bubbleOut_ticksRead: #7D8E98
+bubbleOut_waveformInactive, seekReady, sliderInactive, waveformInactive: #475F7A
+chatListVerify, circleButtonPositive, fileGreen, headerBarCallIncoming, iconPositive, inputPositive, notificationSecure, textSecure: #15B168
+chatSeparator, unread: #0000
+drawer, statusBarLegacy, togglerInactive: #8E969E
+headerPlaceholder: #E1E3E610
+headerRemoveBackground, togglerNegativeBackground: #FF4C4C85
+inlineContentActive: #000
+messageSwipeBackground: #71AAEB4A
+nameInactive, textSelectionHighlight: #8AB4F86C
+profileSectionActive: #8AB4F8
+statusBar: #19191A58
+textLinkPressHighlight: #71AAEB38
+togglerInactiveBackground: #8E969E5B
+togglerPositive: #65ADFF

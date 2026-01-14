@@ -1,0 +1,68 @@
+
+!
+name: "Gamboge on Mauve"
+author: "ThemerBot"
+@
+shadowDepth: 1
+wallpaperId: 0
+lightStatusBar: 0
+dark: 1
+parentTheme: 10
+wallpaperUsageId: 2
+#
+background: #172B27
+chatBackground: #172B27
+background_text, background_textLight, background_icon: #555C4B
+headerBackground: #1F3934
+headerLightBackground: #1F3934
+headerText, headerIcon, chatListAction: #62ba8e
+headerLightIcon, headerLightText: #62ba8e
+headerTabActiveText, headerTabActive: #62ba8e
+headerButton: #62ba8e
+headerButtonIcon, circleButtonRegularIcon, circleButtonThemeIcon: #11261B
+iconActive, progress, controlActive, checkActive, sliderActive, togglerActive, inputActive, inlineIcon, inlineOutline, bubbleOut_inlineOutline, inlineText, bubbleOut_inlineText, bubbleOut_inlineIcon, ticks, ticksRead, bubbleOut_ticks, bubbleOut_ticksRead, bubbleOut_file, file, bubbleOut_waveformActive, waveformActive, bubbleIn_textLink, bubbleOut_textLink, textLink, chatSendButton, textSearchQueryHighlight, profileSectionActive, profileSectionActiveContent, badge, bubbleOut_chatVerticalLine, messageVerticalLine, bubbleOut_messageAuthor, messageAuthor, messageSwipeBackground, unreadText, bubble_unreadText, bubble_unreadText_noWallpaper, textNeutral, seekDone, promo, online, playerButtonActive, chatListVerify, fillingPositive, notification, notificationSecure, notificationPlayer, headerBarCallActive, fileAttach: #62ba8e
+messageSwipeContent, fillingPositiveContent: #11261B
+
+passcode: #1F3934
+passcodeIcon, passcodeText: #62ba8e
+circleButtonRegular, circleButtonTheme, circleButtonNewGroup, circleButtonNewSecret,  circleButtonNewChannel, circleButtonNewChat: #62ba8e
+circleButtonNewGroupIcon, circleButtonNewSecretIcon,  circleButtonNewChannelIcon, circleButtonNewChatIcon: #11261B
+fileGreen: #6DBF96
+fileYellow: #75C39C
+fileRed: #78C49E
+circleButtonChat, circleButtonOverlay: #23403a
+circleButtonChatIcon, circleButtonOverlayIcon, bubbleIn_time, bubbleOut_time, bubbleOut_progress, textPlaceholder, controlInactive: #6F7862
+headerRemoveBackgroundHighlight, introSectionActive, playerButton, text: #e2cc9f
+attachContact, attachFile, attachPhoto, attachLocation, attachInlineBot: #1F3934
+attachText: #62ba8e
+avatarCyan, nameCyan: #7EC6A2
+avatarBlue, nameBlue: #97D1B4
+avatarGreen, nameGreen: #70C098
+avatarViolet, nameViolet: #74C29B
+avatarRed, nameRed: #5BB789
+avatarPink, namePink: #50B281
+avatarYellow, nameYellow: #49A577
+avatarOrange, nameOrange: #449B6F
+avatarSavedMessages: #62ba8e
+bubbleIn_background, chatKeyboard, checkContent, controlContent, filling, inlineContentActive, overlayFilling, placeholder, promoContent: #23403a
+chatKeyboardButton, inputInactive, introSection, sliderInactive, textLight, chatListMute, icon, iconLight, playerCoverIcon: #6F7862
+bubbleIn_textLinkPressHighlight, textSelectionHighlight, bubbleOut_textLinkPressHighlight, textLinkPressHighlight: #62ba8e31
+bubbleOut_background: #1E3631
+fillingPressed: #6F786231
+messageSelection, bubble_messageSelectionNoWallpaper: #62ba8e24
+bubble_messageSelection: #62ba8e48
+headerRemoveBackground: #e2cc9f96
+bubble_messageCheckOutline, bubble_messageCheckOutlineNoWallpaper: #e2cc9f42
+bubbleOut_waveformInactive, waveformInactive: #6F786274
+bubbleOut_text, bubbleIn_text: #e2cc9f
+seekEmpty, seekReady, playerCoverPlaceholder: #e2cc9f19
+headerTabInactiveText: #62ba8e97
+togglerActiveBackground: #62ba8e97
+unread, bubble_unread, bubble_unread_noWallpaper: #62ba8e18
+previewBackground: #23403aC0
+togglerInactive: #89937A
+togglerInactiveBackground: #89937A64
+badgeText: #11261B
+badgeMuted: #e2cc9f65
+badgeMutedText: #23403a
+separator: #00000023

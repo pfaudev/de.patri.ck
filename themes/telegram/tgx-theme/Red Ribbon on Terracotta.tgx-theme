@@ -1,0 +1,68 @@
+
+!
+name: "Red Ribbon on Terracotta"
+author: "ThemerBot"
+@
+shadowDepth: 1
+wallpaperId: 0
+lightStatusBar: 0
+dark: 1
+parentTheme: 10
+wallpaperUsageId: 2
+#
+background: #0B0B03
+chatBackground: #0B0B03
+background_text, background_textLight, background_icon: #514A1C
+headerBackground: #1C1D09
+headerLightBackground: #1C1D09
+headerText, headerIcon, chatListAction: #d3a52a
+headerLightIcon, headerLightText: #d3a52a
+headerTabActiveText, headerTabActive: #d3a52a
+headerButton: #d3a52a
+headerButtonIcon, circleButtonRegularIcon, circleButtonThemeIcon: #140F04
+iconActive, progress, controlActive, checkActive, sliderActive, togglerActive, inputActive, inlineIcon, inlineOutline, bubbleOut_inlineOutline, inlineText, bubbleOut_inlineText, bubbleOut_inlineIcon, ticks, ticksRead, bubbleOut_ticks, bubbleOut_ticksRead, bubbleOut_file, file, bubbleOut_waveformActive, waveformActive, bubbleIn_textLink, bubbleOut_textLink, textLink, chatSendButton, textSearchQueryHighlight, profileSectionActive, profileSectionActiveContent, badge, bubbleOut_chatVerticalLine, messageVerticalLine, bubbleOut_messageAuthor, messageAuthor, messageSwipeBackground, unreadText, bubble_unreadText, bubble_unreadText_noWallpaper, textNeutral, seekDone, promo, online, playerButtonActive, chatListVerify, fillingPositive, notification, notificationSecure, notificationPlayer, headerBarCallActive, fileAttach: #d3a52a
+messageSwipeContent, fillingPositiveContent: #140F04
+
+passcode: #1C1D09
+passcodeIcon, passcodeText: #d3a52a
+circleButtonRegular, circleButtonTheme, circleButtonNewGroup, circleButtonNewSecret,  circleButtonNewChannel, circleButtonNewChat: #d3a52a
+circleButtonNewGroupIcon, circleButtonNewSecretIcon,  circleButtonNewChannelIcon, circleButtonNewChatIcon: #140F04
+fileGreen: #D7AB35
+fileYellow: #D9AF40
+fileRed: #DAB143
+circleButtonChat, circleButtonOverlay: #23250b
+circleButtonChatIcon, circleButtonOverlayIcon, bubbleIn_time, bubbleOut_time, bubbleOut_progress, textPlaceholder, controlInactive: #776D29
+headerRemoveBackgroundHighlight, introSectionActive, playerButton, text: #f5da55
+attachContact, attachFile, attachPhoto, attachLocation, attachInlineBot: #1C1D09
+attachText: #d3a52a
+avatarCyan, nameCyan: #DBB44B
+avatarBlue, nameBlue: #E1C068
+avatarGreen, nameGreen: #D8AD3A
+avatarViolet, nameViolet: #D9AE3E
+avatarRed, nameRed: #CA9E28
+avatarPink, namePink: #BE9426
+avatarYellow, nameYellow: #AD8722
+avatarOrange, nameOrange: #A07D20
+avatarSavedMessages: #d3a52a
+bubbleIn_background, chatKeyboard, checkContent, controlContent, filling, inlineContentActive, overlayFilling, placeholder, promoContent: #23250b
+chatKeyboardButton, inputInactive, introSection, sliderInactive, textLight, chatListMute, icon, iconLight, playerCoverIcon: #776D29
+bubbleIn_textLinkPressHighlight, textSelectionHighlight, bubbleOut_textLinkPressHighlight, textLinkPressHighlight: #d3a52a31
+bubbleOut_background: #181907
+fillingPressed: #776D2931
+messageSelection, bubble_messageSelectionNoWallpaper: #d3a52a24
+bubble_messageSelection: #d3a52a48
+headerRemoveBackground: #f5da5596
+bubble_messageCheckOutline, bubble_messageCheckOutlineNoWallpaper: #f5da5542
+bubbleOut_waveformInactive, waveformInactive: #776D2974
+bubbleOut_text, bubbleIn_text: #f5da55
+seekEmpty, seekReady, playerCoverPlaceholder: #f5da5519
+headerTabInactiveText: #d3a52a97
+togglerActiveBackground: #d3a52a97
+unread, bubble_unread, bubble_unread_noWallpaper: #d3a52a18
+previewBackground: #23250bC0
+togglerInactive: #9D9036
+togglerInactiveBackground: #9D903664
+badgeText: #140F04
+badgeMuted: #f5da5565
+badgeMutedText: #23250b
+separator: #00000023

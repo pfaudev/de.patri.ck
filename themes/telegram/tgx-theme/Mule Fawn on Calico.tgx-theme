@@ -1,0 +1,68 @@
+
+!
+name: "Mule Fawn on Calico"
+author: "ThemerBot"
+@
+shadowDepth: 1
+wallpaperId: 0
+lightStatusBar: 0
+dark: 1
+parentTheme: 10
+wallpaperUsageId: 2
+#
+background: #010000
+chatBackground: #010000
+background_text, background_textLight, background_icon: #58544B
+headerBackground: #110C07
+headerLightBackground: #110C07
+headerText, headerIcon, chatListAction: #c28641
+headerLightIcon, headerLightText: #c28641
+headerTabActiveText, headerTabActive: #c28641
+headerButton: #c28641
+headerButtonIcon, circleButtonRegularIcon, circleButtonThemeIcon: #160F07
+iconActive, progress, controlActive, checkActive, sliderActive, togglerActive, inputActive, inlineIcon, inlineOutline, bubbleOut_inlineOutline, inlineText, bubbleOut_inlineText, bubbleOut_inlineIcon, ticks, ticksRead, bubbleOut_ticks, bubbleOut_ticksRead, bubbleOut_file, file, bubbleOut_waveformActive, waveformActive, bubbleIn_textLink, bubbleOut_textLink, textLink, chatSendButton, textSearchQueryHighlight, profileSectionActive, profileSectionActiveContent, badge, bubbleOut_chatVerticalLine, messageVerticalLine, bubbleOut_messageAuthor, messageAuthor, messageSwipeBackground, unreadText, bubble_unreadText, bubble_unreadText_noWallpaper, textNeutral, seekDone, promo, online, playerButtonActive, chatListVerify, fillingPositive, notification, notificationSecure, notificationPlayer, headerBarCallActive, fileAttach: #c28641
+messageSwipeContent, fillingPositiveContent: #160F07
+
+passcode: #110C07
+passcodeIcon, passcodeText: #c28641
+circleButtonRegular, circleButtonTheme, circleButtonNewGroup, circleButtonNewSecret,  circleButtonNewChannel, circleButtonNewChat: #c28641
+circleButtonNewGroupIcon, circleButtonNewSecretIcon,  circleButtonNewChannelIcon, circleButtonNewChatIcon: #160F07
+fileGreen: #C68D4D
+fileYellow: #C99456
+fileRed: #CA9559
+circleButtonChat, circleButtonOverlay: #18110a
+circleButtonChatIcon, circleButtonOverlayIcon, bubbleIn_time, bubbleOut_time, bubbleOut_progress, textPlaceholder, controlInactive: #736E63
+headerRemoveBackgroundHighlight, introSectionActive, playerButton, text: #fbfae9
+attachContact, attachFile, attachPhoto, attachLocation, attachInlineBot: #110C07
+attachText: #c28641
+avatarCyan, nameCyan: #CC9A60
+avatarBlue, nameBlue: #D5AB7B
+avatarGreen, nameGreen: #C79050
+avatarViolet, nameViolet: #C89254
+avatarRed, nameRed: #BC813C
+avatarPink, namePink: #B17939
+avatarYellow, nameYellow: #A16E34
+avatarOrange, nameOrange: #966630
+avatarSavedMessages: #c28641
+bubbleIn_background, chatKeyboard, checkContent, controlContent, filling, inlineContentActive, overlayFilling, placeholder, promoContent: #18110a
+chatKeyboardButton, inputInactive, introSection, sliderInactive, textLight, chatListMute, icon, iconLight, playerCoverIcon: #736E63
+bubbleIn_textLinkPressHighlight, textSelectionHighlight, bubbleOut_textLinkPressHighlight, textLinkPressHighlight: #c2864131
+bubbleOut_background: #0D0906
+fillingPressed: #736E6331
+messageSelection, bubble_messageSelectionNoWallpaper: #c2864124
+bubble_messageSelection: #c2864148
+headerRemoveBackground: #fbfae996
+bubble_messageCheckOutline, bubble_messageCheckOutlineNoWallpaper: #fbfae942
+bubbleOut_waveformInactive, waveformInactive: #736E6374
+bubbleOut_text, bubbleIn_text: #fbfae9
+seekEmpty, seekReady, playerCoverPlaceholder: #fbfae919
+headerTabInactiveText: #c2864197
+togglerActiveBackground: #c2864197
+unread, bubble_unread, bubble_unread_noWallpaper: #c2864118
+previewBackground: #18110aC0
+togglerInactive: #8E887B
+togglerInactiveBackground: #8E887B64
+badgeText: #160F07
+badgeMuted: #fbfae965
+badgeMutedText: #18110a
+separator: #00000023
